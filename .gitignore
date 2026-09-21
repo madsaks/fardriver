@@ -8,3 +8,6 @@ reference/firmware/
 node_modules/
 dist/
 .venv/
+
+# SDD scratch
+.superpowers/
