@@ -228,6 +228,44 @@ _TELEMETRY_TYPE_WIDTH = {
 }
 _TELEMETRY_TYPE_SIGNED = {"i8": True, "i16": True, "i32": True}
 
+# §6 (fix round 1, finding 2): the RX family-1 index -> logical-id table, `FlashReadAddr[55]`.
+# Byte-identical across every page that declares it — official:MotorNet6/ParaPage.cs#L177-184,
+# official:MotorNet6/GraphPage.cs#L182, official:MotorNet6/CurvePage.cs#L187,
+# official:MotorNet6/StatPage.cs#L11, official:MotorNet6/ProControlPage.cs#L415 — so it's a
+# protocol fact (which cmd bytes carry which logical content), not a per-page implementation
+# detail; see docs/protocol.md §6 for the annotated version of this same table. `cmd = 0x80 |
+# index`; only indices 0-54 are valid (index 55 and the 56-87 App.gcflash special case are a
+# different mechanism entirely — official:MotorNet6/ConnectPage.cs#L6211-L6222 — and are not
+# covered by this table).
+FLASH_READ_ADDR = [
+    226, 232, 238, 0, 6, 12, 18, 226, 232, 238,
+    24, 30, 36, 42, 226, 232, 238, 48, 93, 99,
+    105, 226, 232, 238, 124, 130, 136, 142, 226, 232,
+    238, 148, 154, 160, 166, 226, 232, 238, 172, 178,
+    184, 190, 226, 232, 238, 196, 202, 208, 226, 232,
+    238, 214, 220, 244, 250,
+]
+
+
+def _canonical_telemetry_cmd_for(cmd: int) -> int:
+    """Normalizes a real-world RX cmd byte to the lowest cmd byte that carries the same
+    logical id in `FLASH_READ_ADDR`, per docs/protocol.md §6 (fix round 1, finding 2): ids
+    226/232/238 each repeat at 8 different indices/cmd bytes across the 55-entry cycle (e.g.
+    id 226 also at `0x87`/`0x8E`/`0x95`/.../`0xB0`, not just its lowest-index `0x80`), and
+    `protocol/telemetry.json` only records entries under each id's lowest (canonical) cmd
+    byte. Returns `cmd` unchanged if its index is out of `FLASH_READ_ADDR`'s range (top-bit-
+    clear frames never reach here — see `decode()` — and indices 55+ have no entry in this
+    table), or if its id has no canonical cmd byte in `telemetry.json` at all — either way the
+    caller's `telemetry.json` lookup on the returned value will simply find nothing.
+    """
+    index = cmd & 0x7F
+    if index >= len(FLASH_READ_ADDR):
+        return cmd
+    telemetry_id = FLASH_READ_ADDR[index]
+    canonical_index = FLASH_READ_ADDR.index(telemetry_id)  # first (lowest) occurrence
+    return 0x80 | canonical_index
+
+
 _telemetry_fields_cache: list[dict] | None = None
 
 
@@ -240,23 +278,27 @@ def _load_telemetry_fields() -> list[dict]:
     return _telemetry_fields_cache
 
 
-def decode_telemetry(frame: Frame) -> dict[str, float]:
+def decode_telemetry(frame: Frame) -> dict[str, float | int]:
     """Decodes a telemetry-bearing `Frame` (from `decode()`) into `{key: value}` per
-    `protocol/telemetry.json` (docs/protocol.md §6). Only entries whose `frame` matches
-    `frame.cmd` (as `"0xNN"`, e.g. `"0x80"`) are decoded; a frame carrying an id documented
-    nowhere in telemetry.json (or a frame with `checksum_ok=False`) simply yields no entries
-    for it — this function does not validate the checksum itself.
+    `protocol/telemetry.json` (docs/protocol.md §6). `frame.cmd` is first normalized through
+    `FLASH_READ_ADDR` (`_canonical_telemetry_cmd_for`) to the canonical cmd byte for its
+    logical id, then matched against `telemetry.json`'s `frame` field (as `"0xNN"`, e.g.
+    `"0x80"`) — so e.g. cmd `0x87` (index 7, id 226) decodes identically to cmd `0x80` (index
+    0, the same id). A frame carrying an id documented nowhere in telemetry.json (or a frame
+    with `checksum_ok=False`) simply yields no entries for it — this function does not
+    validate the checksum itself.
 
     Numeric types (`u8`/`i8`/`u16`/`i16`/`u32`/`i32`) are read little-endian per `entry["offset"]`
     (into `frame.payload`, the 12-byte RX payload — §6 states this offset convention) and
-    scaled by `entry["scale"]`. **`bitfield` entries return the raw integer word, unscaled** —
-    per the task brief, a bitfield's `enum` documents bit-index -> meaning, and it is the
-    caller's job to mask individual bits or multi-bit sub-fields out of the returned word (see
-    §6's `gear_status_flags`/`fault_status_word` notes for worked examples of sub-fields this
-    function does not isolate on its own).
+    scaled by `entry["scale"]`. **`bitfield` entries return the raw integer word, unscaled, as
+    `int` (not `float`)** — so callers can mask individual bits/sub-fields directly (`result[
+    "fault_status_word"] & 1`) without a cast; the return type is `dict[str, float | int]`
+    accordingly. A bitfield's `enum` documents bit-index -> meaning; masking multi-bit
+    sub-fields out of the word is still the caller's job (see §6's `gear_status_flags`/
+    `fault_status_word` notes for worked examples this function does not isolate on its own).
     """
-    frame_id = f"0x{frame.cmd:02X}"
-    result: dict[str, float] = {}
+    frame_id = f"0x{_canonical_telemetry_cmd_for(frame.cmd):02X}"
+    result: dict[str, float | int] = {}
     for entry in _load_telemetry_fields():
         if entry["frame"] != frame_id:
             continue
@@ -267,7 +309,7 @@ def decode_telemetry(frame: Frame) -> dict[str, float]:
             continue
         raw = int.from_bytes(raw_bytes, "little", signed=_TELEMETRY_TYPE_SIGNED.get(entry["type"], False))
         if entry["type"] == "bitfield":
-            result[entry["key"]] = float(raw)
+            result[entry["key"]] = raw
         else:
             result[entry["key"]] = raw * entry["scale"]
     return result

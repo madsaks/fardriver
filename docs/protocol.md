@@ -570,18 +570,48 @@ demux for the *register* ids). This section documents the dashboard's subscriber
 is the one page that decodes genuinely live values rather than static parameters — most other
 ids in the same 55-entry cycle are the register echoes §5 already documents.
 
+**The full RX-index → logical-id table** (fix round 1, finding 2). `FlashReadAddr[55]` is
+declared byte-identically in every page that reads it — `ParaPage.cs`, `GraphPage.cs`,
+`CurvePage.cs`, `StatPage.cs` and `ProControlPage.cs` all carry the exact same 55 values, so
+this is a protocol fact (which cmd byte carries which logical id), not a `GraphPage.cs`
+implementation detail:
+
+official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L177-L184,
+official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L182-L189,
+official:official/src/MotorNet6/MotorNet6/CurvePage.cs#L187-L194,
+official:official/src/MotorNet6/MotorNet6/StatPage.cs#L11-L18,
+official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L415-L422
+
+| index | id | cmd | index | id | cmd | index | id | cmd | index | id | cmd | index | id | cmd |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 226 | `0x80` | 11 | 30 | `0x8B` | 22 | 232 | `0x96` | 33 | 160 | `0xA1` | 44 | 238 | `0xAC` |
+| 1 | 232 | `0x81` | 12 | 36 | `0x8C` | 23 | 238 | `0x97` | 34 | 166 | `0xA2` | 45 | 196 | `0xAD` |
+| 2 | 238 | `0x82` | 13 | 42 | `0x8D` | 24 | 124 | `0x98` | 35 | 226 | `0xA3` | 46 | 202 | `0xAE` |
+| 3 | 0 | `0x83` | 14 | 226 | `0x8E` | 25 | 130 | `0x99` | 36 | 232 | `0xA4` | 47 | 208 | `0xAF` |
+| 4 | 6 | `0x84` | 15 | 232 | `0x8F` | 26 | 136 | `0x9A` | 37 | 238 | `0xA5` | 48 | 226 | `0xB0` |
+| 5 | 12 | `0x85` | 16 | 238 | `0x90` | 27 | 142 | `0x9B` | 38 | 172 | `0xA6` | 49 | 232 | `0xB1` |
+| 6 | 18 | `0x86` | 17 | 48 | `0x91` | 28 | 226 | `0x9C` | 39 | 178 | `0xA7` | 50 | 238 | `0xB2` |
+| 7 | 226 | `0x87` | 18 | 93 | `0x92` | 29 | 232 | `0x9D` | 40 | 184 | `0xA8` | 51 | 214 | `0xB3` |
+| 8 | 232 | `0x88` | 19 | 99 | `0x93` | 30 | 238 | `0x9E` | 41 | 190 | `0xA9` | 52 | 220 | `0xB4` |
+| 9 | 238 | `0x89` | 20 | 105 | `0x94` | 31 | 148 | `0x9F` | 42 | 226 | `0xAA` | 53 | 244 | `0xB5` |
+| 10 | 24 | `0x8A` | 21 | 226 | `0x95` | 32 | 154 | `0xA0` | 43 | 232 | `0xAB` | 54 | 250 | `0xB6` |
+
+(`cmd = 0x80 | index`; the `id` column is `FlashReadAddr[index]` verbatim. Ids other than
+226/232/238/214/244/130 are §5 register-table echoes, out of this section's scope — listed
+here only so the table is complete and independently checkable against the citation above.)
+
 Three ids — 226, 232, 238 — repeat **eight times** across the 55-index cycle (indices
 0/7/14/21/28/35/42/48 for id 226, one higher for 232, two higher for 238), i.e. cmd bytes
 `0x80`/`0x87`/`0x8E`/`0x95`/`0x9C`/`0xA3`/`0xAA`/`0xB0` all carry the *same* id-226 payload
 layout (the dispatch in `GraphPage.cs` switches on the mapped id, not the raw index, so all
 eight behave identically). This means these three logical frames arrive roughly 8× more often
 than the rest of the cycle — consistent with them carrying the fastest-changing values (gear,
-faults, RPM, bus voltage/current, throttle). **`protocol/telemetry.json` only lists the
-canonical cmd byte for each (`0x80`/`0x81`/`0x82`)** — `decode_telemetry()` does not currently
-recognize the other seven repeats of each as equivalent; a caller streaming real notifies
-would need to normalize `cmd` through `FlashReadAddr` first. Flagged here rather than solved,
-per this task's "no guessing" rule — `FlashReadAddr`-based normalization is arguably Task 5's
-register-table machinery, not this task's frame-layout documentation.
+faults, RPM, bus voltage/current, throttle). `protocol/telemetry.json` still only lists the
+canonical (lowest-index) cmd byte for each (`0x80`/`0x81`/`0x82`), but `decode_telemetry()`
+now normalizes any of the other seven repeat cmd bytes for a given id to that canonical cmd
+byte before the `telemetry.json` lookup, using the table above
+(`fardriver_frame.FLASH_READ_ADDR`/`_canonical_telemetry_cmd_for`) — so e.g. a real notify
+with cmd `0x87` decodes identically to one with cmd `0x80`.
 
 Ids 214, 244 and 130 each appear **once** per 55-index cycle (cmd `0xB3`, `0xB5`, `0x99`
 respectively) — slower-changing values (temperatures, SOC, calibration) that don't need the
@@ -688,8 +718,8 @@ Confirmed status bits (see `protocol/telemetry.json` for the full per-entry cita
 | `status_word_2` | 3 | Field-weakening active; clear = MTPA | official:GraphPage.cs#L1872 |
 | `status_word_2` | 9 | Push/walk-assist mode indicator | official:GraphPage.cs#L3631, #L3974 |
 | `status_word_2` | 15 | Over-voltage condition (changes `fault_status_word` bit 4) | official:GraphPage.cs#L1712-L1720 |
-| `status_word_3` | 0 | Brake indicator active | official:GraphPage.cs#L3903 |
-| `status_word_3` | 2 | Side-stand alarm (gear 1 only) | official:GraphPage.cs#L3651 |
+| `status_word_3` | 0 | Unconfirmed: an unlabelled red status glyph is drawn instead of the roll-direction icon while stationary — brake itself is signalled by a different frame's field (`motor_stop_state & 0x8000`) | official:GraphPage.cs#L3903-L3920, #L1777 |
+| `status_word_3` | 2 | BST mode active — drawn as the literal gear-1 dashboard label "BST"; distinct from the app's separate "Display SideStand" menu feature | official:GraphPage.cs#L3651-L3664, #L4189 |
 
 ### Frame 0xB5 — id 244: motor temperature, SOC
 

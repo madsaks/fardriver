@@ -277,12 +277,16 @@ gear/fault bits, RPM, voltage/current, temperatures, SOC, modulation and status 
 `0x95`, `0x9C`, `0xA3`, `0xAA`, `0xB0`), 232 (`0x81`, also repeats seven times one index
 higher each), 238 (`0x82`, also repeats seven times two indices higher each), 214 (`0xB3`,
 appears once per 55-frame cycle), 244 (`0xB5`, once per cycle), 130 (`0x99`, once per cycle).
-`protocol/telemetry.json` only has entries for the six canonical cmd bytes —
-`decode_telemetry()` does not normalize the other 21 repeat-cmd variants of ids 226/232/238
-back to their canonical entry. A real streaming client needs `FlashReadAddr`-based
-normalization first; flagged rather than implemented, since that's arguably Task 5's
-register-table machinery being asked to serve a telemetry decoder, not this task's frame-layout
-documentation.
+`protocol/telemetry.json` only has entries for the six canonical (lowest-index) cmd bytes.
+**Task 7 review, fix round 1, finding 2** ruled that `FlashReadAddr` is a protocol fact (it's
+declared byte-identically in `ParaPage.cs`, `GraphPage.cs`, `CurvePage.cs`, `StatPage.cs` and
+`ProControlPage.cs`, not a page-local implementation detail), so `docs/protocol.md` §6 now
+documents the full 55-entry table and `fardriver_frame.decode_telemetry()` normalizes the
+other 21 repeat-cmd variants of ids 226/232/238 (`FLASH_READ_ADDR`/
+`_canonical_telemetry_cmd_for`) to their canonical cmd byte before the `telemetry.json`
+lookup — covered by `tools/protocol/tests/test_frame.py`'s
+`test_decode_telemetry_normalizes_repeat_cmd_bytes` and
+`test_decode_telemetry_cmd_with_no_telemetry_id_returns_empty`.
 
 **Fields with a known offset but excluded from `protocol/telemetry.json`, and why:**
 - **Phase-A/phase-C current** (frame `0x82`, payload offsets 4-6 and 7-9): each is a 3-byte
@@ -324,21 +328,44 @@ documentation.
 (worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java) declares 15
 `Float`/`Int` fields — `rpm`, `speed`, `voltage`, `current`, `power`, `phaseA`, `phaseC`,
 `motorTemp`, `ctrlTemp`, `throttle`, `modulation`, `gear`, `soc`, `throttleRaw`,
-`throttleVoltage` — all plain scalars (no bit-packed sub-fields modeled). Nine of
-`protocol/telemetry.json`'s 15 entries got `"confidence": "medium"` on an exact or
-near-exact field-name-and-unit match: `modulation`, `motor_rpm`(`rpm`), `bus_voltage`
-(`voltage`), `bus_current`(`current`), `throttle_raw`(`throttleRaw`), `throttle_voltage`
-(`throttleVoltage`), `motor_temp`(`motorTemp`), `controller_temp`(`ctrlTemp`),
-`battery_soc`(`soc`) — several (`modulation`, `throttleRaw`, `throttleVoltage`, `motorTemp`,
-`soc`) are exact identifier matches. The six bitfield/status entries
-(`gear_status_flags`, `fault_status_word`, `status_word_1`-`4`) stayed `"low"`: Worthless
-models `gear` as a plain `Int` (not this bit-packed word) and faults as two separate
-`errorFlags1`/`errorFlags2` `Int`s in `FaultEntry.java`
+`throttleVoltage` — all plain scalars (no bit-packed sub-fields modeled), but declared as
+bare `Float`/`Int` with no unit or scale stated anywhere in the decompiled Kotlin source.
+**Task 7 review, fix round 1, finding 3** tightened the medium-confidence bar accordingly:
+`"confidence": "medium"` is now reserved for the three entries where the Worthless field
+*name itself* states the physical unit without needing an external description —
+`bus_voltage`(`voltage`, volts by definition), `motor_rpm`(`rpm`, literally the unit
+abbreviation), `battery_soc`(`soc`, "state of charge" is conventionally always a percentage).
+The other six name-matched entries — `modulation`, `bus_current`(`current`),
+`throttle_raw`(`throttleRaw`), `throttle_voltage`(`throttleVoltage`),
+`motor_temp`(`motorTemp`), `controller_temp`(`ctrlTemp`) — were downgraded to `"low"`: several
+are exact identifier matches, but "current"/"temp"/a raw "count" don't self-specify a unit
+the way "voltage"/"rpm"/"soc" do (amps vs. milliamps, °C vs. °F, or a differently-scaled raw
+ADC count are all equally consistent with an unadorned `Float current`/`Int throttleRaw`
+declaration), and `protocol/telemetry.json`'s `source` annotations for these six no longer
+claim a unit ("amps", "volts", etc.) the cited Worthless line doesn't itself state. The six
+bitfield/status entries (`gear_status_flags`, `fault_status_word`, `status_word_1`-`4`) stayed
+`"low"` throughout: Worthless models `gear` as a plain `Int` (not this bit-packed word) and
+faults as two separate `errorFlags1`/`errorFlags2` `Int`s in `FaultEntry.java`
 (worthless:jadx/sources/com/rcplusplus/fdandroid/data/FaultEntry.java#L20-L21) — a
 structural/semantic echo, not a byte-for-byte one, matching this project's existing
 `registers.json` convention of keeping *every* `bitfield`-typed entry at `"low"` regardless of
 name matches (`docs/decompile-notes.md`'s Task 5 notes; confirmed by
 `protocol/registers.json` itself: all 17 of its `bitfield` entries are `"low"`).
+
+**Task 7 review, fix round 1 — corrections to `status_word_3`.** The initial draft mislabeled
+`status_word_3` bit 2 as a "side-stand alarm" and bit 0 as a "brake indicator", neither
+supported by their cited lines. Bit 2 (official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3651-L3664)
+draws the literal text "BST" as the gear-1 dashboard label when `Global_state3 & 4` is set;
+the app's own multi-function menu
+(official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L4189) lists "Display BST" and
+"Display SideStand" as two distinct features, so "BST" cannot be renamed "side-stand". Bit 0
+(official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3903-L3920) draws an unnamed red
+glyph (raw `canvas.DrawLine` calls, no text label) in place of the normal roll-direction
+bitmap while stationary; nothing in the cited lines names it "brake" — the app's actual brake
+signal is a different bit in a different frame
+(`motor_stop_state & 0x8000`, official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1777).
+Both bits are now labeled per what the cited lines actually show (`docs/protocol.md` §6,
+`protocol/telemetry.json`'s `status_word_3` entry).
 
 ## Worthless Controls (KMP, R8-obfuscated)
 

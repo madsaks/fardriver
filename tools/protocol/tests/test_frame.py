@@ -45,6 +45,18 @@ RX_FRAME_BUS_VOLTAGE = bytes.fromhex("aa81d0020000000000000000000009ef")
 # decode_telemetry() must return this raw word unscaled, per the brief's bitfield rule.
 RX_FRAME_FAULT_BITS = bytes.fromhex("aa800000010100000000000000009e3d")
 
+# Task 7 review, fix round 1, finding 2 — the same id-226 payload as RX_FRAME_ID226 below, sent
+# under two different cmd bytes that FLASH_READ_ADDR maps to the same logical id: index 0
+# (cmd=0x80, canonical) and index 7 (cmd=0x87, a repeat — docs/protocol.md §6). Payload: bytes
+# 0-1 = 0x8105 (gear_status_flags), bytes 2-3 = 0x0001 (fault_status_word bit 0), byte 4 = 0x40
+# (modulation = 0.5), bytes 6-7 = 1500 (0x05DC, motor_rpm); rest zero.
+RX_FRAME_ID226 = bytes.fromhex("aa80058101004000dc0500000000e9f3")
+RX_FRAME_ID226_REPEAT_INDEX_7 = bytes.fromhex("aa87058101004000dc0500000000e2b4")
+
+# Task 7 review, fix round 1, finding 2 — cmd 0x83 (index 3 -> FLASH_READ_ADDR[3] == 0, a
+# logical id with no protocol/telemetry.json entries at all). All-zero payload.
+RX_FRAME_NO_TELEMETRY_ID = bytes.fromhex("aa83000000000000000000000000c7ab")
+
 
 def test_checksum_matches_doc_example():
     body, expected = READ_TX[:-2], READ_TX[-2:]
@@ -101,14 +113,45 @@ def test_decode_telemetry_bus_voltage():
 
 def test_decode_telemetry_bitfield_returns_raw_word():
     # docs/protocol.md §6, frame 0x80: fault_status_word is a bitfield — decode_telemetry()
-    # must return the raw combined 16-bit word, not a scaled/masked value.
+    # must return the raw combined 16-bit word, not a scaled/masked value. Task 7 review, fix
+    # round 1, finding 5: the value must be a plain int (not float) so a caller can mask bits
+    # directly (`value & 1`) without casting first.
     f = decode(RX_FRAME_FAULT_BITS)
     assert f.checksum_ok
-    assert decode_telemetry(f)["fault_status_word"] == 257.0
+    value = decode_telemetry(f)["fault_status_word"]
+    assert value == 257
+    assert isinstance(value, int)
+    assert value & 1 == 1  # bit 0: Motor Hall fault
+    assert (value >> 8) & 1 == 1  # bit 8: Phase-current overflow protect
+    assert value & 2 == 0  # bit 1 clear: Throttle fault
 
 
 def test_decode_telemetry_ignores_unrelated_frame():
     # A frame whose cmd isn't in protocol/telemetry.json yields no telemetry entries at all,
     # rather than raising — e.g. the plain register-echo RX_FRAME_INDEX_72 used above.
     f = decode(RX_FRAME_INDEX_72)
+    assert decode_telemetry(f) == {}
+
+
+def test_decode_telemetry_normalizes_repeat_cmd_bytes():
+    # Task 7 review, fix round 1, finding 2: cmd 0x87 (FLASH_READ_ADDR index 7 -> id 226, a
+    # repeat) must decode identically to cmd 0x80 (index 0 -> id 226, the canonical cmd byte
+    # protocol/telemetry.json records), given the same payload.
+    canonical = decode_telemetry(decode(RX_FRAME_ID226))
+    repeat = decode_telemetry(decode(RX_FRAME_ID226_REPEAT_INDEX_7))
+    assert canonical == repeat
+    assert canonical == {
+        "gear_status_flags": 33029,
+        "fault_status_word": 1,
+        "modulation": 0.5,
+        "motor_rpm": 1500,
+    }
+
+
+def test_decode_telemetry_cmd_with_no_telemetry_id_returns_empty():
+    # Task 7 review, fix round 1, finding 2: a cmd byte whose FLASH_READ_ADDR-mapped id has no
+    # protocol/telemetry.json entries (id 0, a register-table id — §5) must still return {},
+    # not raise, after normalization.
+    f = decode(RX_FRAME_NO_TELEMETRY_ID)
+    assert f.checksum_ok
     assert decode_telemetry(f) == {}
