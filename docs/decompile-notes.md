@@ -170,6 +170,97 @@ All of the following are in `MotorNet6/ConnectPage.cs` unless noted; line number
   `docs/protocol.md` §4.4, not implemented in `fardriver_frame.py` (out of scope: it has no
   register `addr`, so it doesn't fit the `encode_read`/`encode_write`/`decode` interface).
 
+### Official → register table (Task 5 findings)
+
+**Where the table lives.** There is no single parameter-definitions table/array/JSON blob in
+the app (the `Jurassic`/`ScriptEngine` search came back empty — the app does not evaluate JS
+for parameters, and the APK has no loose `.js`/parameter `.json`). Instead, every writable
+parameter is defined implicitly, twice, per UI page:
+
+1. **Write side** — each field's `*_Clicked`/`*_TextChanged`/`*_SelectedIndexChanged` handler
+   calls `WriteAddr(data, addr, len)` (§2 TX in `docs/protocol.md`) with a literal `addr` byte
+   and a byte-packed payload built from the parsed UI value (scale/offset visible in the
+   arithmetic right before the call). `ParaPage.cs` has ~50 such handlers (the basic/consumer
+   page); `ProControlPage.cs` — a much larger "Pro" tuning page reachable from `ParaPage`'s
+   `ButtonMode_Clicked` — has 211 `WriteAddr` call sites covering essentially every register
+   `ParaPage` exposes plus ~80 more Pro-only ones. `ProBmsPage.cs` has zero `WriteAddr` calls
+   (BMS parameters are read/displayed only, not written by this app) and `CurvePage.cs` has
+   one (`addr=160`, a save/reset command already covered from `ParaPage`).
+2. **Read side** — `ParaPage.cs`'s `"ReadParaMeter"` subscriber (`ParaPage.cs:857-1291`,
+   registered via `MessagingCenter.Subscribe`) demultiplexes incoming RX family-1 frames
+   (`docs/protocol.md` §2) by `int num = arg[1] & 0x7F` (0-54), maps `num` through
+   `FlashReadAddr[55]` (`ParaPage.cs:177-184`) to a logical id `num2`, then a `switch(num2)`
+   unpacks up to 6 little-endian `uint16` words per frame into `App.gflash[]` plus a handful of
+   named `rcv_*`/`cfg*l`/`cfg*h` fields the page displays. Where a `cfg*`/`rcv_*` field set on
+   the read side is later reused unmodified as part of a `WriteAddr` payload elsewhere in the
+   same class (e.g. `cfg11l`/`cfg11h` for addr 11, `rcv_RelayDelay` for addr 33), that's the
+   confirmation that the read and write sides address the *same* controller register — that's
+   how `rx_frame`/`rx_offset` were derived for the ~27 entries that have them. `rx_frame =
+   0x80 | index_of(num2 in FlashReadAddr)`; `rx_offset` = the payload-relative byte offset
+   (`arg[N] - 2`, since payload occupies frame bytes 2-13).
+
+**Extraction method.** No throwaway script was needed for the write side — a `grep -n
+'WriteAddr('` per file gave every call site, then each was read directly (clean-room: the
+JSON entries describe behavior in English/scale/enum form, they don't paste C#) to recover
+`addr`, byte width, scale/offset arithmetic, and the `DisplayActionSheet`/`Substring` enum
+option lists (Chinese + English pairs are both shown by the app depending on `App.CN`, which
+is where the `notes` Chinese labels come from). A one-off Python helper in the session
+scratchpad (`extract_writeaddr.py`, not committed) matched each `WriteAddr(...)` call to its
+enclosing method name via a "last `private/public/...` signature before this line" scan, to
+get a fast addr→method-name→line-number index across `ProControlPage.cs`'s 211 call sites
+before reading the surrounding code by hand; the JSON's `explain`/`scale`/`min`/`max` values
+all come from reading the actual C# arithmetic, not from the script's output.
+
+**Shape of the table.** 110 unique register addresses ended up in `protocol/registers.json`
+(`uv run --project tools/registers tools/registers/validate.py` → `OK`). Several UI fields
+share one `addr` because the controller packs multiple booleans/enums into one 16-bit word
+(e.g. `addr 33` is a single "output relay / feature enable" bitfield that 22 different
+checkboxes across `ParaPage`/`ProControlPage` all read-modify-write; `addr 105/106/107` each
+pack four 4-bit pin-selector nibbles; `addr 136-155` are a 20-point power-limit/regen curve
+vs. motor RPM, two points per register). Each of those became **one** JSON entry (schema
+requires unique `addr`) with the sub-fields described in `explain`/`notes` rather than split
+across multiple entries — a real bit-level breakdown belongs in a later task if/when needed.
+
+**Excluded on purpose:**
+- `addr 3`, written by `SetVerify()`/`OnButtonResetClicked` case 9 (`ProControlPage.cs:13879`,
+  `len=102`) — a 102-byte "write key"/license-verification blob, not a scalar/bitfield
+  register; doesn't fit the schema's `type` enum and isn't a tunable parameter.
+- `App.gflash[]`/`App.gcflash[]` words that are populated by `ReadParaMeter` but never
+  targeted by any `WriteAddr` call anywhere in `MotorNet6/*.cs` (e.g. rated power at logical
+  id 18/offset8, `App.gflash[62..]` in later pages) — these are read-only telemetry-shaped
+  values with no write `addr`, so they don't fit this schema (`addr` is required) and belong
+  in `protocol/telemetry.json` if a later task wants them, not `registers.json`.
+- The RX family-2 (`cmd` top-bit clear) alternate decode inside `ParaPage.cs`'s
+  `ReadParaMeter` (`ParaPage.cs:1294-1339+`, `switch(arg[1])` at `ParaPage.cs:1339` on raw
+  small values 0/8/9/10/…,
+  guarded by the frame's own additive checksum) appears to be a second, older/parallel
+  decoding of the same register space for pre-"NewVersion" controllers. It duplicates several
+  named fields already captured from the primary path (e.g. `rcv_RatedVoltage`,
+  `rcv_MaxLineCurr`) with different byte offsets. Not reconciled against `docs/protocol.md`
+  §2's two-family description in this task — flagged here as a possible undocumented third RX
+  shape variant worth a closer look in a future protocol task; it does not change any
+  `registers.json` entry.
+
+**Confidence.** Every entry is `"confidence": "low"` per the brief. Scale/unit/min/max are
+read directly from the decompiled arithmetic and UI validation bounds where present (e.g.
+`LmtSpeed_TextChanged`'s explicit `128 <= num <= 12000` check), but the *physical* effect of
+many Pro-only tuning fields (current-loop gains at addr 15/16/17, `LD`/`LQ` inductance at
+18/27, several one-wire-dashboard-protocol registers at 180-188/208/213) is only as good as
+the English UI label translated from Chinese/short variable names — those all end their
+`explain` with "(effect unverified)" per the brief's rule. Two pairs of Pro-page field
+labels/variable names look swapped or reused inconsistently in the decompiled source itself
+(`MaxKI_TextChanged` writes what the UI prompts as `MaxKI` but reads back `rcv_StartKP`;
+`StartKC_TextChanged`/`MaxKI_TextChanged` both target `addr 16`) — called out explicitly in
+those two entries' `explain` text rather than silently picking one label.
+
+**Schema change.** `protocol/schema/register.schema.json` gained two optional fields,
+`rx_frame` (`^0x[0-9A-F]{2}$`, the RX `cmd` byte `0x80|index`) and `rx_offset` (integer ≥ 0,
+byte offset within the 12-byte RX payload), both outside `required` so existing/future
+entries without a known read path stay valid; `additionalProperties: false` kept.
+`tools/registers/tests/test_validate.py` gained `test_rx_frame_and_offset_pass` (both fields
+present validates) and `test_bad_rx_frame_pattern_fails` (a malformed `rx_frame` like `0x1`
+is rejected).
+
 ## Worthless Controls (KMP, R8-obfuscated)
 
 - `reference/decompiled/worthless/jadx/` — `jadx --deobf --threads-count 8` against

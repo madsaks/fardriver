@@ -45,6 +45,15 @@ def test_bad_source_prefix_fails(tmp_path):
     errs = validate_file(write(tmp_path, [bad]), REG_SCHEMA)
     assert errs
 
+def test_rx_frame_and_offset_pass(tmp_path):
+    good = dict(GOOD_REG, rx_frame="0x86", rx_offset=10)
+    assert validate_file(write(tmp_path, [good]), REG_SCHEMA) == []
+
+def test_bad_rx_frame_pattern_fails(tmp_path):
+    bad = dict(GOOD_REG, rx_frame="0x1", rx_offset=0)
+    errs = validate_file(write(tmp_path, [bad]), REG_SCHEMA)
+    assert errs and any("rx_frame" in e for e in errs)
+
 def test_telemetry_entry(tmp_path):
     tel = {
         "frame": "0xE2", "offset": 4, "key": "bus_voltage", "name": "Bus voltage",
