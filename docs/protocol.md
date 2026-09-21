@@ -835,34 +835,48 @@ Two frame shapes, both written to 0xFFEC in 20-byte sub-writes with a 10ms delay
 and block size, not the `0xAA`/`len==388`/`len==316` shape):
 
 **Data block** (the common case): `[0x5A, 0xA5, block_index, <block_bytes>, crc32_le[4]]` — see
-the table above for exact sizes per family. `block_index = packcnt + 4` (blocks are numbered
-starting at 4 — indices 0-3 are reserved, presumably for the bootloader's own fixed
-header/vector table, never transmitted). The **last** block of each family's sequence is
-special in every family (not just the 2048-byte one): instead of a full block of firmware, only
-the first 484 bytes of that block's slot are real image data, followed by a **one-byte function
-marker** — `0xAA` (default/"production"), `0xFF` (func=1, user Flash), `0xDD` (func=2), `0xEE`
-(func=3) — then a fixed `0x55` byte and `0xFF`-padding to fill the rest of the block
-(`32303`/`32071`'s block 124: official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5226-L5257/#L5341-L5372;
-the 1024-byte default-tail families instead embed the **whole-image** `crc_total` value plus the
+the table above for exact sizes per family. `block_index = packcnt + 4` for every family
+**except `App.date==120`**, where a family-specific `num += 4;`
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5422, applied on top of the shared
+`num = packcnt + 4` at official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5185) makes it
+`block_index = packcnt + 8` — the wire-visible block index for this one family starts at 8, not
+4 (indices 0-7 unused, not just 0-3). Elsewhere, blocks are numbered starting at 4 — indices 0-3
+are reserved, presumably for the bootloader's own fixed header/vector table, never transmitted.
+
+The **last** block of each family's sequence is special in every family (not just the
+2048-byte one): instead of a full block of firmware, only the first 484 bytes of that block's
+slot are real image data, followed by a **one-byte function marker** — `0xAA` (default/
+"production"), `0xFF` (func=1, user Flash), `0xDD` (func=2), `0xEE` (func=3) — then a fixed
+`0x55` byte and `0xFF`-padding to fill the rest of the block (`32303`/`32071`'s block 124:
+official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5226-L5257/#L5341-L5372; the
+1024-byte default-tail families instead embed the **whole-image** `crc_total` value plus the
 same marker scheme, guarded by a family-specific `num>=` threshold rather than a fixed block
-index — `121`: `num>=30` official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5471,
-`32101`: `num>=58` L5516, default/`32103`: `num>=62` L5561). **Checked against each family's own
-block count** (max `num` = block count + 3, since `num=packcnt+4` and `packcnt` runs 0 through
-`block_count-1`): for `121`/`32101`/`32103` the threshold equals max `num` exactly (30/58/62,
-matching their 27/55/59 block counts), so it fires precisely on the true last block as intended.
-**`120` is the exception**: its own threshold is also `num>=30`
-(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5426), but its block count is only
-`23` (max `num`=26 — `docs/protocol.md`'s Chunk-transfer table above,
-official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5011-L5062), so `num>=30` is never
-true for any block `SendDataPacket()` actually sends in this family — **the finalize/marker
-embedding is arithmetically unreachable for `App.date==120`**, an inconsistency in the
-decompiled source (not verified against a live device; possibly a stale threshold constant left
-over from another family) rather than a documented "no finalize marker for this family" design.
+index).
+
+**Threshold arithmetic, re-verified per family using each family's own `num` basis** (max `num`
+actually sent = `block_count - 1` plus that family's own `num` offset from the table above,
+since `packcnt` runs 0 through `block_count - 1`; block counts from `DownloadFunction`'s
+thresholds,
+official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5011-L5062):
+
+| `App.date` | `num` basis | block count | max `num` sent | threshold | source (threshold line) | reachable on last block? |
+|---|---|---|---|---|---|---|
+| `120` | `packcnt + 8` (own `num += 4` at L5422, on top of the shared `packcnt + 4`) | 23 | `22 + 8 = 30` | `num >= 30` | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5426 | **Yes** — `30 >= 30` |
+| `121` | `packcnt + 4` (shared basis, no extra offset) | 27 | `26 + 4 = 30` | `num >= 30` | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5471 | **Yes** — `30 >= 30` |
+| `32101` | `packcnt + 4` | 55 | `54 + 4 = 58` | `num >= 58` | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5516 | **Yes** — `58 >= 58` |
+| default/`32103` | `packcnt + 4` | 59 | `58 + 4 = 62` | `num >= 62` | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5561 | **Yes** — `62 >= 62` |
+
+All four thresholds equal their own family's max `num` exactly — each fires precisely, and only,
+on that family's true last block. (An earlier draft of this doc, before this review round,
+computed `120`'s max `num` from the *shared* `packcnt + 4` basis instead of checking for a
+family-specific offset first, missed the `num += 4` at L5422, got max `num` = 26 instead of 30,
+and wrongly concluded the marker was unreachable for `120`. It is reachable, on the same pattern
+as the other three families.)
+
 This embeds which operation is being performed directly in the final data block rather than as
-a separate command, for the families where it's actually reachable. The whole buffer (block
-index + payload + marker/padding) is checksummed with a **standard CRC-32** (§ Verification) and
-the four LE bytes appended (e.g. official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5220-L5270
-for `32303`).
+a separate command, in every family. The whole buffer (block index + payload + marker/padding)
+is checksummed with a **standard CRC-32** (§ Verification) and the four LE bytes appended (e.g.
+official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5220-L5270 for `32303`).
 
 **Skip-ahead request** (sent instead of a data block when the controller already has this
 block's correct data — see Verification/read-back below): an 8-byte frame,
@@ -981,9 +995,10 @@ statically (see `docs/firmware-notes.md`'s open questions).
 dialog (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5088-L5099); no further BLE
 write follows. The final-block function-marker byte (`0xAA`/`0xFF`/`0xDD`/`0xEE`, § Chunk
 transfer — block index 124 for `32303`/`32071`, or the `num>=threshold` block for
-`121`/`32101`/`32103`; **not reachable at all for `120`**, per the Chunk-transfer section's note
-above) is the only signal sent that could plausibly double as a "commit and reboot" flag to the
-bootloader, but nothing in the decompiled app code confirms what the controller does with it
+`120`/`121`/`32101`/`32103`, reachable in all four per the Chunk-transfer section's
+threshold-arithmetic table above) is the only signal sent that could plausibly double as a
+"commit and reboot" flag to the bootloader, but nothing in the decompiled app code confirms what
+the controller does with it
 after the last ack — that logic is entirely controller-side and not statically observable.
 
 ### Read-back
