@@ -810,26 +810,59 @@ first block) — official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6273-
 ### Chunk transfer
 
 Built by `SendDataPacket()`
-(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5183-L5301, `App.date==32303`
-branch shown; `32071`/`32101`/`32103`/default branches immediately follow with the same shape
-at a smaller block size). Two frame shapes, both written to 0xFFEC in 20-byte sub-writes with a
-10ms delay between each (same MTU-driven chunking as §1/§4.4's `WriteAddr` large-payload path,
-but with its own header and block size, not the `0xAA`/`len==388`/`len==316` shape):
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5183-L5635). **Block size does not
+follow the same family grouping as block count** — `App.date==32303` is the *only* family that
+uses 2048-byte blocks; every other family, `32071` included, uses 1024-byte blocks. Verified
+against each family's own buffer-allocation and data-copy lines (not assumed from one branch):
 
-**Data block** (the common case): `[0x5A, 0xA5, block_index, <block_bytes>, crc32_le[4]]` —
-2055 bytes total for the `32303` family (2048-byte blocks, `App.date==32303`/`32071`), smaller
-for the 1024-byte-block families. `block_index = packcnt + 4` (blocks are numbered starting at
-4 — indices 0-3 are reserved, presumably for the bootloader's own fixed header/vector table,
-never transmitted). Block 124 (the last block for the 2048-byte families) is special: instead
-of a full 2048 bytes of firmware, only 484 bytes of image data are sent, followed by a **one-byte
-function marker** at payload offset 484 — `0xAA` (default/"production"), `0xFF` (func=1,
-user Flash), `0xDD` (func=2), `0xEE` (func=3) — then a fixed `0x55` byte and `0xFF`-padding to
-fill the block (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5226-L5257). This
-embeds which operation is being performed (update vs. user-flash vs. two unidentified
-func values) directly in the final data block rather than as a separate command. The whole
-2055/1031-byte buffer (block index + payload + marker/padding) is checksummed with a
-**standard CRC-32** (§ Verification) and the four LE bytes appended
-(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5220-L5270).
+| `App.date` | block size | `SendRs` length | sub-writes | total blocks | source |
+|---|---|---|---|---|---|
+| `32303` | 2048 | 2055 | 102×20B + 1×15B | 121 | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5187-L5301 (`SendRs=new byte[2055]` L5220, `tempBuff[num*2048+...]` L5230/#L5262) |
+| `32071` | **1024** | 1031 | 51×20B + 1×11B | 121 | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5302-L5415 (`SendRs=new byte[1031]` L5335, `tempBuff[num*1024+...]` L5345/#L5377) |
+| `120` | 1024 | 1031 | 51×20B + 1×11B | 23 | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5417-L5465 (shared `SendRs=new byte[1031]` at L5417; `tempBuff[num*1024+...]` L5430/#L5461) |
+| `121` | 1024 | 1031 | 51×20B + 1×11B | 27 | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5466-L5510 (same shared L5417 buffer; `tempBuff[num*1024+...]` L5475/#L5506) |
+| `32101` | 1024 | 1031 | 51×20B + 1×11B | 55 | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5511-L5555 (same shared L5417 buffer; `tempBuff[num*1024+...]` L5520/#L5551) |
+| default (incl. `32103`) | 1024 | 1031 | 51×20B + 1×11B | 59 | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5556-L5600 (same shared L5417 buffer; `tempBuff[num*1024+...]` L5565/#L5596) |
+
+(Block-count column cross-checked against `DownloadFunction`'s own per-family thresholds,
+official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5011-L5062 — `32303`/`32071` share
+the *block-count* family (both 121 blocks) despite **not** sharing the *block-size* family,
+which is the distinction fix round 1 of this review caught: an earlier draft of this doc wrongly
+inferred same-block-count ⇒ same-block-size for `32071`.)
+
+Two frame shapes, both written to 0xFFEC in 20-byte sub-writes with a 10ms delay between each
+(same MTU-driven chunking as §1/§4.4's `WriteAddr` large-payload path, but with its own header
+and block size, not the `0xAA`/`len==388`/`len==316` shape):
+
+**Data block** (the common case): `[0x5A, 0xA5, block_index, <block_bytes>, crc32_le[4]]` — see
+the table above for exact sizes per family. `block_index = packcnt + 4` (blocks are numbered
+starting at 4 — indices 0-3 are reserved, presumably for the bootloader's own fixed
+header/vector table, never transmitted). The **last** block of each family's sequence is
+special in every family (not just the 2048-byte one): instead of a full block of firmware, only
+the first 484 bytes of that block's slot are real image data, followed by a **one-byte function
+marker** — `0xAA` (default/"production"), `0xFF` (func=1, user Flash), `0xDD` (func=2), `0xEE`
+(func=3) — then a fixed `0x55` byte and `0xFF`-padding to fill the rest of the block
+(`32303`/`32071`'s block 124: official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5226-L5257/#L5341-L5372;
+the 1024-byte default-tail families instead embed the **whole-image** `crc_total` value plus the
+same marker scheme, guarded by a family-specific `num>=` threshold rather than a fixed block
+index — `121`: `num>=30` official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5471,
+`32101`: `num>=58` L5516, default/`32103`: `num>=62` L5561). **Checked against each family's own
+block count** (max `num` = block count + 3, since `num=packcnt+4` and `packcnt` runs 0 through
+`block_count-1`): for `121`/`32101`/`32103` the threshold equals max `num` exactly (30/58/62,
+matching their 27/55/59 block counts), so it fires precisely on the true last block as intended.
+**`120` is the exception**: its own threshold is also `num>=30`
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5426), but its block count is only
+`23` (max `num`=26 — `docs/protocol.md`'s Chunk-transfer table above,
+official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5011-L5062), so `num>=30` is never
+true for any block `SendDataPacket()` actually sends in this family — **the finalize/marker
+embedding is arithmetically unreachable for `App.date==120`**, an inconsistency in the
+decompiled source (not verified against a live device; possibly a stale threshold constant left
+over from another family) rather than a documented "no finalize marker for this family" design.
+This embeds which operation is being performed directly in the final data block rather than as
+a separate command, for the families where it's actually reachable. The whole buffer (block
+index + payload + marker/padding) is checksummed with a **standard CRC-32** (§ Verification) and
+the four LE bytes appended (e.g. official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5220-L5270
+for `32303`).
 
 **Skip-ahead request** (sent instead of a data block when the controller already has this
 block's correct data — see Verification/read-back below): an 8-byte frame,
@@ -843,8 +876,7 @@ handler, see below) to become `1` (advance) or `-1` (retry, up to 3 times before
 official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4999-L5087. A per-attempt timeout of
 150 maintain-ticks without any ack also fails the transfer
 (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5081-L5086,#L5149-L5159). Total
-block count is family-specific: 121 blocks for the `32303`/`32071` families, 23/27/55/59 for
-the others (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5011-L5062).
+block counts are in the table above.
 
 ### Verification
 
@@ -854,24 +886,44 @@ official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5798-L5809), **not** �
 CRC16 or additive-sum algorithms (those are specific to the register/telemetry frame families
 in §2, unrelated to this section):
 
-1. **Per-block CRC32**, one 32-bit value per 2048-byte (or 1024-byte) block, held in
+1. **Per-block CRC32** — **`32303`/`32071` families only** (confirmed by grepping
+   `crc_filetable`/`crc_table` across all of `FlashHex()`/`SendDataPacket()`: every occurrence
+   of either name sits inside the `num4>65536` branch of `FlashHex()`
+   (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4550-L4575,#L4684-L4719) and the
+   `App.date==32303`/`App.date==32071` branches of `SendDataPacket()`
+   (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5187-L5415) — **neither name
+   appears anywhere in the shared `120`/`121`/`32101`/default-`32103` tail**,
+   official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5417-L5635, confirmed empty by
+   grep). One 32-bit value per 2048-byte (`32303`) or 1024-byte (`32071`) block, held in
    `crc_filetable[4..123]` plus a final CRC-of-the-CRC-table at `crc_filetable[124]`. For a
    `.bin` file this table is **read directly out of the file** at a fixed offset the image
-   already carries (offset `253952` for files >128KB, `126976` for >64KB, `60410`/`64506` for
-   BMS/controller-specific smaller files —
-   official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4550-L4599) — i.e. whatever tool
+   already carries (offset `253952` for files >128KB, `126976` for >64KB —
+   official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4550-L4575) — i.e. whatever tool
    produced the `.bin` already computed and embedded these checksums. For a `.hex` file (Intel
    HEX, parsed and reassembled into `tempBuff` first) the app **computes** the same table itself
    with the CRC-32 loop above, then serializes it into `tempBuff` in the same layout a `.bin`
    would already have it in (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4684-L4719).
    Either way, this table (`crc_filetable`) is what block 124's payload transmits to the
-   controller (§ Chunk transfer) and what drives the skip-ahead/read-back comparison below.
+   controller (§ Chunk transfer) and what drives the skip-ahead/read-back comparison below — for
+   these two families only.
 2. **Whole-buffer CRC32** (`crc_total`/`crc_total0`/`crc_total1`), computed the same way over
-   larger byte ranges depending on file family/size, used only to detect whether a *previously
-   remembered* per-device checksum (`App.crc_infoc0`/`App.crc_infoc1`, populated from an earlier
-   session — not traced further in this task) matches the currently-loaded file, so the resume
-   logic can start the block loop partway through (`crcOK`,
+   larger byte ranges depending on file family/size (this one *is* computed for every family,
+   including `120`/`121`/`32101`/`32103` — official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4576-L4870
+   covers their branches), used only to detect whether a *previously remembered* per-device
+   checksum (`App.crc_infoc0`/`App.crc_infoc1`, populated from an earlier session — not traced
+   further in this task) matches the currently-loaded file, so the resume logic can start the
+   block loop partway through (`crcOK`,
    official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4835-L4977) rather than at block 0.
+
+**The `120`/`121`/`32101`/`32103` families have no per-block CRC table and no skip-ahead at
+all** — every block in those families is sent unconditionally
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5417-L5635 has no
+`crc_table`/skip-frame logic, unlike `32303`/`32071`'s L5189/#L5304 comparisons). Their only
+checksum is the single whole-buffer `crc_total` embedded in the final block (§ Chunk transfer's
+table, "default-tail families" row) — there is nothing for the `cmd=0x1F` ack frame's per-block
+CRC report (below) to be compared against in these families, even though the RX handler itself
+still builds `crc_table[]` regardless of which family is being flashed (the RX side doesn't know
+or care which family `SendDataPacket()` is using).
 
 **Ack/nack — RX `cmd=0x1F` frame** (§2 RX family 2, §4.4's table row), sub-command in byte 2
 (duplicated at byte 3):
@@ -881,24 +933,40 @@ in §2, unrelated to this section):
 | `1` | Bootloader ready; carries the controller's **current** per-block CRC32 for blocks 4 and 5 (two little-endian uint32 in bytes 4-11) into `crc_table[4]`/`crc_table[5]`; also the "bootloader is alive" signal that unblocks `dld_state 0→1` if still idle | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6294-L6307 |
 | `2`, `4` | Nack (`dld_Ack=-1`) — app retries the same block | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6308-L6316 |
 | `3` | Ack (`dld_Ack=1`) — advance to next block | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6311-L6313 |
-| `5..123`, `127..255` | Same shape as sub-cmd `1` — carries `crc_table[N]`/`crc_table[N+1]` for blocks N and N+1, `dld_Ack=1` | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6317-L6344 |
-| `124`, `125` | Same CRC-carrying shape, `dld_Ack=1` (final blocks) | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6328-L6335 |
-| `126` | Same CRC-carrying shape, `dld_Ack=0` (neutral — no ack, no nack) | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6336-L6339 |
+| `5..123` | Same CRC-carrying shape as sub-cmd `1` — `crc_table[N]`/`crc_table[N+1]` for blocks N and N+1 — then falls to the `else` of the inner `==124`/`==125`/`==126` chain, so `dld_Ack=1` | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6317-L6327,#L6340-L6343 |
+| `124`, `125` | Same CRC-carrying shape, `dld_Ack=1` (final blocks) | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6317-L6331 (124), #L6332-L6335 (125) |
+| `126..255` | **Dead code — not reachable at runtime.** The entire `default` switch arm (which is what handles every sub-cmd value not explicitly listed as `0`-`4` above, i.e. `5..255`) is gated by `if (m_Received[2] < 126)` (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6318): for any value ≥126 the whole body is skipped, so **no** `crc_table` update and **no** `dld_Ack` change happen. The `else if (m_Received[2] == 126) { dld_Ack = 0; }` line inside that guarded body (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6336-L6339) is therefore itself unreachable independent of the outer guard — it requires `m_Received[2]` to be simultaneously `< 126` *and* `== 126`, which no integer satisfies. Present in source, never executes; not observed or claimed as runtime behaviour. | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6317-L6345 |
 | `0` | No-op | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6346-L6347 |
 
 `SendDataPacket()` compares its locally-known `crc_filetable[num]` against the
-controller-reported `crc_table[num]` **before** building/sending block `num`
-(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5189): if they already match (and,
-for the final block, `func==0`), it sends the 8-byte skip-ahead frame instead of the full block
-and advances `packcnt` past it — the resume/skip feature referenced above.
+controller-reported `crc_table[num]` **before** building/sending block `num`, in the `32303`
+and `32071` branches only (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5189,#L5304):
+if they already match (and, for the final block, `func==0`), it sends the 8-byte skip-ahead
+frame instead of the full block and advances `packcnt` past it — the resume/skip feature
+referenced above.
 
 **Cross-check (Worthless Controls)**: Worthless's own firmware-loader
 (`worthless:jadx/sources/p000a/w31.java#L454-L489`) uses the **same magic size thresholds** as
-the official app's `FlashHex()` — `65536`, `131072` byte cutoffs; `App.date`-equivalent values
-`32303`/`32071`/`32101`/`32103`; block size `2048`/`1024`; block count `121`/`55`/`59`; file
-offsets `60410`/`64506` for the BMS/controller CRC read — strong corroboration that both apps
-share a common vendor reference implementation for this exact chunking/CRC scheme, independent
-of this doc's own reading of the official app's C#. Worthless's loader also calls a **native**
+the official app's `FlashHex()`, **matched field-for-field per `App.date`-equivalent value**
+(Worthless's own `this.f18799i`=date-equivalent, `this.f18800j`=block size,
+`this.f18801k`=block count fields, worthless:jadx/sources/p000a/w31.java#L461-L489):
+
+| Worthless date-equivalent (`f18799i`) | length cutoff | block size (`f18800j`) | block count (`f18801k`) |
+|---|---|---|---|
+| `32303` | `>131072` | `2048` | `121` |
+| `32071` | `>65536` | `1024` | `121` |
+| `32101` (BMS) | else, BMS-flag set | `1024` | `55` |
+| `32103` | else, default | `1024` | `59` |
+
+This is **independent confirmation, from a second unrelated app, of exactly the fix this review
+round made**: Worthless's own `32071` branch (worthless:jadx/sources/p000a/w31.java#L468-L474)
+sets block size `1024`, not `2048` — the same value the official app's own
+`ConnectPage.cs#L5302-L5415` uses, contradicting an earlier draft of this doc that had grouped
+`32071` with `32303`'s 2048-byte blocks. File offsets `60410`/`64506` for the BMS/controller CRC
+read (worthless:jadx/sources/p000a/w31.java#L481,#L488) also match the official app's own
+`ConnectPage.cs#L4580-L4586` values exactly — strong corroboration that both apps share a common
+vendor reference implementation for this exact chunking/CRC scheme, independent of this doc's
+own reading of the official app's C#. Worthless's loader also calls a **native**
 `fdFwCondition(byte[], int)` (`worthless:jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java#L66`)
 conditionally, only in the >128KB (`32303`-equivalent) branch and only when a mode flag is
 non-zero (`worthless:jadx/sources/p000a/w31.java#L466`) — its effect is opaque (native-only),
@@ -911,22 +979,31 @@ statically (see `docs/firmware-notes.md`'s open questions).
 **No explicit exit-bootloader or reboot command was found.** After the last block's ack,
 `dld_state` goes `2→3` ("Update Success" progress text) `→255`, which just closes the progress
 dialog (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5088-L5099); no further BLE
-write follows. The block-124 function-marker byte (`0xAA`/`0xFF`/`0xDD`/`0xEE`, § Chunk
-transfer) is the only signal sent that could plausibly double as a "commit and reboot" flag to
-the bootloader, but nothing in the decompiled app code confirms what the controller does with
-it after the last ack — that logic is entirely controller-side and not statically observable.
+write follows. The final-block function-marker byte (`0xAA`/`0xFF`/`0xDD`/`0xEE`, § Chunk
+transfer — block index 124 for `32303`/`32071`, or the `num>=threshold` block for
+`121`/`32101`/`32103`; **not reachable at all for `120`**, per the Chunk-transfer section's note
+above) is the only signal sent that could plausibly double as a "commit and reboot" flag to the
+bootloader, but nothing in the decompiled app code confirms what the controller does with it
+after the last ack — that logic is entirely controller-side and not statically observable.
 
 ### Read-back
 
-**No command reads the controller's raw flash bytes back over BLE.** The only
+**No command reads the controller's raw flash bytes back over BLE, in any family.** The only
 flash-content-adjacent read channel is the `cmd=0x1F` ack frame's **per-block CRC32 report**
-(sub-commands `1` and `5..255` above, bytes 4-11 = two little-endian uint32 CRC-32 values for
-consecutive blocks — official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6294-L6344),
-which the controller sends unprompted as part of acknowledging/preparing each block, and which
-the app uses only to decide whether to **skip re-sending** an already-correct block
-(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5189-L5219). This is a checksum
-verification channel, not a content-read command — it tells the app whether a block *matches*
-a locally-known CRC32, never what bytes the controller actually holds. Worthless's parallel
+(sub-commands `1` and `5..125` above — **not** `126..255`, which is dead code, see the ack table
+— bytes 4-11 = two little-endian uint32 CRC-32 values for consecutive blocks —
+official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6294-L6327), which the controller
+sends unprompted as part of acknowledging/preparing each block, and which the app uses only to
+decide whether to **skip re-sending** an already-correct block — and only for the `32303`/`32071`
+families (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5189-L5219,#L5304-L5334; §
+Verification above). For the `120`/`121`/`32101`/`32103` families the RX handler still parses
+and stores the same `cmd=0x1F` bytes into `crc_table[]`, but nothing in `SendDataPacket()`'s
+code for those families ever reads `crc_table[]` back out (confirmed empty by grep, § Verification)
+— so for those families the per-block CRC report is received and silently discarded, an even
+weaker case than "checksum only, no content." Either way, across every family, this is a
+checksum verification channel, not a content-read command — it tells the app (when it's even
+consulted) whether a block *matches* a locally-known CRC32, never what bytes the controller
+actually holds. Worthless's parallel
 implementation (§ Verification cross-check above) doesn't add a read capability either — its
 `fdFwSync(int)` (`worthless:jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java#L68`)
 is native-only and not decompilable, so it cannot be cited as evidence either way; no Java-level
