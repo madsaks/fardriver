@@ -608,3 +608,195 @@ KP≈10×KI convention. Folded into addr 15's `explain`.
   logic) lives in the single `decompiled.js`/`disasm.txt`, mixed in with React Native,
   Reanimated, and other bundled JS libraries. Searching `decompiled.js` for the terms above
   is the way in.
+
+### GDriver → parameter help text and address table (Task 9 findings)
+
+**GDriver does have parameter help text — a lot of it, and it's the richest source found
+so far.** `decompiled.js` is 1,760,780 real newline-delimited lines (not one giant
+minified blob — `wc -l` matches the brief's "~1.76M lines"), and one specific line,
+**line 552755** (111,759 characters, a single object literal), holds a canonical
+**English** `{key: 'long paragraph'}` map with 196 entries keyed by short parameter names
+(`alarmDelay`, `blockTimeSeconds`, `phaseOffset`, `zeroBatteryCoeff`, `powerRatio500`, …).
+Each value is a 2-5 sentence paragraph written for riders/tuners: what the field does,
+what it does *not* do, what else interacts with it, and a caution. This is distinct from
+(and much richer than) the `strings.txt` grep the brief suggested starting with —
+`strings.txt` is real ASCII text but wraps at ~42k-char lines and mixes 25+ languages'
+worth of UI strings on the same handful of lines, so a plain `grep -n` is nearly useless
+by itself; the working technique was a Python sliding-sentence-regex scan (`grep -m`/
+`cut -c1-300` alone, as the brief suggested, would have missed almost everything — see
+"Search technique" below). The same 196-entry map also exists, per-language, at ~19
+other locations in the file (`parameter<Name>Description` keys, one map per locale) —
+line 552755's un-prefixed keys are the base/English set and were used as the citation
+source throughout.
+
+Separately, `decompiled.js` contains a **parameter registry table** — a literal array of
+`{'id': '<camelCase name>', 'address': <int>, 'minimum': N, 'maximum': N, ...}` objects
+starting around line 672838 and running to line 673118 — that is a **third, independent
+source for register addresses** (the brief specifically asked for this). It covers 107
+distinct parameter ids. 39 of them resolve to a nonzero address that lines up with an
+existing `registers.json` entry (full table below); the rest (mostly per-pin "which
+physical input" selectors like `boostPin`/`cruisePin`/`forwardPin`) all carry
+`'address': 0`, meaning GDriver assembles those bits into some packed word at write time
+through a code path this table doesn't capture (consistent with `registers.json`'s own
+addr33/addr105-107 packed-pin-nibble registers, which is corroborating even though it
+isn't a usable address per-pin).
+
+Search technique used (for anyone re-deriving this): `grep -n "'id': 'name'" decompiled.js`
+against `strings.txt` mostly failed because of the wrapped-line problem above; what
+worked was `python3` reading `decompiled.js` with `re.finditer(r"'([a-zA-Z0-9]+)':\s*'((?:[^'\\]|\\.)*)'")`
+against line 552755 specifically, and separately `re.finditer(r"\{'id':\s*'([A-Za-z0-9]+)',\s*'address':\s*(-?\d+)")`
+across the whole file for the address table. `find jadx-en -name strings.xml` (the
+brief's other suggestion) was a dead end: the English-locale resource APK's
+`strings.xml` files contain only `app_name` — none of GDriver's real parameter/UI text
+lives in Android string resources; it's all inside the Hermes JS bundle's own i18n
+object, which is why the jadx route doesn't help here.
+
+**Confirmed address matches** (GDriver `'id'`/`'address'` pair → `registers.json` addr;
+✓ = matches an existing entry's addr exactly):
+
+| GDriver id | addr | registers.json key | | GDriver id | addr | registers.json key |
+|---|---|---|---|---|---|---|
+| throttleLowVoltage/throttleHighVoltage | 8 ✓ | throttle_voltage_range | | maxPhaseCurrent | 45 ✓ | max_phase_current |
+| motorDirection/phaseExchange/temperatureSensorType | 11 ✓ | direction_brake_park_config | | analogSpeedCoefficientRpm | 46 ✓ | speed_sensor_analog_scale |
+| phaseOffset | 12 ✓ | phase_offset | | maxAcceleration | 47 ✓ | max_acceleration |
+| zeroBatteryCoeff | 13 ✓ | zero_throttle_adc_coeff | | stopBackCurrent | 48 ✓ | regen_stop_back_current |
+| fullBatteryCoeff | 14 ✓ | full_throttle_adc_coeff | | maxBackCurrent | 49 ✓ | regen_stop_back_current_secondary |
+| polePairs | 20 ✓ | pole_pairs | | low/midSpeedLineCurrentRatio | 50 ✓ | low_mid_speed_line_current_pct |
+| highGearSpeedRpm | 21 ✓ | max_speed_high_gear | | low/midSpeedPhaseCurrentRatio | 51 ✓ | low_mid_speed_phase_current_pct |
+| ratedPower | 22 ✓ | rated_power | | blockTimeSeconds | 52 ✓ | stall_block_time |
+| ratedVoltage | 23 ✓ | rated_voltage | | speedPulseCount | 53 ✓ | speed_pulse_output_count |
+| ratedSpeedRpm | 24 ✓ | rated_speed | | limitSpeedRpm | 108 ✓ | pro_limit_speed |
+| maxLineCurrent | 25 ✓ | max_line_current | | speedometerMode | 124 ✓ | weak_field_and_misc_config_word |
+| speedPulses | 26 ✓ | motor_and_gear_config_word | | motorTempProtect/motorTempRestore | 132 ✓ | motor_temp_protect_restore |
+| batteryCapacityAh | 28 ✓ | battery_rated_capacity | | powerRatio500-9000 | 136-145 ✓ | power_ratio_curve_* |
+| internalResistance | 29 ✓ | motor_internal_resistance | | regenRatio500-9000 | 146-155 ✓ | regen_ratio_curve_* |
+| lowVoltageProtect | 31 ✓ | low_voltage_protect_threshold | | aspectRatio/rimDiameter | 210 ✓ | wheel_radius_and_ratio |
+| **highVoltageProtect** | **37** | **— no entry —** | | gearRatio | 212 ✓ | rate_ratio |
+| customMaxLineCurrent | 38 ✓ | custom_max_line_current | | | | |
+| customMaxPhaseCurrent | 39 ✓ | custom_max_phase_current | | | | |
+| lowSpeed | 40 ✓ | low_speed_gear_limit | | | | |
+| reverseSpeedRpm | 41 ✓ | back_gear_speed_limit | | | | |
+| midSpeed | 42 ✓ | mid_speed_gear_limit | | | | |
+| maxDeceleration | 43 ✓ | max_deceleration | | | | |
+| freeThrottle | 44 ✓ | free_throttle_deadband | | | | |
+
+**39 of 39 non-zero GDriver addresses that overlap `registers.json` match exactly** — no
+address contradictions found anywhere in this table. That is strong, address-level
+(not just prose-level) corroboration for all 39 registers listed, and it's the main
+reason 97 of 110 `registers.json` entries were touched in this task (address-table
+matches plus separate name-only matches against the 196-entry English description map,
+for fields the address table doesn't cover, e.g. `curveTime`, `faif`, KI/KC gain pairs,
+one-wire SEC/DATA bytes, boost/park/seat timers).
+
+**addr 37 = `highVoltageProtect` is a brand-new address**, not present in `registers.json`
+at all (no `official:`/`worthless:` source ever found it). Per this task's brief, only
+existing entries may be improved — a new entry is out of scope for Task 9 — but it's
+recorded here for whoever does the next register-table pass: GDriver describes it as
+"the controller's high-voltage protection threshold", recalculated together with rated
+voltage (`ratedVoltage`/addr23), comparable in spirit to addr31's low-voltage threshold.
+
+**Major correction candidate — addr13/addr14 (`zero_throttle_adc_coeff`/
+`full_throttle_adc_coeff`) are very likely battery-gauge fields, not throttle ADC
+calibration.** This entry's existing text speculated that the official app's own
+`ZeroBattCoeff`/`FullBattCoeff` field names (and Chinese labels 0电量系数/满电量系数,
+literally "zero/full battery-level coefficient") were a misnomer, reasoning from the
+768-1024/1024-1536 numeric ranges that they were "really" a throttle zero/full-scale ADC
+calibration paired with each other. GDriver's parameter-registry table independently
+maps `zeroBatteryCoeff` → address 13 (minimum 768, maximum 1024 — an exact range match)
+and `fullBatteryCoeff` → address 14, and its English help text describes both at length
+as the low/high endpoints of the controller's own state-of-charge gauge calculation,
+explicitly distinct from throttle calibration (which GDriver separately and correctly
+locates at addr8, `throttleLowVoltage`/`throttleHighVoltage`) and explicitly distinct
+from the low-voltage protection cutoff (addr31). Because this is a structural
+address-and-range match from an independent third app — not just similar-sounding prose
+— the literal "battery" name is very likely the correct one, and this project's own
+"likely mislabeled, actually throttle" theory for addr13/14 is very likely wrong.
+`explain` was updated to state this clearly and cite the evidence; `confidence` was
+**deliberately left at `low`** per this task's binding rule ("do NOT raise confidence on
+GDriver help text alone") even though the address-table evidence is unusually strong for
+a GDriver-only finding — flagging this explicitly so a future task with authority to
+weigh address-table evidence differently from prose evidence can revisit it. `key`,
+`name`, and `group` (`"throttle"`) were left untouched per "keys frozen"; a future pass
+should consider renaming/regrouping these two entries once someone is willing to treat
+this as settled.
+
+**Other conflicts/refinements surfaced by GDriver, flagged in each entry's `explain` but
+not resolved** (all kept at their existing confidence — none of these are official-vs-
+Worthless disagreements, so none qualify for the confidence-raise exception):
+
+- **addr18/addr27 (`d_axis_inductance`/`q_axis_inductance`, "LD"/"LQ")**: GDriver says at
+  least one FarDriver controller design does *not* use these as plain physical
+  inductance values — `motorLd` becomes a 20-90° ceiling on the current-vector angle,
+  `motorLq` forms a switching band around live motor state. Name match only (no address
+  confirmed for these two by GDriver); flagged as a possible reinterpretation, not
+  asserted.
+- **addr30 (`forward_reverse_ratio`)**: existing entry reads the official "FwReRatio"
+  label as a reverse power/torque percentage; GDriver's `forwardReverseRatio` describes a
+  *speed* conversion ratio against a 64-count full scale instead. Conflicting readings,
+  both unverified.
+- **addr44 (`free_throttle_deadband`)**: existing entry reads "FreeThrottle" as a
+  throttle-deadband/anti-creep setting; GDriver's `freeThrottle` describes an unrelated
+  coast-vs-electronic-braking transition value. Conflicting readings.
+- **addr186 (`one_comm_pulse_config`, "Pulse"/"SQH")**: existing entry reads these as a
+  pulse-count/divider and square-wave timing pair; GDriver's `oneWirePulse`/`oneWireSqh`
+  describe two generic, default-0 auxiliary data bytes with no pulse/timing role at all.
+  Conflicting readings.
+- **addr194 (`inverse_time_protect`, "InverseTime")**: existing entry reads this as an
+  inverse-time overcurrent-protection curve constant; GDriver's `inverseTime` describes a
+  combined reverse/Park/controlled-descent response value instead — closer to the literal
+  Chinese label 反向时间 ("reverse time") than to an electrical-protection concept.
+  Conflicting readings.
+- **addr203 (`sp_mode_and_misc_flags`)**: the packed-word structure (5 sub-fields) is now
+  corroborated three ways (official bit breakdown, Worthless's 5 separate fields, and
+  GDriver's `temperature70` naming the same shared group), but GDriver's separate
+  `canDetectCount` gives the no-CAN-timeout step size as 500ms (selectors 0-5) / 2ms
+  (above that) — conflicting with this entry's "10s units" claim for that same sub-field.
+- **addr207 (`regen_acceleration_ratio`)**: the register's own official label is "ReAcc" /
+  后退加速 ("reverse acceleration"), which this project's key name doesn't reflect;
+  GDriver's `reverseAcceleration` confirms the "reverse", not "regen", reading.
+
+**Confirmatory (non-conflicting) highlights worth calling out**:
+
+- **addr189 (`battery_stage2_soc`)**: this entry already flagged that the official
+  Chinese label (弱磁电流系数, "weak-field current coefficient") didn't match the
+  SOC-suggesting field name `Stage2Soc`. GDriver's `stage2Soc` help text independently
+  and explicitly agrees: *"this is the field-weakening current coefficient; it is not a
+  battery state-of-charge setting despite the internal parameter key."* Two independent
+  apps' own field-naming both point away from "SOC" now — a strong signal, but still not
+  used to raise confidence per the task rule.
+- **addr33 (`output_relay_and_feature_bits`)**: this entry already speculated that bit 15
+  selects whether a raw `RelayDelay_TextChanged` value is interpreted in milliseconds or
+  one-second units. GDriver independently has a parameter literally named
+  `relayDelayOneSecondEnabled`, matching that speculation almost exactly (though it
+  doesn't confirm the bit position).
+- **addr210 (`wheel_radius_and_ratio`)**: GDriver's address table maps both `aspectRatio`
+  and `rimDiameter` to address 210, confirming the existing low-byte=aspect-ratio /
+  high-byte=(mislabeled-as-radius)-rim-diameter-in-inches read.
+- **addr213 (`pulse_timing_and_comm_byte_config`)**: GDriver's `oneWireIdle`/`oneWireStop`
+  list the exact same four-option enumerations (0.5/0.9/1.5/1.9ms and 24/55/124/216ms)
+  already in this entry — verbatim numeric agreement from an independent app.
+- **addr52 (`stall_block_time`)**: GDriver confirms the unit is whole seconds on
+  supported controllers (previously "effect unverified" with no unit claim at all).
+
+**Open question, not acted on**: addr156 (`empty_low_speed_and_relay_config`)'s notes
+already record "AN"/"LM" as the official sub-field labels for its low-byte/high-byte
+halves. GDriver has *separate* `motorAn`/`motorLm` parameters ("advanced AN motor-angle
+calibration" / "advanced LM motor-matching calibration, not a motorcycle-vs-car
+selector") that are tempting to connect to those same two letters, but GDriver's address
+table doesn't cover either id, and GDriver's own descriptions read as full-range motor
+calibration values rather than the narrow 0-31/5-83 bitfield ranges this entry documents
+for AN/LM — plausibly two unrelated parameters that happen to share a two-letter
+abbreviation. Left unmodified; flagging for a future pass with more evidence.
+
+**No GDriver match found** for: addr34 (`save_timestamp`), addr156 (see above), addr199
+(`isin_start_angle`), addr202 (`angle_learn_and_speed_limit_sel`), addr211
+(`wheel_width`), addr238 (`pin_function_learn_result`). These were left unmodified.
+
+**Clean-room process used**: every changed `explain` was written from scratch in this
+project's own words after reading the relevant GDriver text, never copy-pasted; after
+editing, a Python script ran a 6-word sliding-window `grep -F` of every changed
+`explain` string against both `reference/decompiled/gdriver/strings.txt` and
+`reference/decompiled/worthless/strings/values.json` (9,448 windows checked across all
+97 changed entries) — first pass found 89 verbatim 6-word matches (paraphrases that had
+drifted too close to GDriver's own sentence structure), each was manually reworded, and
+the check was re-run to **0 hits** before this file was finalized.

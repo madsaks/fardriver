@@ -547,6 +547,58 @@ name/semantics match, not a numeric one, so no basis exists to raise *or* contes
 If this section is empty in a future re-read of `registers.json`, that continues to mean "none
 found," not "not checked" — see the per-entry `source`/`notes` fields for what *was* checked.
 
+### Cross-check against GDriver
+
+GDriver (the third FarDriver-branded app in `reference/decompiled/`, a React Native/Hermes
+app) turned out to carry rider-facing help text for almost every tunable parameter, plus its
+own internal parameter-to-address registry — a genuinely independent third source for both
+semantics and, for a large subset, register addresses. Full detail (search technique, the
+complete address table, every conflict found) is in `docs/decompile-notes.md`'s "GDriver →
+parameter help text and address table" section; this is the cross-cutting summary.
+
+- **97 of 110 registers** gained at least one `gdriver:` source citation.
+- **39 registers got an address-level match**: GDriver's own `{'id', 'address'}` parameter
+  registry (`decompiled.js` lines ~672838-673118) names an address for 107 parameters, and
+  every one of the 39 that overlaps an existing `registers.json` addr matches it exactly — no
+  address contradicts an existing entry. One further address, addr 37 (`highVoltageProtect`),
+  is new — not currently in `registers.json` at all — and is documented in
+  `docs/decompile-notes.md` rather than added, since adding a new register entry was out of
+  this task's scope.
+- **A likely correction, held at `low` confidence per this task's binding rule**: addr13/14
+  (`zero_throttle_adc_coeff`/`full_throttle_adc_coeff`) were previously guessed to be
+  mislabeled throttle-ADC calibration values (the official app's own field names,
+  `ZeroBattCoeff`/`FullBattCoeff`, were read as a misnomer). GDriver's address table maps
+  `zeroBatteryCoeff`→addr13 and `fullBatteryCoeff`→addr14 with a matching numeric range, and
+  its help text describes both as the low/high endpoints of the controller's own
+  state-of-charge gauge — directly contradicting the "actually throttle" theory with a
+  structural address match, not just similar-sounding prose. `explain` was updated
+  accordingly; `confidence` was deliberately **not** raised, since this task's rule only
+  permits a confidence raise for a resolved official-vs-Worthless disagreement (§ above), and
+  this is neither official-vs-Worthless nor (yet) treated as resolved.
+- **Several more conflicting readings were surfaced and flagged (not resolved)**: addr18/27
+  (LD/LQ — GDriver says at least one controller design treats these as angle/switching-band
+  values, not plain inductance), addr30 (`forward_reverse_ratio` — GDriver reads it as a speed
+  ratio, not a power/torque percentage), addr44 (`free_throttle_deadband` — GDriver describes
+  an unrelated coast/electronic-braking transition value), addr186 (`one_comm_pulse_config` —
+  GDriver says these are generic default-0 auxiliary bytes, not pulse/timing fields), addr194
+  (`inverse_time_protect` — GDriver reads this as a combined reverse/Park/descent value, not
+  an overcurrent time-constant), addr203 (a CAN-timeout unit conflict: this entry says "10s
+  units", GDriver's `canDetectCount` says 500ms/2ms-per-count), and addr207
+  (`regen_acceleration_ratio` — the official label is "ReAcc"/后退加速 "reverse acceleration",
+  which GDriver corroborates over this project's "regen" framing). Each is called out in the
+  affected entry's own `explain`.
+- **Confirmatory, non-conflicting findings**: addr189's existing suspicion that
+  `battery_stage2_soc` is actually a field-weakening coefficient (not an SOC threshold) is now
+  independently echoed by GDriver's own `stage2Soc` help text; addr33's speculation about a
+  ms-vs-1s relay-delay-units bit is echoed by a GDriver parameter literally named
+  `relayDelayOneSecondEnabled`; addr210's aspect-ratio/rim-diameter byte split is confirmed by
+  address; addr213's one-wire idle/stop timing enumerations are confirmed verbatim.
+- **No Worthless-style structural corroboration was newly needed here** — GDriver only ever
+  adds citations and, where it disagrees with this project's own prior reasoning, a flagged
+  conflict; it never contradicts an official-app-documented unit, scale, type, or range the way
+  §5's "Disagreements" subsection would track for Worthless, so no addr13/14-style finding
+  above is listed under that subsection.
+
 ## 6. Telemetry (unsolicited frames)
 
 **Scope and offset convention.** This section covers the subset of RX family-1 frames (§2)
