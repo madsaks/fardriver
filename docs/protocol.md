@@ -546,3 +546,182 @@ against `registers.json` and found to conflict — everywhere else the evidence 
 name/semantics match, not a numeric one, so no basis exists to raise *or* contest confidence.
 If this section is empty in a future re-read of `registers.json`, that continues to mean "none
 found," not "not checked" — see the per-entry `source`/`notes` fields for what *was* checked.
+
+## 6. Telemetry (unsolicited frames)
+
+**Scope and offset convention.** This section covers the subset of RX family-1 frames (§2)
+that carry *live, ride-time* values — speed/RPM, bus voltage/current, temperatures, throttle,
+gear/fault/status bits, SOC, modulation — as opposed to §5's register table, which covers
+*parameter* values the app echoes back unchanged after a write. **All byte offsets in this
+section and in `protocol/telemetry.json` are relative to the 12-byte RX payload
+(`Frame.payload`, i.e. frame bytes 2-13), not the 16-byte frame** — offset 0 is frame byte 2,
+offset 11 is frame byte 13. This matches the convention `registers.json`'s `rx_offset` field
+already uses (`docs/decompile-notes.md`'s Task 5 notes: `rx_offset = arg[N] - 2`).
+
+After connecting and subscribing to notifies (§1), the controller streams RX family-1 frames
+continuously with no explicit subscribe/trigger command from the app beyond `StartUpdatesAsync`
+(§1 step 3) — there is no separate "start telemetry" message. `cmd & 0x7F` is an index 0-54
+that `ParaPage.FlashReadAddr[55]`
+(official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L177-L184) maps to a logical id; a
+`switch` on that id in each page's own `"ReadParaMeter"` subscriber decides what the payload
+means (§2 RX family 1's row; `docs/decompile-notes.md`'s Task 5 notes describe the same
+demux for the *register* ids). This section documents the dashboard's subscriber
+(`GraphPage.cs`, `official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1476-L2006`), which
+is the one page that decodes genuinely live values rather than static parameters — most other
+ids in the same 55-entry cycle are the register echoes §5 already documents.
+
+Three ids — 226, 232, 238 — repeat **eight times** across the 55-index cycle (indices
+0/7/14/21/28/35/42/48 for id 226, one higher for 232, two higher for 238), i.e. cmd bytes
+`0x80`/`0x87`/`0x8E`/`0x95`/`0x9C`/`0xA3`/`0xAA`/`0xB0` all carry the *same* id-226 payload
+layout (the dispatch in `GraphPage.cs` switches on the mapped id, not the raw index, so all
+eight behave identically). This means these three logical frames arrive roughly 8× more often
+than the rest of the cycle — consistent with them carrying the fastest-changing values (gear,
+faults, RPM, bus voltage/current, throttle). **`protocol/telemetry.json` only lists the
+canonical cmd byte for each (`0x80`/`0x81`/`0x82`)** — `decode_telemetry()` does not currently
+recognize the other seven repeats of each as equivalent; a caller streaming real notifies
+would need to normalize `cmd` through `FlashReadAddr` first. Flagged here rather than solved,
+per this task's "no guessing" rule — `FlashReadAddr`-based normalization is arguably Task 5's
+register-table machinery, not this task's frame-layout documentation.
+
+Ids 214, 244 and 130 each appear **once** per 55-index cycle (cmd `0xB3`, `0xB5`, `0x99`
+respectively) — slower-changing values (temperatures, SOC, calibration) that don't need the
+8× refresh rate.
+
+### Frame 0x80 — id 226: gear, faults, rotation, modulation
+
+| offset | size | field | type | scale | unit | source |
+|---|---|---|---|---|---|---|
+| 0-1 | 2 | `gear_status_flags` (gear/mode/direction/pairing, packed) | bitfield | 1 | — | official:GraphPage.cs#L1510-L1552 |
+| 2-3 | 2 | `fault_status_word` (15 fault bits + stop flag) | bitfield | 1 | — | official:GraphPage.cs#L1691-L1799 |
+| 4 | 1 | `modulation` | u8 | 1/128 | ratio | official:GraphPage.cs#L1800 |
+| 5 | 1 | *(unused — not read anywhere in the decompiled source)* | — | — | — | — |
+| 6-7 | 2 | `motor_rpm` | i16 | 1 | rpm | official:GraphPage.cs#L1801-L1802, ParaPage.cs#L895 |
+| 8-11 | 4 | *(unused in this case — GraphPage.cs's id-226 handler does not read bytes 10-13)* | — | — | — | — |
+
+Fault flags (`fault_status_word`, bits relative to the merged 16-bit word — bit *n* < 8 is
+byte offset 2 bit *n*, bit *n* ≥ 8 is byte offset 3 bit *n-8*):
+
+| bit | meaning | source |
+|---|---|---|
+| 0 | Motor Hall fault | official:GraphPage.cs#L1691-L1693 |
+| 1 | Throttle fault | official:GraphPage.cs#L1700-L1702 |
+| 2 | Current-protect restart | official:GraphPage.cs#L1704-L1706 |
+| 3 | Phase-current surge protect | official:GraphPage.cs#L1708-L1710 |
+| 4 | Over-voltage alarm (`status_word_2` bit 15 set) / Under-voltage alarm (clear) | official:GraphPage.cs#L1712-L1720 |
+| 5 | Anti-theft alarm protect | official:GraphPage.cs#L1723-L1725 |
+| 6 | Motor over-temperature protect | official:GraphPage.cs#L1732-L1734 |
+| 7 | Controller over-temperature protect | official:GraphPage.cs#L1736-L1738 |
+| 8 | Phase-current overflow protect | official:GraphPage.cs#L1740-L1742 |
+| 9 | Phase zero-point fault | official:GraphPage.cs#L1744-L1746 |
+| 10 | Phase short-circuit fault (`status_word_1` bit 11 clear) / Phase-lost alarm (set) | official:GraphPage.cs#L1748-L1756 |
+| 11 | Line-current zero-point fault | official:GraphPage.cs#L1759-L1761 |
+| 12 | MOSFET high-side fault | official:GraphPage.cs#L1763-L1765 |
+| 13 | MOSFET low-side fault | official:GraphPage.cs#L1767-L1769 |
+| 14 | MOE current protect | official:GraphPage.cs#L1771-L1773 |
+| 15 | Stop state active (`App.Stop`) — not one of the 15 numbered faults; a separate flag read from the same byte (arg[5] bit 7) | official:GraphPage.cs#L1791-L1799 |
+
+`gear_status_flags` bit meanings: bits 0-1 = 2-bit gear value (0-3), bits 2-3 = 2-bit drive/XS
+mode, bit 4 = reversing, bit 5 = rolling (vehicle in motion), bit 6 = unused, bit 7 =
+companion-phone paired; bits 11-12 = 2-bit PassOk/unlock-progress code, bit 15 =
+`function_state`, remaining high-byte bits unconfirmed. `decode_telemetry()` returns the raw
+merged word for both bitfields — see `protocol/telemetry.json`'s `notes` fields for the exact
+per-bit citations, since the two source bytes are read as *separate* `arg[]` indices in the
+decompiled code and this doc's/JSON's "merge into one u16" is a documentation convenience, not
+something the official app itself does.
+
+### Frame 0x81 — id 232: bus voltage/current, throttle raw
+
+| offset | size | field | type | scale | unit | source |
+|---|---|---|---|---|---|---|
+| 0-1 | 2 | `bus_voltage` | i16 | 0.1 | V | official:GraphPage.cs#L1805-L1808 |
+| 2-3 | 2 | *(unused)* | — | — | — | — |
+| 4-5 | 2 | `bus_current` | i16 | 0.25 | A | official:GraphPage.cs#L1805-L1810 |
+| 6-9 | 4 | *(unused)* | — | — | — | — |
+| 10-11 | 2 | `throttle_raw` | u16 | 1 | counts | official:GraphPage.cs#L1812 |
+
+### Frame 0x82 — id 238: phase currents (not representable in `telemetry.json`)
+
+| offset | size | field | type | scale | unit | source |
+|---|---|---|---|---|---|---|
+| 2-3 | 2 | `rcv_turns` (raw counter; purpose not confirmed beyond the variable name) | — | — | — | official:GraphPage.cs#L1829 |
+| 4-6 | 3 | phase-A current, `1.953125 * sqrt(arg[6]<<16 \| arg[7]<<8 \| arg[8])` | — | — | A | official:GraphPage.cs#L1827-L1831 |
+| 7-9 | 3 | phase-C current, `1.953125 * sqrt(arg[9]<<16 \| arg[10]<<8 \| arg[11])` | — | — | A | official:GraphPage.cs#L1827-L1833 |
+
+Neither phase-current field is in `protocol/telemetry.json`: each is a **3-byte big-endian**
+magnitude fed through a **square root**, and the schema's `type`/`scale` pair only models a
+fixed-width little-endian integer times a linear scale — there is no width for "3 bytes" and
+no way to express a non-linear (sqrt) transform. The offsets and formula are fully known (not
+a guess), just not expressible in this schema; flagged here and in
+`docs/decompile-notes.md` rather than forcing a misleading entry. Worthless's
+`FardriverTelemetry.phaseA`/`phaseC` (`Float`) corroborate that these are real, named
+quantities, not evidence for a byte-level match (§5's scope note about Worthless's native-only
+wire encoding applies here too).
+
+### Frame 0x99 — id 130: throttle voltage
+
+| offset | size | field | type | scale | unit | source |
+|---|---|---|---|---|---|---|
+| 0-1 | 2 | `throttle_voltage` | u16 | 0.01 | V | official:GraphPage.cs#L1974-L1975 |
+
+`cmd = 0x80 | 25` (id 130 is `FlashReadAddr[25]`, official:ParaPage.cs#L177-L184) — one of the
+ids that appears once per 55-frame cycle rather than eight times, since throttle calibration
+voltage changes far more slowly than the id-226/232/238 trio above.
+
+### Frame 0xB3 — id 214: global status words, controller temperature
+
+| offset | size | field | type | scale | unit | source |
+|---|---|---|---|---|---|---|
+| 2-3 | 2 | `status_word_1` (`Global_state1`) | bitfield | 1 | — | official:GraphPage.cs#L1861-L1868 |
+| 4-5 | 2 | `status_word_2` (`Global_state2`) | bitfield | 1 | — | official:GraphPage.cs#L1861-L1868 |
+| 6-7 | 2 | `status_word_3` (`Global_state3`) | bitfield | 1 | — | official:GraphPage.cs#L1861-L1868 |
+| 8-9 | 2 | `status_word_4` (`Global_state4`, no confirmed bits) | bitfield | 1 | — | official:GraphPage.cs#L1861-L1868 |
+| 10-11 | 2 | `controller_temp` | i16 | 1 | °C | official:GraphPage.cs#L1861-L1864, #L3568 |
+
+Confirmed status bits (see `protocol/telemetry.json` for the full per-entry citations):
+
+| word | bit | meaning | source |
+|---|---|---|---|
+| `status_word_1` | 5 | Auto-learn routine active | official:GraphPage.cs#L1869 |
+| `status_word_1` | 8 | Seat/bucket-switch confirmed OK (clear = warning icon) | official:GraphPage.cs#L3981 |
+| `status_word_1` | 11 | Phase-lost condition (changes `fault_status_word` bit 10) | official:GraphPage.cs#L1748-L1756 |
+| `status_word_1` | 13 | Motor actively running | official:GraphPage.cs#L1890 |
+| `status_word_2` | 3 | Field-weakening active; clear = MTPA | official:GraphPage.cs#L1872 |
+| `status_word_2` | 9 | Push/walk-assist mode indicator | official:GraphPage.cs#L3631, #L3974 |
+| `status_word_2` | 15 | Over-voltage condition (changes `fault_status_word` bit 4) | official:GraphPage.cs#L1712-L1720 |
+| `status_word_3` | 0 | Brake indicator active | official:GraphPage.cs#L3903 |
+| `status_word_3` | 2 | Side-stand alarm (gear 1 only) | official:GraphPage.cs#L3651 |
+
+### Frame 0xB5 — id 244: motor temperature, SOC
+
+| offset | size | field | type | scale | unit | source |
+|---|---|---|---|---|---|---|
+| 0-1 | 2 | `motor_temp` | i16 | 1 | °C | official:GraphPage.cs#L2000-L2005, #L3567 |
+| 2 | 1 | *(unused)* | — | — | — | — |
+| 3 | 1 | `battery_soc` | u8 | 1 | % | official:GraphPage.cs#L2000-L2003 |
+| 4-11 | 8 | *(unused in this case)* | — | — | — | — |
+
+### Not decoded: the legacy/old-version duplicate telemetry path
+
+`GraphPage.cs` contains a **second** telemetry decoder, guarded by the frame's own additive
+checksum rather than the CRC16 above (mirroring the `ParaPage.cs` duplicate
+`docs/decompile-notes.md`'s Task 5 notes already flagged), starting around
+official:GraphPage.cs#L2020 (`switch (arg[1])`). It re-derives several of the same values —
+gear, faults, throttle depth, `Global_state1`-`4`, SOC — but with **different byte offsets and
+byte order** in places (e.g. `ThrottleDepth = arg[12]*256+arg[13]` instead of `arg[13]*256+
+arg[12]`; `m_battcap = arg[10]` instead of `arg[5]`; `Global_state1 = arg[6]*256+arg[7]`
+instead of `arg[5]*256+arg[4]`). This looks like support for older/pre-"NewVersion"
+controllers or a different frame-family variant, distinct from everything in §2. Not
+reconciled against §2's two-RX-family model in this task — flagged here and in
+`docs/decompile-notes.md` as an open item for a future protocol task, per the same judgment
+call `docs/decompile-notes.md` already made for `ParaPage.cs`'s analogous duplicate.
+
+### Derived values, not wire fields
+
+Two values the brief calls out — **speed** (km/h) and **power** (W) — are not raw payload
+fields anywhere in this section: `speed = m_MeasureSpeed * wheel_geometry_ratio`
+(official:GraphPage.cs#L1846-L1856, case 208 in the register-table cycle — wheel
+radius/width/ratio are §5 register values, not telemetry) and `m_InPower = voltage * linecurr`
+(official:GraphPage.cs#L1811) are both computed client-side from other telemetry/parameter
+values already in this section, not decoded from their own bytes. Worthless's matching
+`speed`/`power` `Float` fields (`FardriverTelemetry.java`#L23,#L26) don't change this — its
+native decoder is opaque either way (§5's scope note).

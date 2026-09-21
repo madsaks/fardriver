@@ -28,7 +28,9 @@ of each other:
     unlock/password TX frame's own additive-sum checksum, which is low-byte-first).
 """
 
+import json
 from dataclasses import dataclass
+from pathlib import Path
 
 HEADER = 0xAA
 
@@ -209,3 +211,63 @@ def decode(frame: bytes) -> Frame:
         ok = int.from_bytes(frame[14:16], "big") == _rx_additive_checksum(body)
 
     return Frame(cmd=cmd, addr=None, payload=bytes(payload), checksum_ok=ok)
+
+
+_TELEMETRY_PATH = Path(__file__).resolve().parents[2] / "protocol/telemetry.json"
+
+# Byte width implied by each protocol/schema/telemetry.schema.json `type` value. `bitfield`
+# entries in protocol/telemetry.json are always the 2-byte (u16) little-endian status/fault
+# words documented in docs/protocol.md §6 — matching the convention protocol/registers.json's
+# own `bitfield` entries already use (always a full register word, never a lone byte).
+_TELEMETRY_TYPE_WIDTH = {
+    "u8": 1, "i8": 1,
+    "u16": 2, "i16": 2,
+    "u32": 4, "i32": 4,
+    "bitfield": 2,
+    "enum": 1,  # not used by any current protocol/telemetry.json entry; u8 is the conservative default
+}
+_TELEMETRY_TYPE_SIGNED = {"i8": True, "i16": True, "i32": True}
+
+_telemetry_fields_cache: list[dict] | None = None
+
+
+def _load_telemetry_fields() -> list[dict]:
+    """Loads and caches protocol/telemetry.json (docs/protocol.md §6's field table)."""
+    global _telemetry_fields_cache
+    if _telemetry_fields_cache is None:
+        with open(_TELEMETRY_PATH, encoding="utf-8") as f:
+            _telemetry_fields_cache = json.load(f)
+    return _telemetry_fields_cache
+
+
+def decode_telemetry(frame: Frame) -> dict[str, float]:
+    """Decodes a telemetry-bearing `Frame` (from `decode()`) into `{key: value}` per
+    `protocol/telemetry.json` (docs/protocol.md §6). Only entries whose `frame` matches
+    `frame.cmd` (as `"0xNN"`, e.g. `"0x80"`) are decoded; a frame carrying an id documented
+    nowhere in telemetry.json (or a frame with `checksum_ok=False`) simply yields no entries
+    for it — this function does not validate the checksum itself.
+
+    Numeric types (`u8`/`i8`/`u16`/`i16`/`u32`/`i32`) are read little-endian per `entry["offset"]`
+    (into `frame.payload`, the 12-byte RX payload — §6 states this offset convention) and
+    scaled by `entry["scale"]`. **`bitfield` entries return the raw integer word, unscaled** —
+    per the task brief, a bitfield's `enum` documents bit-index -> meaning, and it is the
+    caller's job to mask individual bits or multi-bit sub-fields out of the returned word (see
+    §6's `gear_status_flags`/`fault_status_word` notes for worked examples of sub-fields this
+    function does not isolate on its own).
+    """
+    frame_id = f"0x{frame.cmd:02X}"
+    result: dict[str, float] = {}
+    for entry in _load_telemetry_fields():
+        if entry["frame"] != frame_id:
+            continue
+        offset = entry["offset"]
+        width = _TELEMETRY_TYPE_WIDTH[entry["type"]]
+        raw_bytes = frame.payload[offset:offset + width]
+        if len(raw_bytes) < width:
+            continue
+        raw = int.from_bytes(raw_bytes, "little", signed=_TELEMETRY_TYPE_SIGNED.get(entry["type"], False))
+        if entry["type"] == "bitfield":
+            result[entry["key"]] = float(raw)
+        else:
+            result[entry["key"]] = raw * entry["scale"]
+    return result

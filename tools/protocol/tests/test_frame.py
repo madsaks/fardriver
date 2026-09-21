@@ -1,4 +1,4 @@
-from fardriver_frame import checksum, encode_read, encode_write, decode
+from fardriver_frame import checksum, encode_read, encode_write, decode, decode_telemetry
 
 # Bytes below are exactly the hex examples in docs/protocol.md sections 4.1/4.2 — see that
 # doc for the byte-by-byte arithmetic (the checksum table walk) each example was derived
@@ -34,6 +34,16 @@ RX_FRAME_INDEX_72 = bytes.fromhex("aac800000000000000000000000023e0")
 # that example's unlock frame in the real connect sequence. See docs/protocol.md §4.3/§3 for
 # the checksum arithmetic (sum of bytes 0-13 = 0x0295).
 RX_FRAME_SERIAL = bytes.fromhex("aa7c87d6120000000000000000000295")
+
+# §6 frame 0x81 (id 232) — bus_voltage at payload offset 0-1, raw 720 (0.1 V scale) = 72.0 V.
+# All other payload bytes zero; checksum computed with fardriver_frame.checksum() per §3.
+RX_FRAME_BUS_VOLTAGE = bytes.fromhex("aa81d0020000000000000000000009ef")
+
+# §6 frame 0x80 (id 226) — fault_status_word (bitfield) at payload offset 2-3: bit 0 set
+# (payload byte 2 = 0x01, arg[4] bit 0 = "Motor Hall fault") and bit 8 set (payload byte 3 =
+# 0x01, arg[5] bit 0 = "Phase-current overflow protect"), combined raw word = 0x0101 = 257.
+# decode_telemetry() must return this raw word unscaled, per the brief's bitfield rule.
+RX_FRAME_FAULT_BITS = bytes.fromhex("aa800000010100000000000000009e3d")
 
 
 def test_checksum_matches_doc_example():
@@ -80,3 +90,25 @@ def test_decode_rx_serial_frame_additive_checksum():
     assert f.checksum_ok
     assert f.cmd == 0x7C
     assert f.addr is None
+
+
+def test_decode_telemetry_bus_voltage():
+    # docs/protocol.md §6, frame 0x81: bus_voltage is i16 at payload offset 0, scale 0.1 V.
+    f = decode(RX_FRAME_BUS_VOLTAGE)
+    assert f.checksum_ok
+    assert decode_telemetry(f)["bus_voltage"] == 72.0
+
+
+def test_decode_telemetry_bitfield_returns_raw_word():
+    # docs/protocol.md §6, frame 0x80: fault_status_word is a bitfield — decode_telemetry()
+    # must return the raw combined 16-bit word, not a scaled/masked value.
+    f = decode(RX_FRAME_FAULT_BITS)
+    assert f.checksum_ok
+    assert decode_telemetry(f)["fault_status_word"] == 257.0
+
+
+def test_decode_telemetry_ignores_unrelated_frame():
+    # A frame whose cmd isn't in protocol/telemetry.json yields no telemetry entries at all,
+    # rather than raising — e.g. the plain register-echo RX_FRAME_INDEX_72 used above.
+    f = decode(RX_FRAME_INDEX_72)
+    assert decode_telemetry(f) == {}

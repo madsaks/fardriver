@@ -261,6 +261,85 @@ entries without a known read path stay valid; `additionalProperties: false` kept
 present validates) and `test_bad_rx_frame_pattern_fails` (a malformed `rx_frame` like `0x1`
 is rejected).
 
+### Official → telemetry (Task 7 findings)
+
+**Where live telemetry decode lives.** Unlike Task 5's register table (`ParaPage.cs`'s
+`"ReadParaMeter"` subscriber), the page that actually decodes genuinely *live* ride-time
+values is the dashboard, `GraphPage.cs`'s own `"ReadParaMeter"` subscriber
+(official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1476-L2006). Both subscribers demux
+the same frames the same way (`arg[1]&0x7F` through `ParaPage.FlashReadAddr[55]` to a logical
+id), but `ParaPage.cs`'s `switch` mostly just mirrors id → `App.gflash[]`/UI-label text for
+register values, while `GraphPage.cs`'s `switch` on the same ids additionally decodes
+gear/fault bits, RPM, voltage/current, temperatures, SOC, modulation and status words — see
+`docs/protocol.md` §6.
+
+**Frame ids used for telemetry**: 226 (`cmd=0x80`, canonical — also repeats at `0x87`, `0x8E`,
+`0x95`, `0x9C`, `0xA3`, `0xAA`, `0xB0`), 232 (`0x81`, also repeats seven times one index
+higher each), 238 (`0x82`, also repeats seven times two indices higher each), 214 (`0xB3`,
+appears once per 55-frame cycle), 244 (`0xB5`, once per cycle), 130 (`0x99`, once per cycle).
+`protocol/telemetry.json` only has entries for the six canonical cmd bytes —
+`decode_telemetry()` does not normalize the other 21 repeat-cmd variants of ids 226/232/238
+back to their canonical entry. A real streaming client needs `FlashReadAddr`-based
+normalization first; flagged rather than implemented, since that's arguably Task 5's
+register-table machinery being asked to serve a telemetry decoder, not this task's frame-layout
+documentation.
+
+**Fields with a known offset but excluded from `protocol/telemetry.json`, and why:**
+- **Phase-A/phase-C current** (frame `0x82`, payload offsets 4-6 and 7-9): each is a 3-byte
+  big-endian magnitude fed through `1.953125 * sqrt(...)`
+  (official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1830-L1833). The
+  `telemetry.schema.json` `type`/`scale` pair only models a fixed-width little-endian integer
+  times a *linear* scale — there's no width for "3 bytes" and no way to express a square-root
+  transform. The offsets and formula are fully known (not a guess), just not expressible in
+  this schema. Worthless's `FardriverTelemetry.phaseA`/`phaseC` (`Float`) corroborate these
+  are real, named quantities but say nothing about the byte-level encoding (native-only, per
+  this doc's Worthless scope note).
+- **`rcv_turns`** (frame `0x82`, payload offset 2-3,
+  official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1829): a raw `ushort` the app reads
+  but never displays or otherwise uses anywhere in `GraphPage.cs`. The variable name suggests
+  a turns/pulse counter, but nothing in the decompiled source confirms what it counts or at
+  what rate — left out rather than guessed at; not in Worthless's field list either.
+- **`speed` (km/h) and `power` (W)**: both are computed client-side from other telemetry
+  fields already in `protocol/telemetry.json` (`speed = motor_rpm * wheel-geometry ratio`,
+  `power = bus_voltage * bus_current`), not decoded from their own payload bytes — see
+  `docs/protocol.md` §6's "Derived values, not wire fields" note. Worthless's matching
+  `speed`/`power` `Float` fields don't establish a byte-level encoding either (native-only).
+- **The legacy/old-version duplicate telemetry decoder** in `GraphPage.cs`, starting around
+  official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L2020 (`switch (arg[1])`, guarded by
+  the frame's own additive checksum rather than the CRC16 above) — the `GraphPage.cs` analog
+  of the `ParaPage.cs` duplicate this doc's Task 5 notes already flagged. It re-derives gear,
+  faults, throttle depth, the four `Global_state*` words and SOC with **different byte offsets
+  and byte order** than the primary decoder documented in `docs/protocol.md` §6 (e.g.
+  `ThrottleDepth = arg[12]*256+arg[13]` instead of `arg[13]*256+arg[12]`; `m_battcap =
+  arg[10]` instead of `arg[5]`). Not reconciled against §2's two-RX-family model in this task;
+  flagged as an open item for a future protocol task, same as the `ParaPage.cs` one.
+- **`Global_state4`** (frame `0xB3`, payload offset 8-9,
+  official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1868): assigned from the frame but no
+  bit within it is ever read anywhere else in the decompiled source. Included in
+  `protocol/telemetry.json` as `status_word_4` with `enum: null` (raw word preserved, no bit
+  meanings claimed) rather than left out entirely, since its offset and existence are just as
+  well-evidenced as `status_word_1`-`3` — only the bit semantics are unconfirmed.
+
+**Worthless cross-check.** `FardriverTelemetry.java`
+(worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java) declares 15
+`Float`/`Int` fields — `rpm`, `speed`, `voltage`, `current`, `power`, `phaseA`, `phaseC`,
+`motorTemp`, `ctrlTemp`, `throttle`, `modulation`, `gear`, `soc`, `throttleRaw`,
+`throttleVoltage` — all plain scalars (no bit-packed sub-fields modeled). Nine of
+`protocol/telemetry.json`'s 15 entries got `"confidence": "medium"` on an exact or
+near-exact field-name-and-unit match: `modulation`, `motor_rpm`(`rpm`), `bus_voltage`
+(`voltage`), `bus_current`(`current`), `throttle_raw`(`throttleRaw`), `throttle_voltage`
+(`throttleVoltage`), `motor_temp`(`motorTemp`), `controller_temp`(`ctrlTemp`),
+`battery_soc`(`soc`) — several (`modulation`, `throttleRaw`, `throttleVoltage`, `motorTemp`,
+`soc`) are exact identifier matches. The six bitfield/status entries
+(`gear_status_flags`, `fault_status_word`, `status_word_1`-`4`) stayed `"low"`: Worthless
+models `gear` as a plain `Int` (not this bit-packed word) and faults as two separate
+`errorFlags1`/`errorFlags2` `Int`s in `FaultEntry.java`
+(worthless:jadx/sources/com/rcplusplus/fdandroid/data/FaultEntry.java#L20-L21) — a
+structural/semantic echo, not a byte-for-byte one, matching this project's existing
+`registers.json` convention of keeping *every* `bitfield`-typed entry at `"low"` regardless of
+name matches (`docs/decompile-notes.md`'s Task 5 notes; confirmed by
+`protocol/registers.json` itself: all 17 of its `bitfield` entries are `"low"`).
+
 ## Worthless Controls (KMP, R8-obfuscated)
 
 - `reference/decompiled/worthless/jadx/` — `jadx --deobf --threads-count 8` against

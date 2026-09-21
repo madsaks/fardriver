@@ -1,1 +1,309 @@
-[]
+[
+  {
+    "frame": "0x80",
+    "offset": 0,
+    "key": "gear_status_flags",
+    "name": "Gear / direction / pairing status word",
+    "type": "bitfield",
+    "scale": 1,
+    "unit": "",
+    "group": "status",
+    "enum": {
+      "4": "Reversing — motor is being commanded to run in reverse",
+      "5": "Rolling — the wheel/vehicle is currently in motion",
+      "7": "Companion-phone pairing OK (App.CompPhoneOk)"
+    },
+    "explain": "Little-endian 16-bit word formed from payload bytes 0-1 (arg[2]/arg[3]) of the id-226 dashboard frame; carries gear, drive mode, motion and pairing flags read every telemetry cycle.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1510",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1516",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1523-L1524",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1548-L1552",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L18 (gear:Int, name only — Worthless models gear as a plain scalar, not this bit-packed word, so it does not corroborate the packing itself)"
+    ],
+    "notes": "Bits 0-1 pack the 2-bit gear value (0-3, GraphPage.cs#L1516 `m_gear = arg[2] & 3`); bits 2-3 pack a 2-bit drive/XS-control mode (`(arg[2]>>2)&3`); bit 6 is unused in the decompiled source. In the high byte (arg[3]), bits 11-12 (word-relative) pack a 2-bit PassOk/unlock-progress code (`(arg[3]&0x18)>>3`, GraphPage.cs#L1548) and bit 15 is `function_state` (`(arg[3]&0x80)!=0`, GraphPage.cs#L1552); bits 8-10 and 13-14 are unused/unconfirmed. decode_telemetry() returns the raw 16-bit word for bitfield entries — callers must mask these multi-bit sub-fields themselves; this schema has no bit-mask type to isolate them as separate scalar keys."
+  },
+  {
+    "frame": "0x80",
+    "offset": 2,
+    "key": "fault_status_word",
+    "name": "Fault / stop status word",
+    "type": "bitfield",
+    "scale": 1,
+    "unit": "",
+    "group": "faults",
+    "enum": {
+      "0": "Motor Hall fault",
+      "1": "Throttle fault",
+      "2": "Current-protect restart",
+      "3": "Phase-current surge protect",
+      "4": "Over-voltage alarm (if status_word_2 bit 15 set) / Under-voltage alarm (otherwise)",
+      "5": "Anti-theft alarm protect",
+      "6": "Motor over-temperature protect",
+      "7": "Controller over-temperature protect",
+      "8": "Phase-current overflow protect",
+      "9": "Phase zero-point fault",
+      "10": "Phase short-circuit fault (if status_word_1 bit 11 clear) / Phase-lost alarm (if set)",
+      "11": "Line-current zero-point fault",
+      "12": "MOSFET high-side fault",
+      "13": "MOSFET low-side fault",
+      "14": "MOE current protect",
+      "15": "Stop state active (App.Stop) — not one of the 15 numbered faults above"
+    },
+    "explain": "Little-endian 16-bit word formed from payload bytes 2-3 (arg[4]/arg[5]) of the id-226 dashboard frame; each low bit is a numbered fault the official app concatenates into its on-screen alarm message.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1691-L1774",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1791-L1799",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FaultEntry.java#L20-L21 (errorFlags1/errorFlags2: Int — structurally corroborates two separate fault-flag integer words, not the exact bit-for-bit packing or a single merged word)"
+    ],
+    "notes": "Official source keeps this as two separate bytes, arg[4] (bits 0-7 here) and arg[5] (bits 8-14, plus bit 15 = the stop flag, here); this entry merges them into one little-endian u16 purely so decode_telemetry can slice it with the schema's fixed-width numeric types — bit numbering above is relative to the merged word, not the original per-byte numbering in the fault-message text (which restarts at 1 per byte and skips '16.Brake Alarm', a different frame's field: motor_stop_state, id 250/cmd 0xB2). Bits 4 and 10's exact meaning depends on status_word_2 (frame 0xB3 offset 4) bit 15 and status_word_1 (frame 0xB3 offset 2) bit 11 respectively, both cited above."
+  },
+  {
+    "frame": "0x80",
+    "offset": 4,
+    "key": "modulation",
+    "name": "Modulation index",
+    "type": "u8",
+    "scale": 0.0078125,
+    "unit": "ratio",
+    "group": "electrical",
+    "enum": null,
+    "explain": "PWM modulation depth, raw byte divided by 128 to give a 0-1(ish) ratio; higher values mean the controller is driving closer to its voltage ceiling.",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1800",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L19 (modulation: Float, exact field-name match)"
+    ]
+  },
+  {
+    "frame": "0x80",
+    "offset": 6,
+    "key": "motor_rpm",
+    "name": "Motor rotation speed",
+    "type": "i16",
+    "scale": 1,
+    "unit": "rpm",
+    "group": "motion",
+    "enum": null,
+    "explain": "Motor's measured electrical rotation speed, read as a signed 16-bit little-endian word so a reversed direction can show as negative.",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1801-L1802",
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L895",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L24 (rpm: Float, exact field-name match)"
+    ],
+    "notes": "ParaPage.cs's own ReadParaMeter handler decodes the identical two bytes as App.rotation via an UNSIGNED cast (`(ushort)(arg[9]*256+arg[8])`, ParaPage.cs#L895); GraphPage.cs's dashboard handler decodes them SIGNED (`(short)(...)`, stored in m_MeasureSpeed). This entry follows the signed (GraphPage) interpretation since that is the page that actually renders live rider telemetry; docs/protocol.md's earlier §4.1 worked example already treats these bytes as unsigned for a purely-positive 1500rpm value, which is consistent either way (positive values decode identically signed or unsigned)."
+  },
+  {
+    "frame": "0x81",
+    "offset": 0,
+    "key": "bus_voltage",
+    "name": "Battery/bus voltage",
+    "type": "i16",
+    "scale": 0.1,
+    "unit": "V",
+    "group": "electrical",
+    "enum": null,
+    "explain": "Battery pack voltage as measured by the controller, raw value in tenths of a volt.",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1805-L1808",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L30 (voltage: Float, exact field-name match, volts)"
+    ]
+  },
+  {
+    "frame": "0x81",
+    "offset": 4,
+    "key": "bus_current",
+    "name": "Battery/bus (line) current",
+    "type": "i16",
+    "scale": 0.25,
+    "unit": "A",
+    "group": "electrical",
+    "enum": null,
+    "explain": "Line current drawn from/returned to the battery, raw value in quarter-amp counts; sign indicates regen vs. drive.",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1805-L1810",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L17 (current: Float, exact field-name match, amps)"
+    ]
+  },
+  {
+    "frame": "0x81",
+    "offset": 10,
+    "key": "throttle_raw",
+    "name": "Throttle depth, raw ADC counts",
+    "type": "u16",
+    "scale": 1,
+    "unit": "counts",
+    "group": "throttle",
+    "enum": null,
+    "explain": "Raw throttle-position reading the controller reports back, displayed by the app as an unscaled count alongside the calibrated throttle voltage.",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1812",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L28 (throttleRaw: Int, exact field-name match)"
+    ]
+  },
+  {
+    "frame": "0x99",
+    "offset": 0,
+    "key": "throttle_voltage",
+    "name": "Throttle voltage",
+    "type": "u16",
+    "scale": 0.01,
+    "unit": "V",
+    "group": "throttle",
+    "enum": null,
+    "explain": "Calibrated throttle signal voltage, raw value in hundredths of a volt; updates once per full telemetry cycle rather than every frame.",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1974-L1975",
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L177-L184",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L29 (throttleVoltage: Float, exact field-name match, volts)"
+    ],
+    "notes": "This is logical id 130 in ParaPage.cs's FlashReadAddr table (index 25 of 55, ParaPage.cs#L177-184), so cmd = 0x80|25 = 0x99. Unlike ids 226/232/238 (frames 0x80-0x82), which the controller re-sends every 7th frame, id 130 appears once per full 55-frame cycle — the throttle voltage updates less often than the other electrical readings, matching its role as a calibration/diagnostic reading rather than a fast control-loop input."
+  },
+  {
+    "frame": "0xB3",
+    "offset": 2,
+    "key": "status_word_1",
+    "name": "Global status word 1",
+    "type": "bitfield",
+    "scale": 1,
+    "unit": "",
+    "group": "status",
+    "enum": {
+      "5": "Auto-learn routine active",
+      "8": "Seat/bucket-switch confirmed OK (clear = warning icon shown)",
+      "11": "Phase-lost condition present (changes fault_status_word bit 10's meaning to Phase-lost)",
+      "13": "Motor actively running"
+    },
+    "explain": "Global_state1 in the decompiled source: a 16-bit status word read from the id-214 frame that several other fault/UI decisions branch on.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1861-L1868",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1869",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1890",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1750",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3981"
+    ]
+  },
+  {
+    "frame": "0xB3",
+    "offset": 4,
+    "key": "status_word_2",
+    "name": "Global status word 2",
+    "type": "bitfield",
+    "scale": 1,
+    "unit": "",
+    "group": "status",
+    "enum": {
+      "3": "Field-weakening (weak-field) mode active; clear = MTPA control",
+      "9": "Push/walk-assist mode indicator",
+      "15": "Over-voltage condition present (changes fault_status_word bit 4's meaning to Over-voltage)"
+    },
+    "explain": "Global_state2 in the decompiled source: a second 16-bit status word from the id-214 frame, covering field-weakening and walk-assist state.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1861-L1868",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1872",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1714",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3631",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3974"
+    ]
+  },
+  {
+    "frame": "0xB3",
+    "offset": 6,
+    "key": "status_word_3",
+    "name": "Global status word 3",
+    "type": "bitfield",
+    "scale": 1,
+    "unit": "",
+    "group": "status",
+    "enum": {
+      "0": "Brake indicator active (dashboard shows a brake icon instead of the roll-direction icon)",
+      "2": "Side-stand alarm (shown while in gear 1)"
+    },
+    "explain": "Global_state3 in the decompiled source: a third 16-bit status word from the id-214 frame, driving the brake and side-stand dashboard icons.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1861-L1868",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3903",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3651"
+    ]
+  },
+  {
+    "frame": "0xB3",
+    "offset": 8,
+    "key": "status_word_4",
+    "name": "Global status word 4 (unconfirmed)",
+    "type": "bitfield",
+    "scale": 1,
+    "unit": "",
+    "group": "status",
+    "enum": null,
+    "explain": "Global_state4 in the decompiled source: assigned from the id-214 frame but no bit within it is ever read anywhere else in the app.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1861-L1868"
+    ],
+    "notes": "Included for completeness/parity with status_word_1-3, which share the same frame and assignment statement — decode_telemetry returns its raw 16-bit value like any other bitfield, but no bit meaning is documented here because none was found. Do not assume any bit's semantics beyond 'reserved/unknown'."
+  },
+  {
+    "frame": "0xB3",
+    "offset": 10,
+    "key": "controller_temp",
+    "name": "Controller (MCU) temperature",
+    "type": "i16",
+    "scale": 1,
+    "unit": "°C",
+    "group": "thermal",
+    "enum": null,
+    "explain": "Controller/MCU heatsink temperature, displayed directly in degrees with no additional scaling (m_mostemp, labeled 'MCU T' on the dashboard).",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1861-L1864",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3568",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L16 (ctrlTemp: Float, matching field semantics — official's 'controller'/MCU temperature)"
+    ]
+  },
+  {
+    "frame": "0xB5",
+    "offset": 0,
+    "key": "motor_temp",
+    "name": "Motor temperature",
+    "type": "i16",
+    "scale": 1,
+    "unit": "°C",
+    "group": "thermal",
+    "enum": null,
+    "explain": "Motor winding/sensor temperature, displayed directly in degrees with no additional scaling (m_motortemp, labeled 'Motor T' on the dashboard).",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L2000-L2005",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L3567",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L20 (motorTemp: Float, exact field-name match)"
+    ]
+  },
+  {
+    "frame": "0xB5",
+    "offset": 3,
+    "key": "battery_soc",
+    "name": "Battery state of charge",
+    "type": "u8",
+    "scale": 1,
+    "unit": "%",
+    "group": "battery",
+    "enum": null,
+    "explain": "Battery state of charge as a single raw byte percentage (0-100), copied by the app straight into App.SOC with no scaling.",
+    "confidence": "medium",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L2000-L2003",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L25 (soc: Int, exact field-name match)"
+    ]
+  }
+]
