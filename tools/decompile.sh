@@ -89,7 +89,11 @@ decompile_worthless() {
   [ -d "$d/jadx/sources" ] && { log "worthless already decompiled"; return; }
   mkdir -p "$d/jadx" "$d/strings" "$d/files"
   log "jadx worthless (this takes a few minutes)"
-  "$JADX" --deobf --threads-count 8 -d "$d/jadx" "$OUT/_apks/worthless.apk"
+  # jadx exits non-zero (observed: 3) whenever any individual class fails to
+  # decompile (227/4304 here, typical for R8-obfuscated bytecode) even though
+  # it still writes out everything it could; `|| true` keeps that from
+  # aborting the script under `set -e` before the resource/string steps below.
+  "$JADX" --deobf --threads-count 8 -d "$d/jadx" "$OUT/_apks/worthless.apk" || true
   "$JADX" -d "$d/jadx-en" "$OUT/_apks/worthless-en.apk" || true
   local res="$d/jadx/resources/assets/composeResources/fd_android.shared.generated.resources"
   cp -f "$res/files/motors.json" "$res/files/sotion_params.json" "$res/files/racedash.html" "$d/files/"
