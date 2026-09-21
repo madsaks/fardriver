@@ -55,15 +55,29 @@ Full file:line finding notes (including the search trail) live in
   3. Attach a `ValueUpdated` handler, then `chs.StartUpdatesAsync()` to subscribe to notifies.
   4. No explicit "hello"/handshake write is sent at this point. Once subscribed, the
      controller begins streaming unsolicited 16-byte telemetry/parameter frames (§2, §4.1).
-  5. Once per connection, if the bound controller is a "new version" unit, the app sends the
-     password/unlock frame described in §4.3
-     (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3798, gated by
-     `logincount<1`).
+  5. The controller announces itself with a `cmd=0x7C` serial-number frame (§2's second RX
+     family, §4.4) — `official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6350-L6357`.
+     Receiving it stores the serial in `App.rcv_serialNumber` and resets `logincount = 0`
+     (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6356-L6357;
+     `logincount` otherwise defaults to `1`,
+     official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L307, so the gate below is
+     closed until this frame arrives). The app does not react immediately; on its next
+     periodic "maintain" tick it checks `logincount<1`
+     (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3795-L3799) and, if true,
+     sends the password/unlock frame described in §4.3, using `id =
+     Convert.ToUInt32(App.clientid)` — the app's own bound-controller client id, set earlier
+     via a separate pairing/bind flow (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L1099),
+     **not** a value parsed out of this 0x7C frame. So the real order is **controller
+     announces its serial (unblocking the gate) → app sends its independently-bound
+     `clientid` as the unlock frame's `id` on the next tick**, not "the app unlocks
+     unconditionally once per connection with no controller-side trigger" as an earlier draft
+     of this doc said.
 
 ## 2. Frame format
 
-FarDriver has two frame shapes over the same 0xFFEC characteristic, both protected by the
-checksum in §3. Multi-byte values are **little-endian** (low byte first) — e.g. the 2-byte
+FarDriver has three frame shapes over the same 0xFFEC characteristic — one TX shape and two
+RX shapes — each protected by one of §3's checksum algorithms. Multi-byte values are
+**little-endian** (low byte first) — e.g. the 2-byte
 register payload is written as `data[4]=(byte)value; data[5]=(byte)(value>>8);`
 (official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2410-L2413), and RX telemetry words
 are decoded the same way, e.g. `App.rotation = (ushort)(arg[9]*256 + arg[8])`
@@ -86,22 +100,59 @@ Header is `0xAA`. Total frame length is **variable**: `6 + payload_len` bytes (n
 | 4 | `payload_len` | Payload (register value), little-endian |
 | 4+payload_len | 2 | Checksum over bytes `0..3+payload_len` (see §3) |
 
-### RX — telemetry / parameter frame
+### RX — two frame families, both 16 bytes fixed
 
-Parsed by `SetReadValue` (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6162-L6206).
-Header is `0xAA`. Frame length is **fixed at 16 bytes**.
+Both are parsed by the same `SetReadValue`
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6162-L6364), which dispatches on
+byte 1's top bit as soon as it has 2 bytes of a new frame
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6187,
+`(m_Received[1] & 0x80) == 128`). **Both `decode()` and `SetReadValue` are RX-only** — they
+decode notify bytes coming *from* the controller; they are not the inverse of `encode_read`/
+`encode_write`, which build the separate TX shape above. Header is `0xAA` for both; frame
+length is **fixed at 16 bytes** for both.
+
+#### RX family 1 — telemetry / parameter frame (cmd top bit set)
 
 | Offset | Size | Meaning |
 |---|---|---|
 | 0 | 1 | Header, always `0xAA` (frame accumulation only starts once this byte is seen: official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6174) |
-| 1 | 1 | `cmd`. Top bit `0x80` set selects this 16-byte accumulation path (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6187). The low 7 bits are an index (0-127) that pages further map through their own `FlashReadAddr[55]` table (official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L177-L184) to a logical parameter id — that mapping is the register table, out of scope for this task (Task 5) |
-| 2-13 | 12 | Payload — 6 little-endian uint16 words in the telemetry-array case (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6217-L6222); page-specific field layouts otherwise (e.g. rotation at bytes 8-9, official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L895) |
-| 14-15 | 2 | Checksum over bytes 0-13 (see §3) |
+| 1 | 1 | `cmd`. Top bit `0x80` set selects this family (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6187). The low 7 bits are an index (0-127) that pages further map through their own `FlashReadAddr[55]` table (official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L177-L184) to a logical parameter id — that mapping is the register table, out of scope for this task (Task 5). **The index ranges over the full 0-127, including values whose cmd byte (0xC0-0xFF) looks like a TX command-frame cmd byte** — e.g. index 72 is `cmd=0xC8` — so a decoder must not try to distinguish this family from the TX shape by cmd's low bits; the top bit alone decides |
+| 2-13 | 12 | Payload — 6 little-endian uint16 words in the telemetry-array case, indices 56-87 (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6211-L6222); page-specific field layouts otherwise (e.g. rotation at bytes 8-9, official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L895) |
+| 14-15 | 2 | CRC16 checksum over bytes 0-13, §3's primary algorithm |
+
+#### RX family 2 — download-ack / serial-trigger frame (cmd top bit clear)
+
+A second, less common 16-byte frame, still parsed inline in `SetReadValue`
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6272-L6360). Two cmd values are
+actually produced by the controller in this codebase: `0x1F` (firmware/download
+acknowledgements, official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6290-L6349) and
+`0x7C` (the serial-number/login-trigger frame, §4.3,
+official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6350-L6357).
+
+| Offset | Size | Meaning |
+|---|---|---|
+| 0 | 1 | Header, always `0xAA` |
+| 1 | 1 | `cmd`, top bit clear. `0x1F` = download ack (a sub-command in byte 2, duplicated at byte 3, official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6290); `0x7C` = serial-number frame |
+| 2-13 | 12 | Family- and cmd-specific. For `cmd=0x7C`: bytes 2-5 are the controller's serial number as a little-endian uint32 (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6356); bytes 6-13 unused/zero in the observed case. For `cmd=0x1F`: byte 2 (== byte 3) is a download sub-command, bytes 4-11 are two little-endian uint32 values (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6299-L6306) |
+| 14-15 | 2 | Additive-sum checksum over bytes 0-13, §3's second algorithm — **stored high byte first**, the opposite placement from RX family 1's CRC16 and from the TX unlock frame's own additive-sum checksum (§4.3, low byte first) |
+
+`docs/decompile-notes.md` previously mis-described this as "a legacy 8-byte 'download' path,
+not used for register I/O" — that was wrong on both counts: the frame is 16 bytes, not 8, and
+it's the vehicle for the `0x7C` unlock-trigger frame, not merely a firmware-download
+leftover. Corrected there too.
 
 ## 3. Checksum
 
-Both frame shapes above use the same 16-bit checksum, computed byte-by-byte with two
-256-entry lookup tables, `crctablelo`/`crctablehi`
+FarDriver uses **three different 16-bit checksum algorithms** across the frames this doc
+covers — they do not all share one scheme. This section covers the two that matter for §2's
+frame shapes; §4.3 and §4.4 cover the other two (the unlock TX frame's own additive sum, and
+the legacy `SendRs232Data` one's-complement sum) where they're used.
+
+### 3.1 Primary: table-based CRC16
+
+Used by both the TX command frames (`encode_read`/`encode_write`, §2 TX) and RX family 1
+(the telemetry/parameter frame, §2 RX). Computed byte-by-byte with two 256-entry lookup
+tables, `crctablelo`/`crctablehi`
 (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L155,#L185 — duplicated verbatim in
 `GraphPage.cs`, `CurvePage.cs`, `StatPage.cs`, `ParaPage.cs`, `ProControlPage.cs`). These
 tables are byte-for-byte identical to the standard CRC-16/MODBUS lookup tables (verified by
@@ -143,6 +194,42 @@ original algorithm.
   bytes — offset `0` through `N-3` for an `N`-byte frame.
 - **Where the result is placed**: the final `b` byte at offset `N-2`, then the final `b2`
   byte at offset `N-1` (the frame's last two bytes).
+
+### 3.2 RX family 2: additive sum, high byte first
+
+Used only by RX family 2 (§2, `cmd` top bit clear — `0x1F` download acks and the `0x7C`
+serial-number/login-trigger frame, §4.3/§4.4). No lookup table: a plain 16-bit sum of the 14
+covered bytes (`ushort rcv_crc`, so the sum itself wraps mod 65536), then compared/stored
+**high byte first**
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6282-L6287):
+
+```csharp
+rcv_crc = 0;
+for (int j = 0; j < 14; j++) { rcv_crc += m_Received[j]; }
+// valid iff m_Received[14] == rcv_crc >> 8 && m_Received[15] == (rcv_crc & 0xFF)
+```
+
+Python translation (`_rx_additive_checksum()` in `tools/protocol/fardriver_frame.py`):
+
+```python
+def _rx_additive_checksum(body: bytes) -> int:
+    return sum(body) & 0xFFFF
+```
+
+Its 16-bit result, written big-endian (high byte, then low byte), is exactly the placement
+`SetReadValue` checks — same *shape* as §3.1's `checksum()` return convention, but a
+different, non-CRC value, and covering a different frame family. **Do not confuse this with
+the unlock/password TX frame's own additive-sum checksum in §4.3, which is the same "plain
+16-bit sum of bytes 0-13" idea but stored in the opposite byte order (low byte first, at
+offset 14, then high byte at offset 15) — official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4018-L4024.**
+Three algorithms, easy to conflate:
+
+| Used by | Bytes covered | Placement |
+|---|---|---|
+| §2 TX frames, §2 RX family 1 (§3.1, `checksum()`) | 0..N-3 | table CRC16, result byte `b` then `b2` |
+| §2 RX family 2 (§3.2, `_rx_additive_checksum()`) | 0..13 | plain sum, **high** byte then low byte |
+| §4.3 unlock TX frame | 0..13 | plain sum, **low** byte then high byte |
+| §4.4 legacy `SendRs232Data` 8-byte frame | 0..5 | sum then one's-complement (`sum`, `~sum`) |
 
 ## 4. Commands
 
@@ -239,10 +326,43 @@ unsolicited telemetry stream (§4.1).
 ### 4.3 Unlock / password
 
 **Yes, there is one** (for "new version" controllers) — `SendRs232DataPass`
-(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3972-L4009), called exactly once
-per connection, gated by `logincount<1`
-(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3798), with
-`id = Convert.ToUInt32(App.clientid)` — the app's bound-controller client id.
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3972-L4009), gated by
+`logincount<1` (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3795-L3798), with
+`id = Convert.ToUInt32(App.clientid)` — the app's bound-controller client id (from a separate
+pairing/bind flow, §1 step 5).
+
+**Trigger**: `logincount` defaults to `1` (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L307),
+so the gate above starts closed. It's reset to `0` — unblocking the send on the app's next
+"maintain" tick — only when the app receives a `cmd=0x7C` RX frame from the controller (§2 RX
+family 2): `official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6350-L6357`:
+
+```csharp
+else if (m_Received[0] == 170 && (m_Received[1] & 0xFC) == 124)  // 124 = 0x7C
+{
+    switch (m_Received[1])
+    {
+    case 124:
+        App.rcv_serialNumber = "VCUFarDriverA" + serial_from_bytes_2_to_5(m_Received);
+        logincount = 0;
+        break;
+    }
+}
+```
+
+Worked RX example: the controller announcing serial `1234567` (the same id used in the TX
+unlock example below, to show the real cause → effect). Bytes 2-5 are the serial as a
+little-endian uint32 (`0x0012D687`); bytes 6-13 zero (not otherwise populated in this code
+path); checksum is §3.2's additive sum, high byte first: `sum(bytes[0..13]) = 0x0295`.
+
+```
+RX (trigger): AA 7C 87 D6 12 00 00 00 00 00 00 00 00 00 02 95
+```
+
+So the unlock sequence, in order, is: **controller sends `0x7C` with its serial → app's next
+maintain tick sees `logincount<1` → app sends the `TX (pass)` frame below with `id =
+App.clientid`** (a value the app already had from binding, not parsed out of the `0x7C`
+frame's serial — they're expected to match for a correctly-bound device, but the code never
+asserts that).
 
 Algorithm: XOR-scrambles a fixed ASCII key, `"D'1qF83x"`, against a value derived from `id`
 via a linear transform, then packs the result into a 16-byte frame with `cmd=0x7F` (127) and
@@ -281,7 +401,7 @@ sum(bytes[0..13]) & 0xFFFF = 0x06DA
 ```
 
 ```
-TX: AA 7F 87 D6 12 00 62 D7 49 A3 60 C8 4B AA DA 06
+TX (pass): AA 7F 87 D6 12 00 62 D7 49 A3 60 C8 4B AA DA 06
 ```
 
 **Response**: there is no dedicated "unlock ack" frame. Success is read back out of specific
@@ -312,17 +432,19 @@ or calls either of its methods.
 
 | cmd byte(s) | Purpose | Source |
 |---|---|---|
-| `0xC0 \| (len+4)` | Register write (§4.2), also used here for the constructed register read (§4.1) | official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2319 |
-| `0xFF` / `0xFE` (`WriteAddr` with `len==388`/`len==316` after the `+=4`) | Large parameter block / firmware download transfer, chunked into 20-byte sub-writes | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4339-L4410 |
-| `0x80 \| index` (top bit set, index 0-127) | Unsolicited telemetry/parameter frame from the controller (§2 RX, §4.1) | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6187 |
-| `0x7F` (127) | Unlock/password handshake (§4.3) | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3972 |
+| `0xC0 \| (len+4)` (TX, top bit set) | Register write (§4.2), also used here for the constructed register read (§4.1) | official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2319 |
+| `0xFF` / `0xFE` (TX, `WriteAddr` with `len==388`/`len==316` after the `+=4`) | Large parameter block / firmware download transfer, chunked into 20-byte sub-writes | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4339-L4410 |
+| `0x80 \| index` (RX family 1, top bit set, index 0-127 — **note**: this range overlaps the TX `0xC0`-`0xFF` byte values above; only direction, TX vs. RX, disambiguates them, not the cmd byte's value) | Unsolicited telemetry/parameter frame from the controller (§2 RX family 1, §4.1) | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6187 |
+| `0x7F` (127, TX, top bit set) | Unlock/password handshake (§4.3) | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3972 |
+| `0x1F` (RX family 2, top bit clear) | Firmware/download acknowledgement — sub-command in byte 2 (== byte 3): `1`=CRC seed, `2`/`4`=nack, `3`=ack, `124`/`125`=ack, `126`=neutral, default=ack | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6290-L6349 |
+| `0x7C` (124, RX family 2, top bit clear) | Serial-number/login-trigger frame — resets `logincount=0`, the gate that unblocks the §4.3 unlock send (§1 step 5, §4.3 "Trigger") | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6350-L6357 |
 | Legacy `[0xAA, mcmd, ~mcmd, scmd, va1, va2, sum, ~sum]` 8-byte frame (`SendRs232Data`, not the `WriteAddr` shape at all — `mcmd`/`scmd` are opcodes, not a register address) | Pre-CRC16 "old" command protocol: maintain-pings (`mcmd=19,scmd=7`), password confirmation digits (`mcmd=19,scmd=12/13`), firmware-update triggers (`mcmd=4`), direction/voltage writes for `!App.NewVersion` controllers | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3947-L3966, official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2305-L2316 |
 | `WriteSysCmd(cmd)` → `WriteAddr([...,cmd,...], addr=0xA0, len=2)` | Firmware-update mode select: `cmd=15` ISOLATE variant, `cmd=16` CG56 variant, `cmd=5` default, sent right before a firmware download | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4321-L4326,#L5128-L5138 |
 
-Legacy 8-byte frame's own checksum is a **third** algorithm — plain additive sum then
-one's-complement, no CRC table at all: `sum = (0xAA+mcmd+~mcmd+scmd+va1+va2) & 0xFF`, then
-`frame[6]=sum, frame[7]=~sum`
+Legacy 8-byte frame's own checksum is a **fourth** algorithm (see §3's summary table) — plain
+additive sum then one's-complement, no CRC table at all: `sum = (0xAA+mcmd+~mcmd+scmd+va1+va2)
+& 0xFF`, then `frame[6]=sum, frame[7]=~sum`
 (official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3953-L3961). Not implemented by
 `fardriver_frame.py` — it has no register `addr`, so it doesn't fit this task's
 `encode_read`/`encode_write`/`decode` interface (which models the CRC16 `WriteAddr` protocol
-in §2-§3).
+in §2-§3.1, plus RX family 2's additive-sum in §2/§3.2 for `decode()`).

@@ -69,13 +69,31 @@ All of the following are in `MotorNet6/ConnectPage.cs` unless noted; line number
   `len==388`/`len==316` at `ConnectPage.cs:4339,4342`) manually splits the frame into 20-byte
   `chs.WriteAsync` sub-packets (`ConnectPage.cs:4372,4395`) with a 10ms sleep between each —
   i.e. the app assumes the default (un-negotiated) ATT MTU of 23 bytes (20-byte payload).
-- **RX framing** (`SetReadValue`, `ConnectPage.cs:6162`): reassembles the characteristic's
-  notify stream into fixed 16-byte frames. Byte 0 must be `0xAA` (170) to start a frame
-  (`ConnectPage.cs:6174`); byte 1's top bit (`0x80`) selects the 16-byte accumulation path
-  (`ConnectPage.cs:6187`) (vs. a legacy 8-byte "download" path in the same function, not used
-  for register I/O).
-  Checksum is verified over bytes 0-13 against bytes 14-15 (`ConnectPage.cs:6196-6204`) using
-  a table-based CRC16 (see below).
+- **RX framing** (`SetReadValue`, `ConnectPage.cs:6162-6364`): reassembles the characteristic's
+  notify stream into fixed **16-byte** frames — both RX families below are 16 bytes; there is
+  no 8-byte RX path (an earlier draft of this note wrongly called the second family "a legacy
+  8-byte 'download' path ... not used for register I/O" — corrected here and in
+  `docs/protocol.md` §2/§4.4). Byte 0 must be `0xAA` (170) to start a frame (`ConnectPage.cs:6174`);
+  byte 1's top bit (`0x80`) selects which of the two families applies (`ConnectPage.cs:6187`,
+  `(m_Received[1] & 0x80) == 128`):
+  - **Top bit set** — the general telemetry/parameter frame (index = `cmd & 0x7F`, 0-127,
+    including index values ≥64 whose cmd byte, 0xC0-0xFF, looks like a TX command-frame cmd
+    byte — e.g. index 72 is `cmd=0xC8`; only RX-vs-TX direction disambiguates them, not the
+    byte value). Checksum is verified over bytes 0-13 against bytes 14-15
+    (`ConnectPage.cs:6196-6204`) using the table-based CRC16 (see below).
+  - **Top bit clear** — a second, rarer frame family, still handled inline in the same
+    function (`ConnectPage.cs:6272-6360`). Checksum is a *different* algorithm: a plain 16-bit
+    additive sum over bytes 0-13 (`ushort rcv_crc`), compared **high byte first** —
+    `m_Received[14] == rcv_crc>>8 && m_Received[15] == (rcv_crc & 0xFF)`
+    (`ConnectPage.cs:6282-6287`). Two cmd values actually occur in this codebase:
+    - `cmd=0x1F` (31): firmware/download acknowledgement. `m_Received[2]==m_Received[3]` (a
+      duplicated sub-command byte, structurally similar to `WriteAddr`'s address duplication);
+      switch on that byte selects ack/nack/CRC-seed behavior (`ConnectPage.cs:6290-6349`).
+    - `cmd=0x7C` (124, matched via `(m_Received[1] & 0xFC) == 124`,
+      `ConnectPage.cs:6350-6357`): the **serial-number/login-trigger frame**. Bytes 2-5 are
+      the controller's serial as a little-endian uint32, decoded into
+      `App.rcv_serialNumber`; receiving this frame also sets `logincount = 0`
+      (`ConnectPage.cs:6357`) — see "Unlock trigger" below.
 - **CRC16 tables**: `crctablelo`/`crctablehi` (256-byte tables each, `ConnectPage.cs:155,185`;
   duplicated verbatim in `GraphPage.cs`, `CurvePage.cs`, `StatPage.cs`, `ParaPage.cs`,
   `ProControlPage.cs`) are byte-for-byte identical to the standard CRC-16/MODBUS lookup
@@ -112,9 +130,19 @@ All of the following are in `MotorNet6/ConnectPage.cs` unless noted; line number
   "read a register" as an addr-only operation distinct from "write" (addr+payload), matching
   the `encode_read(addr)`/`encode_write(addr, value)` shape chosen here, even though
   Worthless's actual byte layout lives in the undecompilable native library.
-- **Unlock / password — `SendRs232DataPass`** (`ConnectPage.cs:3972`, called once per
-  connection from `ConnectPage.cs:3798` when `logincount<1`, with `id =
-  Convert.ToUInt32(App.clientid)` — the bound-controller's client id): XORs two 32-bit
+- **Unlock trigger** (correcting an earlier draft of this note, which said the pass frame is
+  sent "once per connection" unconditionally): `logincount` defaults to `1`
+  (`ConnectPage.cs:307`), so the `logincount<1` gate at `ConnectPage.cs:3795` starts closed.
+  It is reset to `0` — and only then, on the app's next periodic "maintain" tick
+  (`ConnectPage.cs:3795-3799`) — by receiving the `cmd=0x7C` RX frame described above
+  (`ConnectPage.cs:6357`). So the real order is: controller sends `0x7C` with its serial
+  first → app's maintain tick sees the open gate → app sends `SendRs232DataPass`. The `id`
+  the pass frame carries is `Convert.ToUInt32(App.clientid)` — a value the app already holds
+  from a separate MQTT-based pairing/bind flow (`App.clientid = s3.Substring(0, 7)`,
+  `ConnectPage.cs:1099`) — **not** parsed out of the `0x7C` frame's serial bytes; the code
+  never asserts the two match.
+- **Unlock / password — `SendRs232DataPass`** (`ConnectPage.cs:3972`, gated as above, with
+  `id = Convert.ToUInt32(App.clientid)` — the bound-controller's client id): XORs two 32-bit
   halves of the fixed ASCII key `"D'1qF83x"` against `id*55571701+55571699`, packs the 8
   result bytes into a 16-byte frame with `cmd=0x7F` (127) and `addr`-position bytes 2-5 set to
   the little-endian `id`, and checksums it with a **different, simpler algorithm**: a plain

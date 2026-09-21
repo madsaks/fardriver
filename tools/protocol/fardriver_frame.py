@@ -5,20 +5,27 @@ Written from docs/protocol.md; that document cites the decompiled source (the of
 `MotorNet6/ConnectPage.cs`) for every constant here. Pure Python, no deps — phase 2 ports
 this to TypeScript.
 
-Two frame shapes share the same checksum (§3 of the doc):
+Frames flow in one direction each; `encode_read`/`encode_write` and `decode` are not inverses
+of each other:
 
 - TX ("command") frames, built by `encode_read`/`encode_write`, mirror the official app's
   `WriteAddr`: header, a cmd byte whose top 2 bits are fixed `0b11` and whose low 6 bits
-  encode `payload_len + 4`, a duplicated register address, the payload, then the checksum.
-  Length is variable: `6 + payload_len` bytes. NOTE: the official app never sends a discrete
-  "read register" request (see docs/protocol.md §4.1) — `encode_read` is a constructed frame
-  (WriteAddr's algorithm applied with a zero-length payload), not one lifted from an observed
-  call site.
-- RX ("telemetry") frames, produced by the controller and parsed by `decode`, mirror
-  `SetReadValue`: header, a cmd byte whose top bits are `0b10`, 12 bytes of payload, then the
-  checksum. Length is fixed at 16 bytes. These carry no address subfield at this layer (the
-  cmd byte's low 7 bits are an index a register table maps to a logical parameter id — out of
-  scope for this module; see the later register-table task).
+  encode `payload_len + 4`, a duplicated register address, the payload, then the §3 CRC16
+  checksum. Length is variable: `6 + payload_len` bytes. NOTE: the official app never sends a
+  discrete "read register" request (see docs/protocol.md §4.1) — `encode_read` is a
+  constructed frame (WriteAddr's algorithm applied with a zero-length payload), not one
+  lifted from an observed call site.
+- RX ("telemetry"/"parameter") frames, produced by the controller and consumed by `decode`,
+  mirror `SetReadValue` (official:MotorNet6/ConnectPage.cs#L6162-L6364). `decode` is RX-only:
+  it decodes notify bytes received from the controller, not the TX bytes this module sends.
+  Every RX frame is fixed at 16 bytes, but there are two families, selected purely by whether
+  cmd's top bit is set (official:MotorNet6/ConnectPage.cs#L6187):
+  - top bit set: the general telemetry/parameter frame (§2, §4.1), checksummed with the §3
+    CRC16;
+  - top bit clear: a second family (§4.4) — `cmd=0x1F` (firmware/download acks) and `cmd=0x7C`
+    (the serial-number/login-trigger frame, §4.3) — checksummed with a plain 16-bit additive
+    sum over bytes 0-13, stored high byte first (the opposite placement from the §4.3
+    unlock/password TX frame's own additive-sum checksum, which is low-byte-first).
 """
 
 from dataclasses import dataclass
@@ -26,16 +33,11 @@ from dataclasses import dataclass
 HEADER = 0xAA
 
 # TX ("command") frame cmd-byte shape: top 2 bits fixed at 0b11, low 6 bits are the covered
-# length (payload_len + 4). CMD_WRITE_MASK also matches the CMD_READ frame this module
-# constructs, since both are built by the same WriteAddr-shaped algorithm.
+# length (payload_len + 4). Used by encode_read/encode_write only — decode() is RX-only and
+# does not use this constant (see module docstring).
 CMD_WRITE_MASK = 0xC0
 
-# RX ("telemetry") frame cmd-byte shape: top bit set, second-from-top bit clear.
-CMD_DATA_MASK = 0x80
-CMD_DATA_TAG = 0x80
-CMD_DATA_TAG_BITS = 0xC0  # mask applied before comparing against CMD_DATA_TAG
-
-FRAME_LEN = 16  # fixed length of RX telemetry frames only; TX frames are payload_len + 6
+FRAME_LEN = 16  # fixed length of RX frames (both families); TX frames are payload_len + 6
 
 # §3: checksum lookup tables. Byte-for-byte identical to the standard CRC-16/MODBUS tables;
 # copied verbatim from official:MotorNet6/ConnectPage.cs (crctablelo/crctablehi, lines
@@ -125,6 +127,17 @@ def _append_checksum(body: bytearray) -> bytes:
     return bytes(body)
 
 
+def _rx_additive_checksum(body: bytes) -> int:
+    """The second RX checksum family (docs/protocol.md §3/§4.4): a plain 16-bit additive sum
+    over the covered bytes, with no lookup table
+    (official:MotorNet6/ConnectPage.cs#L6282-L6287, `rcv_crc`). Returned as a 16-bit int whose
+    big-endian byte representation is the placement order actually used on the wire for this
+    family: high byte first, then low byte — the opposite placement from `checksum()`'s
+    result, which is also appended big-endian but is a different (CRC16) value.
+    """
+    return sum(body) & 0xFFFF
+
+
 def encode_read(addr: int) -> bytes:
     """Constructed (not observed) — see the module docstring and docs/protocol.md §4.1: no
     call site in the official app passes a zero-length payload to WriteAddr, but the
@@ -159,42 +172,40 @@ class Frame:
 
 
 def decode(frame: bytes) -> Frame:
-    """Decode either frame shape (§2 of docs/protocol.md).
+    """Decode a 16-byte RX frame — notify bytes received *from* the controller — mirroring
+    `SetReadValue` (official:MotorNet6/ConnectPage.cs#L6162-L6364). **RX-only**: this function
+    does not decode the TX command frames `encode_read`/`encode_write` build; those are
+    app-to-controller only and are never read back by this module (see the module docstring).
 
-    - A "command" frame (as built by `encode_read`/`encode_write`): cmd byte's top 2 bits are
-      `0b11`; `addr` comes from byte 2 (duplicated at byte 3 by the encoder); payload is the
-      bytes between the address and the checksum.
-    - A "telemetry" frame (as streamed unsolicited by the controller and parsed by
-      `SetReadValue`): cmd byte's top bits are `0b10`; fixed 16 bytes; no address subfield at
-      this layer, so `addr` is None and `payload` is the 12 middle bytes.
+    Every RX frame is fixed at `FRAME_LEN` (16) bytes. Which of the two RX checksum families
+    applies is selected purely by whether cmd's top bit is set
+    (official:MotorNet6/ConnectPage.cs#L6187, `(m_Received[1] & 0x80) == 128`):
 
-    Any length/shape mismatch, or a bad header byte, yields `checksum_ok=False` rather than
-    raising, so a caller can always inspect the result.
+    - Top bit set (`cmd & 0x80`): the general telemetry/parameter frame (§2, §4.1). `cmd &
+      0x7F` is a 0-127 index that a per-page `FlashReadAddr` table further maps to a logical
+      parameter id — out of scope for this module (see the later register-table task).
+      Checksummed with the §3 CRC16 (`checksum()`).
+    - Top bit clear: the second RX family (§4.4) — e.g. `cmd=0x1F` (firmware/download acks)
+      and `cmd=0x7C` (the serial-number/login-trigger frame, §4.3). Checksummed with a plain
+      16-bit additive sum over bytes 0-13, stored high byte first
+      (`_rx_additive_checksum()`).
+
+    `addr` is always `None`: neither RX family carries a single-byte register address at this
+    layer (contrast with the TX command frames `encode_read`/`encode_write` build). Any
+    length/header mismatch yields `checksum_ok=False` rather than raising, so a caller can
+    always inspect the result.
     """
-    if len(frame) < 4 or frame[0] != HEADER:
+    if len(frame) != FRAME_LEN or frame[0] != HEADER:
         cmd = frame[1] if len(frame) > 1 else 0
         return Frame(cmd=cmd, addr=None, payload=b"", checksum_ok=False)
 
     cmd = frame[1]
+    body = frame[:14]
+    payload = frame[2:14]
 
-    if cmd & CMD_WRITE_MASK == CMD_WRITE_MASK:
-        covered_len = cmd & 0x3F  # payload_len + 4, per WriteAddr
-        total_len = covered_len + 2
-        if covered_len < 4 or len(frame) != total_len:
-            return Frame(cmd=cmd, addr=None, payload=b"", checksum_ok=False)
-        body = frame[:covered_len]
-        addr = frame[2]
-        payload = frame[4:covered_len]
-        expected = int.from_bytes(frame[covered_len:covered_len + 2], "big")
-    elif cmd & CMD_DATA_TAG_BITS == CMD_DATA_TAG:
-        if len(frame) != FRAME_LEN:
-            return Frame(cmd=cmd, addr=None, payload=b"", checksum_ok=False)
-        body = frame[:14]
-        addr = None
-        payload = frame[2:14]
-        expected = int.from_bytes(frame[14:16], "big")
+    if cmd & 0x80:
+        ok = checksum(body) == int.from_bytes(frame[14:16], "big")
     else:
-        return Frame(cmd=cmd, addr=None, payload=bytes(frame[2:-2]), checksum_ok=False)
+        ok = int.from_bytes(frame[14:16], "big") == _rx_additive_checksum(body)
 
-    ok = checksum(body) == expected
-    return Frame(cmd=cmd, addr=addr, payload=bytes(payload), checksum_ok=ok)
+    return Frame(cmd=cmd, addr=None, payload=bytes(payload), checksum_ok=ok)

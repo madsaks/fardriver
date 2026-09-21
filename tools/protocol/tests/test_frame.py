@@ -22,6 +22,19 @@ WRITE_ADDR, WRITE_VALUE = 0x17, 480
 # checksum arithmetic.
 RX_FRAME = bytes.fromhex("aa80000000000000dc05000000001d34")
 
+# §2/§4.4 RX — a telemetry/parameter frame with index 72 (cmd = 0x80|72 = 0xC8, i.e. cmd byte
+# 0xC8-0xD7 territory, the "index >= 64" case fix-round-1 finding 1 flagged: decode() must
+# treat this the same as any other top-bit-set cmd, not mistake it for a TX command-frame
+# cmd byte). All-zero payload; see docs/protocol.md §2 for the checksum arithmetic.
+RX_FRAME_INDEX_72 = bytes.fromhex("aac800000000000000000000000023e0")
+
+# §4.3/§4.4 RX — the 0x7C serial-number/login-trigger frame (SetReadValue's second, top-bit-
+# clear RX family; additive-sum checksum, stored high byte first). Serial 1234567 — the same
+# id docs/protocol.md §4.3's unlock TX example uses, since this is the frame that triggers
+# that example's unlock frame in the real connect sequence. See docs/protocol.md §4.3/§3 for
+# the checksum arithmetic (sum of bytes 0-13 = 0x0295).
+RX_FRAME_SERIAL = bytes.fromhex("aa7c87d6120000000000000000000295")
+
 
 def test_checksum_matches_doc_example():
     body, expected = READ_TX[:-2], READ_TX[-2:]
@@ -46,3 +59,24 @@ def test_decode_rejects_bad_checksum():
     bad = bytearray(RX_FRAME)
     bad[-1] ^= 0xFF
     assert not decode(bytes(bad)).checksum_ok
+
+
+def test_decode_rx_frame_with_index_ge_64():
+    # Fix round 1, finding 1: decode() must not mistake a real telemetry cmd byte in the
+    # 0xC0-0xFF range (index 64-127) for a TX command-frame cmd byte. Any RX cmd with the top
+    # bit set is a 16-byte telemetry frame per official:ConnectPage.cs#L6187, regardless of
+    # its low 6/7 bits.
+    f = decode(RX_FRAME_INDEX_72)
+    assert f.checksum_ok
+    assert f.cmd == 0xC8
+    assert f.cmd & 0x7F == 72
+    assert f.addr is None
+
+
+def test_decode_rx_serial_frame_additive_checksum():
+    # Fix round 1, finding 4: the top-bit-clear RX family (§4.4) uses a different, additive
+    # checksum from the CRC16 family above, stored high byte first.
+    f = decode(RX_FRAME_SERIAL)
+    assert f.checksum_ok
+    assert f.cmd == 0x7C
+    assert f.addr is None
