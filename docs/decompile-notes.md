@@ -35,6 +35,113 @@ project and is not touched by `tools/decompile.sh`.
   script already does this); running it without that env var fails with "You must install
   .NET to run this application."
 
+### Official → BLE (Task 4 findings)
+
+All of the following are in `MotorNet6/ConnectPage.cs` unless noted; line numbers are from
+`reference/decompiled/official/src/MotorNet6/MotorNet6/`.
+
+- **UUIDs**: `ConnectPage.cs:94` declares `commUUID = new Guid(65516, 0, 4096, new byte[8]
+  {128,0,0,128,95,155,52,251})` and `ConnectPage.cs:96` declares `commHeadUUID = new
+  Guid(65504, 0, 4096, new byte[8] {128,0,0,128,95,155,52,251})`. Both use the standard
+  Bluetooth SIG base UUID (`...-0000-1000-8000-00805F9B34FB`), so these are 16-bit assigned
+  UUIDs 0xFFE0 and 0xFFEC respectively: `0000FFE0-0000-1000-8000-00805F9B34FB` and
+  `0000FFEC-0000-1000-8000-00805F9B34FB`.
+- **Service/characteristic discovery**: `OnDeviceStateChanged` (`ConnectPage.cs:6108`) calls
+  `bluedevice.GetServicesAsync()` and picks the service whose GUID bytes (`Guid.ToByteArray()`)
+  have `array[0]==224 (0xE0)` and `array[1]==255` — `ConnectPage.cs:6113,6122` — i.e.
+  `commHeadUUID`/0xFFE0. It then calls `service.GetCharacteristicsAsync()` and picks the
+  characteristic whose bytes have `array2[0]==236 (0xEC)` and `array2[1]==255` —
+  `ConnectPage.cs:6131,6134` — i.e. `commUUID`/0xFFEC. **The same single characteristic
+  (`chs`) is used for both `WriteAsync` and `ValueUpdated`/`StartUpdatesAsync`** —
+  `ConnectPage.cs:6144,6154` — there is no separate write-only/notify-only characteristic.
+  No `WriteType` is ever set on `chs`, so the app relies on Plugin.BLE's default write type
+  for whatever the characteristic's GATT properties advertise (no explicit
+  with-response/without-response choice found in `MotorNet6/*.cs`).
+- **Advertised name filter**: `ConnectPage.cs:1639` accepts scan results whose name
+  (uppercased) contains `"YUANQU"`, `"CONTROL"`, or `"BMS"`. `ConnectPage.cs:2842,2849` parse
+  a 7-digit serial out of the device name at a fixed offset (`Name.Substring(6, 7)`) when the
+  name contains `"YUANQU"`, and `ConnectPage.cs:1668` matches names containing `"YUANQU0"`
+  specifically for reconnect-by-last-name. So VCU controllers advertise as
+  `YUANQU0<7-digit serial>` (远驱 = "Yuanqu", the manufacturer name in pinyin); other
+  FarDriver-family devices (Pro controller / BMS) advertise names containing `CONTROL`/`BMS`.
+- **No MTU negotiation**: no `RequestMtuAsync`/`MtuSize` call anywhere in `MotorNet6/*.cs`.
+  Consistent with this, `WriteAddr`'s large-payload path (`ConnectPage.cs:4329`, cases
+  `len==388`/`len==316` at `ConnectPage.cs:4339,4342`) manually splits the frame into 20-byte
+  `chs.WriteAsync` sub-packets (`ConnectPage.cs:4372,4395`) with a 10ms sleep between each —
+  i.e. the app assumes the default (un-negotiated) ATT MTU of 23 bytes (20-byte payload).
+- **RX framing** (`SetReadValue`, `ConnectPage.cs:6162`): reassembles the characteristic's
+  notify stream into fixed 16-byte frames. Byte 0 must be `0xAA` (170) to start a frame
+  (`ConnectPage.cs:6174`); byte 1's top bit (`0x80`) selects the 16-byte accumulation path
+  (`ConnectPage.cs:6187`) (vs. a legacy 8-byte "download" path in the same function, not used
+  for register I/O).
+  Checksum is verified over bytes 0-13 against bytes 14-15 (`ConnectPage.cs:6196-6204`) using
+  a table-based CRC16 (see below).
+- **CRC16 tables**: `crctablelo`/`crctablehi` (256-byte tables each, `ConnectPage.cs:155,185`;
+  duplicated verbatim in `GraphPage.cs`, `CurvePage.cs`, `StatPage.cs`, `ParaPage.cs`,
+  `ProControlPage.cs`) are byte-for-byte identical to the standard CRC-16/MODBUS lookup
+  tables (verified by comparing against a bitwise CRC-16/MODBUS reference implementation with
+  the standard `0xFFFF` init — table output matches once byte order is accounted for). The app
+  uses a **non-standard initial register value** of `(0x3C, 0x7F)` instead of the standard
+  `(0xFF, 0xFF)` — see `ConnectPage.cs:6196-6197` (RX) and `ConnectPage.cs:4351-4352` /
+  `ParaPage.cs:2326-2327` (TX, `WriteAddr`). Algorithm translated to Python in
+  `tools/protocol/fardriver_frame.py::checksum`.
+- **TX framing — `WriteAddr`** (`ParaPage.cs:2319`, simplified single-page version;
+  `ConnectPage.cs:4329` has the same algorithm plus the >255-byte chunked-send special case):
+  given a data buffer, a register `addr`, and payload `len`: `data[0]=0xAA`; `len+=4`;
+  `data[1]=0xC0+len` (so the length is encoded in the low 6 bits of the second byte, with the
+  top 2 bits fixed at `11`); `data[2]=data[3]=addr` (address is duplicated into both byte 2
+  and byte 3); payload occupies `data[4:4+len-4]` (already placed by the caller before
+  calling `WriteAddr`); then the same CRC16 (custom init) runs over `data[0:len]` and the
+  two result bytes are written to `data[len]`, `data[len+1]`.
+- **No explicit "read register" command found.** Every `WriteAddr`/`SendRs232Data` call site
+  in `MotorNet6/*.cs` is a *write* (`len` is always the payload length being written, never
+  0). Register values instead arrive unsolicited: once connected (and, for `NewVersion`
+  controllers, "unlocked" — see below), the controller continuously streams 16-byte frames
+  over the notify characteristic; `SetReadValue` (`ConnectPage.cs:6162`) demultiplexes them by
+  the low 7 bits of byte 1 and republishes each as a `"ReadParaMeter"` message
+  (`ConnectPage.cs:6230-6235`); each page (e.g. `ParaPage.cs:857`) subscribes and further maps
+  that 7-bit index through its own `FlashReadAddr[55]` lookup table (`ParaPage.cs:177`) to a
+  logical parameter id (e.g. index 0 → id 226 → rotation/BMS-hall bits at
+  `ParaPage.cs:891-895`). `docs/protocol.md` §4.1's `encode_read` is therefore **constructed,
+  not observed**: it applies the documented `WriteAddr` algorithm with `len=0` (a valid input
+  to the function signature, just never exercised by any call site) — flagged explicitly in
+  the doc. Secondary cross-check (Worthless, quick look only — full cross-check is Task 6):
+  `worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java:60` declares
+  `native byte[] fdBuildReadPacket(int)`, a separate single-int-argument builder from
+  `fdBuildWritePacket(int, byte[])` at line 64 — corroborating that Worthless also models
+  "read a register" as an addr-only operation distinct from "write" (addr+payload), matching
+  the `encode_read(addr)`/`encode_write(addr, value)` shape chosen here, even though
+  Worthless's actual byte layout lives in the undecompilable native library.
+- **Unlock / password — `SendRs232DataPass`** (`ConnectPage.cs:3972`, called once per
+  connection from `ConnectPage.cs:3798` when `logincount<1`, with `id =
+  Convert.ToUInt32(App.clientid)` — the bound-controller's client id): XORs two 32-bit
+  halves of the fixed ASCII key `"D'1qF83x"` against `id*55571701+55571699`, packs the 8
+  result bytes into a 16-byte frame with `cmd=0x7F` (127) and `addr`-position bytes 2-5 set to
+  the little-endian `id`, and checksums it with a **different, simpler algorithm**: a plain
+  16-bit additive sum over bytes 0-13, stored **low byte first** at offset 14 (`(byte)num6`)
+  then high byte at offset 15 (`(byte)(num6>>8)`) — `ConnectPage.cs:4018-4024` — the opposite
+  byte order from the CRC16 used by `WriteAddr`/`SetReadValue`, and not a CRC at all. This is
+  *not* implemented in `fardriver_frame.py` (out of scope for the shared `checksum()`
+  function; documented in `docs/protocol.md` §4.3 as its own algorithm).
+- **`CMD5.cs` is dead code in this app.** `grep -rn CMD5 MotorNet6/MotorNet6/*.cs` (excluding
+  `CMD5.cs` itself) returns nothing — no other file instantiates `CMD5` or calls
+  `hexstr_to_md5`/`Add`. It is not the unlock mechanism; `SendRs232DataPass` is.
+- **Legacy unlock — `App.CacuDiscover`** (`App.cs:500`, called from `ConnectPage.cs:3791`
+  only for `!App.NewVersion` controllers): derives a 21-element `Discover[]` array from a
+  per-device `discover` seed and the controller's serial number (`rcv_serialNumberfoc`) via a
+  chain of per-byte linear-congruential-style transforms (`Discover[n] = (Discover[n-1] +
+  K1) * K2 + K3 + serial[n]`, distinct magic constants per index). Not reverse-engineered
+  further for this task — the serial-number input isn't observable statically, so no example
+  bytes are derivable without a live device. Flagged as an open item, not blocking, since the
+  primary (`NewVersion`) unlock path is fully documented above.
+- **Legacy 8-byte frame — `SendRs232Data`** (`ConnectPage.cs:3947`, `ParaPage.cs:2305`, and
+  duplicated in the other page classes): `[0xAA, mcmd, ~mcmd, scmd, va1, va2, sum, ~sum]`
+  where `sum = mcmd+~mcmd+scmd+va1+va2+0xAA` truncated to a byte — a third, even simpler
+  checksum (additive sum then one's-complement, no CRC table at all), used for the pre-CRC16
+  "old" command protocol (`mcmd`/`scmd` opcodes, not register addresses). Noted in
+  `docs/protocol.md` §4.4, not implemented in `fardriver_frame.py` (out of scope: it has no
+  register `addr`, so it doesn't fit the `encode_read`/`encode_write`/`decode` interface).
+
 ## Worthless Controls (KMP, R8-obfuscated)
 
 - `reference/decompiled/worthless/jadx/` — `jadx --deobf --threads-count 8` against
