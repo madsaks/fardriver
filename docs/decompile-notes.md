@@ -367,6 +367,70 @@ signal is a different bit in a different frame
 Both bits are now labeled per what the cited lines actually show (`docs/protocol.md` §6,
 `protocol/telemetry.json`'s `status_word_3` entry).
 
+### Official → firmware update (Task 8 findings)
+
+**Two separate mechanisms, not one.** Firmware "update" has a transport layer (getting a file
+from the FarDriver server onto the phone) and a BLE layer (getting that file from the phone
+into the controller). The full findings are written up in `docs/firmware-notes.md` (transport)
+and `docs/protocol.md` §7 (BLE) rather than duplicated here; this section records the search
+trail and a few things that didn't make it into either doc.
+
+**Transport is MQTT, found via a plain grep.** `grep -rniE 'http|MQTT|firmware|upgrade|bootloader'
+MotorNet6/*.cs` (Task 8 brief's Step 1 command) turned up `OnUpgradeClicked`
+(official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4035), `FilePage.cs`'s `.bin`/`.hex`
+filtering, and the `MQTTnet` csproj reference in the first pass — from there, tracing
+`MqttPub`/`OnMqttReceived` in `ConnectPage.cs` was enough to find the whole filelist/download
+exchange without needing to inspect `FilePage.cs`'s UI code at all (it only lists/picks
+already-downloaded local files; the network side lives entirely in `ConnectPage.cs`). The
+`Jurassic`/`ScriptEngine` search the brief suggested (mirroring Task 5's finding that the app
+doesn't evaluate JS for parameters) was repeated and again came back empty — no
+`ScriptEngine`/`Evaluate(` call exists anywhere in `MotorNet6/*.cs`; not relevant to firmware
+either. `CMD5.cs` was re-checked per the brief's suggestion (`grep -rn CMD5 *.cs` excluding
+`CMD5.cs` itself) and is still unreferenced anywhere, firmware path included — same dead-code
+conclusion as Task 4.
+
+**BLE bootloader protocol uses a third and fourth frame shape, on top of the three checksum
+algorithms already catalogued.** §3 of `docs/protocol.md` already tracks three checksum
+algorithms (CRC16, two additive sums) across the register/telemetry frame shapes. The
+bootloader chunk-transfer protocol (`docs/protocol.md` §7) adds a **fourth**: standard CRC-32
+(`0xEDB88320`, reflected — `initcrc()`, official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L5798-L5809),
+under two entirely new frame headers (`0x55 0xAA` detect, `0x5A 0xA5`/`0x5A 0xBB` data/skip) that
+don't fit `docs/protocol.md` §2's `0xAA`-header TX/RX shapes at all. This wasn't anticipated by
+the brief's grep suggestions (`ReadFlash|Dump|0x(0[3-9]|1[0-9])`, aimed at finding a possible
+per-register read-flash command) — none of those terms exist in the app; the bootloader protocol
+was instead found by following `OnUpgradeClicked` → `FlashHex()` → `DownloadFunction()` →
+`SendDataPacket()`/`SendDetectPacket()` by hand.
+
+**Version registers have no `addr` — confirmed from both apps, so kept out of
+`protocol/registers.json`.** The brief's Step 2 assumed model/hardware/firmware version might
+already be in `registers.json` from Task 5, or would need "adding now" with a normal `addr`. In
+fact no `WriteAddr` call site anywhere in `MotorNet6/*.cs` ever targets a register holding
+`App.HardVer`/`App.SoftVer0`/`App.Softver1` — and this project's own Task 6 notes above already
+recorded that Worthless's matching `kzqVersion0`/`kzqVersion1`/`softVer` `FardriverConfig`
+fields have **no literal register address anywhere in Worthless's Java either** ("Unaddressable
+Worthless-only fields", Task 6 section above). Two independent apps, two independent codebases,
+same conclusion: these are not `addr`-keyed registers. They *are* observable — as three
+previously-undocumented bytes (payload offsets 9-11) on the id-130 telemetry frame
+(`cmd=0x99`, `docs/protocol.md` §6's "Frame 0x99" table, which until now only documented offset
+0-1 as `throttle_voltage`) — so they were added to `protocol/telemetry.json` instead of
+`registers.json`, per this schema's `addr`-required constraint and the same "no addr, no
+`registers.json` entry" rule Task 5 and Task 6 already established for `App.gflash[]` echoes and
+Worthless's own unaddressable fields. `protocol/registers.json` itself was **not modified** by
+this task — `uv run --project tools/registers tools/registers/validate.py` still prints `OK`
+after the `protocol/telemetry.json` addition (the same script validates both files).
+
+**Worthless's firmware loader is a strong independent cross-check, found opportunistically.**
+The brief's Worthless recon pointed at `NativeProtocol.java`'s `fdFwCondition`/`fdFwSync`/
+`fdGenerateDrmKey`/`fdGetDrmStatus` declarations and suggested looking for Java callers. The one
+caller found, `worthless:jadx/sources/p000a/w31.java`, turned out to be Worthless's own
+`FlashHex()`-equivalent — and its magic size thresholds (65536/131072 bytes), block size
+(2048/1024), block counts (121/55/59), and file offsets (60410/64506 for BMS/controller CRC
+tables) are **identical** to the official app's `FlashHex()`/`DownloadFunction()` constants,
+strong evidence both apps share one vendor reference implementation for this exact scheme (cited
+in `docs/protocol.md` §7's Verification section). `fdFwSync`/`fdGenerateDrmKey`/`fdGetDrmStatus`
+have no Java-level caller anywhere in `worthless:jadx/sources/` (confirmed by grep) — flagged as
+open items in `docs/firmware-notes.md` rather than guessed at.
+
 ## Worthless Controls (KMP, R8-obfuscated)
 
 - `reference/decompiled/worthless/jadx/` — `jadx --deobf --threads-count 8` against

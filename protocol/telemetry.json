@@ -312,5 +312,60 @@
       "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L2000-L2003",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L25 (soc: Int — 'state of charge' is conventionally always expressed as a percentage by definition, so the field name itself is the unit; kept at medium confidence on that basis, per fix round 1 finding 3's ruling)"
     ]
+  },
+  {
+    "frame": "0x99",
+    "offset": 9,
+    "key": "hardware_version",
+    "name": "Hardware version letter",
+    "type": "u8",
+    "scale": 1,
+    "unit": "",
+    "group": "misc",
+    "enum": null,
+    "explain": "Single ASCII character identifying the controller's hardware family/revision (App.HardVer), used elsewhere in the app to filter which firmware files apply to this controller and to gate feature availability by hardware generation. Task 8: no WriteAddr call site anywhere in MotorNet6/*.cs targets a register address holding this value, so it does not fit protocol/registers.json's addr-keyed schema; it only appears as extra bytes on this otherwise-throttle_voltage telemetry frame.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1113-L1124",
+      "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1974-L1984",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L113 (kzqVersion0: Int, exact field-name match to the official app's own rcv_kzqVersion0 variable name — but declared as a plain Int with no documented meaning, and Task 6 already found no literal register address for it anywhere in Worthless either, docs/decompile-notes.md's Task 6 notes)"
+    ],
+    "notes": "This is logical id 130 in ParaPage.cs's FlashReadAddr table (index 25 of 55, ParaPage.cs#L177-184), so cmd = 0x80|25 = 0x99 — the same frame protocol/telemetry.json already documents offset 0 (throttle_voltage) for; offsets 9-11 were previously undocumented/unused in this file. Two independent pages (ParaPage.cs, GraphPage.cs) read this same byte the same way, which is the corroboration for including it despite low confidence."
+  },
+  {
+    "frame": "0x99",
+    "offset": 10,
+    "key": "software_version_major",
+    "name": "Software/firmware version, major character",
+    "type": "u8",
+    "scale": 1,
+    "unit": "",
+    "group": "misc",
+    "enum": null,
+    "explain": "Single ASCII character identifying the controller firmware's major version family (App.SoftVer0), used elsewhere in the app (alongside hardware_version) to decide whether the controller needs a firmware update prompt and which mode-select command to send when entering the bootloader (docs/protocol.md §7). No WriteAddr call site targets a register address holding this value, so it does not fit protocol/registers.json's addr-keyed schema.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1121,#L1124",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L114 (kzqVersion1: Int, exact field-name match to the official app's own rcv_kzqVersion1 variable name — same caveats as hardware_version above: plain Int, no address found by Task 6)"
+    ],
+    "notes": "Same frame/id as hardware_version (see that entry's notes) — id 130, cmd 0x99, FlashReadAddr index 25."
+  },
+  {
+    "frame": "0x99",
+    "offset": 11,
+    "key": "software_version_minor",
+    "name": "Software/firmware version, minor sub-version",
+    "type": "u8",
+    "scale": 1,
+    "unit": "",
+    "group": "misc",
+    "enum": null,
+    "explain": "Raw numeric software sub-version byte (App.Softver1) — unlike hardware_version/software_version_major, the decompiled source does not cast this byte to char before storing it, so it reads as a plain 0-255 counter rather than an ASCII character. No WriteAddr call site targets a register address holding this value.",
+    "confidence": "low",
+    "source": [
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1122,#L1125",
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L203 (softVer: Int, exact field-name match to the official app's own rcv_SoftVer/App.Softver1 variable names — same caveats as the other two version entries: plain Int, no address found by Task 6)"
+    ],
+    "notes": "Same frame/id as hardware_version (see that entry's notes) — id 130, cmd 0x99, FlashReadAddr index 25."
   }
 ]
