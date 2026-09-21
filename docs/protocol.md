@@ -8,6 +8,21 @@ file are executed as tests by `tools/protocol/tests/test_frame.py`.
 Full file:line finding notes (including the search trail) live in
 `docs/decompile-notes.md` under "Official → BLE (Task 4 findings)".
 
+**Worthless Controls verifiability note**: Worthless's own frame builder *and* parser
+(`fdBuildReadPacket`, `fdBuildWritePacket`, `fdHandleNotification`, `fdGetConfig`, etc., all
+declared `native` in
+`worthless:jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java`) live entirely
+inside `libfd_protocol.so`, which is out of scope to disassemble for this task. So §1's BLE
+UUIDs and §3's checksum algorithms are **not statically verifiable against Worthless** — no
+`0xFFE0`/`0xFFEC` (or any GATT UUID) literal and no CRC/XOR/checksum arithmetic appears
+anywhere in Worthless's Java/Kotlin sources (confirmed by grep across
+`worthless:jadx/sources/`); `worthless:jadx/sources/com/rcplusplus/fdandroid/ble/ConnectionService.java`
+is only an Android foreground-notification service, not the BLE transport itself. What *is*
+statically visible are (a) the Kotlin `FardriverConfig`/`FardriverTelemetry` data-class field
+names, which corroborate register *names and semantics* below, and (b) a handful of literal
+register addresses passed from Java into the native `fdBuildWritePacket(addr, payload)` call —
+see §4.4 and §5.
+
 ## 1. BLE transport
 
 - **Advertised name pattern**: the scan filter accepts device names (uppercased) containing
@@ -439,7 +454,7 @@ or calls either of its methods.
 | `0x1F` (RX family 2, top bit clear) | Firmware/download acknowledgement — sub-command in byte 2 (== byte 3): `1`=CRC seed, `2`/`4`=nack, `3`=ack, `124`/`125`=ack, `126`=neutral, default=ack | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6290-L6349 |
 | `0x7C` (124, RX family 2, top bit clear) | Serial-number/login-trigger frame — resets `logincount=0`, the gate that unblocks the §4.3 unlock send (§1 step 5, §4.3 "Trigger") | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L6350-L6357 |
 | Legacy `[0xAA, mcmd, ~mcmd, scmd, va1, va2, sum, ~sum]` 8-byte frame (`SendRs232Data`, not the `WriteAddr` shape at all — `mcmd`/`scmd` are opcodes, not a register address) | Pre-CRC16 "old" command protocol: maintain-pings (`mcmd=19,scmd=7`), password confirmation digits (`mcmd=19,scmd=12/13`), firmware-update triggers (`mcmd=4`), direction/voltage writes for `!App.NewVersion` controllers | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L3947-L3966, official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2305-L2316 |
-| `WriteSysCmd(cmd)` → `WriteAddr([...,cmd,...], addr=0xA0, len=2)` | Firmware-update mode select: `cmd=15` ISOLATE variant, `cmd=16` CG56 variant, `cmd=5` default, sent right before a firmware download | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4321-L4326,#L5128-L5138 |
+| `WriteSysCmd(cmd)` → `WriteAddr([...,cmd,...], addr=0xA0, len=2)` | Firmware-update mode select: `cmd=15` ISOLATE variant, `cmd=16` CG56 variant, `cmd=5` default, sent right before a firmware download | official:official/src/MotorNet6/MotorNet6/ConnectPage.cs#L4321-L4326,#L5128-L5138; corroborated independently by Worthless's `NativeProtocol.INSTANCE.fdBuildWritePacket(160, new byte[]{-120, (byte) i})` reset routine, which passes the identical fixed byte `-120` (== `0x88`, i.e. `addr=160==0xA0`'s existing `byte4=0x88` fixed value per `protocol/registers.json`'s `system_command` entry) and the identical three sub-command values `i∈{5,15,16}` for the same default/ISOLATE/CG56 model split — worthless:jadx/sources/p000a/w31.java#L777 (see §5; this is Java-side literal evidence, not a claim about the native-only address encoding in general) |
 
 Legacy 8-byte frame's own checksum is a **fourth** algorithm (see §3's summary table) — plain
 additive sum then one's-complement, no CRC table at all: `sum = (0xAA+mcmd+~mcmd+scmd+va1+va2)
@@ -448,3 +463,86 @@ additive sum then one's-complement, no CRC table at all: `sum = (0xAA+mcmd+~mcmd
 `fardriver_frame.py` — it has no register `addr`, so it doesn't fit this task's
 `encode_read`/`encode_write`/`decode` interface (which models the CRC16 `WriteAddr` protocol
 in §2-§3.1, plus RX family 2's additive-sum in §2/§3.2 for `decode()`).
+
+## 5. Cross-check against Worthless Controls
+
+Worthless Controls is a multi-brand controller/BMS app (FarDriver, Votol, VESC, Daly, JBD, JK,
+Sotion, Ant, Enerkey — see `worthless:jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java`'s
+full native method list). Its FarDriver support is `com.rcplusplus.fdandroid.data.FardriverConfig`/
+`FardriverTelemetry`/`FaultEntry` (kotlinx-serialization data classes, field names preserved
+by R8) plus the native `fd*` functions in `NativeProtocol`. As noted at the top of this file,
+the actual wire encoding/decoding is entirely native and out of scope to disassemble here; the
+cross-check in this section is therefore a **name/semantics/type** comparison (Worthless field
+names, Kotlin `Int`/`Float`/`Boolean`/`List<Integer>` types, and English UI strings from
+`worthless:strings/values.json`) against `protocol/registers.json`, not a byte-level one.
+Per-entry citations are in each affected `registers.json` entry's `source`/`notes`; this
+section summarizes the cross-cutting findings.
+
+- **81 of 110 registers** gained at least one `worthless:` source citation — either a matching
+  `FardriverConfig` field name (the large majority) or a matching UI string from
+  `strings/values.json`.
+- **2 registers were raised to `medium` confidence**: `custom_max_line_current` (addr 38) and
+  `custom_max_phase_current` (addr 39). Both are corroborated by an explicit, concrete match —
+  Worthless's `fd_override_current_desc` string ("Override max current limits (stored as
+  value×4 internally)") documents the same 0.25 A/count scale that `registers.json` already
+  recorded for these two registers (worthless:strings/values.json#fd_override_current_desc),
+  alongside matching `Float`-typed `customMaxLineCurrent`/`customMaxPhaseCurrent` fields
+  (worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L80-L81) and
+  matching "Custom Max Line"/"Custom Max Phase" UI labels. This is the only place a concrete
+  numeric scale/unit could be recovered statically from Worthless — everywhere else, a name
+  match exists but no independently-verifiable range/scale does, so confidence stays `low` per
+  the task's redefined agreement rule. **No address agreement is claimed anywhere** — per this
+  task's scope, Worthless's address encoding is native-only and not statically observable in
+  general (the one exception, addr 160, is called out below and explicitly *not* used to raise
+  confidence).
+- Several **compound/bitfield registers** (addr 11, 33, 202, 203, 206) got strong *structural*
+  corroboration: Worthless models what the official app packs into one 16-bit word as several
+  separate top-level fields whose names match the official bit-level breakdown 1:1 (e.g. addr
+  203's `spMode`/`temp70`/`longBack`/`throttleLostAlarm`/`noCanCnt` fields match the official
+  "高低速/温度70/长按后退/无CAN超时/油门丢失告警" breakdown exactly). This confirms the *semantic*
+  packing but not scale/range/address, so these stay `low` per the same rule.
+- The **power/rpm curve** (addr 136-145) and **regen curve** (addr 146-155) each match a single
+  Worthless `List<Integer>` field (`rpmCurve`, `nRatioCurve` —
+  worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196,#L159); the
+  **one-wire SEC array** (addr 180-183) matches a single `oneCommSec: IntArray` field whose
+  Kotlin default size is exactly 8 — the same count as SEC0..SEC7 spread across those 4
+  registers (worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L166).
+  Good structural (count) agreement, but no scale/address evidence, so `low`.
+- **29 registers got no Worthless match**: mostly the ones without a distinctly-named
+  `FardriverConfig` field or UI string (e.g. several `oneComm*`/`cfg*` raw sub-registers,
+  `save_timestamp`, `pin_function_learn_result`). Unaddressable/undocumented Worthless-only
+  fields that have no known register address (`enMaxLineCurr`, `enMaxPhaseCurr`, and others)
+  are listed in `docs/decompile-notes.md` rather than added here, per the brief's "no addr, no
+  entry" rule.
+- **Worthless's unlock mechanism could not be corroborated against §4.3.** Worthless never
+  calls anything resembling the official app's `cmd=0x7F` XOR-key pass frame in its Java/Kotlin
+  sources (that XOR arithmetic, like the checksum, would be native-only if present at all).
+  Instead, Worthless's Java code shows a **different, register-write-based password flow**:
+  `NativeProtocol.INSTANCE.fdBuildWritePacket(173, fdBuildPasswordData(str))` followed ~150ms
+  later by the same call with `addr=174` (worthless:jadx/sources/p000a/nk0.java#L90-L220). This
+  looks like a two-step (old-password, then new-password, or verify-then-apply) "change
+  controller password" admin flow — consistent with the UI strings `fd_new_password_label`
+  ("New Password (6-13 digits)") and `fd_dealer_pw_locked_desc` — rather than the base
+  connection-unlock handshake. Addresses 173/174 are not added to `registers.json` (like the
+  official app's own addr=3 "write key" blob, a password payload isn't a scalar/bitfield
+  parameter); they're documented in `docs/decompile-notes.md` instead. **Not counted as a
+  disagreement** below since it doesn't contradict anything in §4.3 — it's a distinct feature
+  whose relationship to the base unlock frame isn't established either way.
+- One further **observation, explicitly not used to raise any confidence**, per this task's
+  binding instruction that address agreement cannot be claimed from Worthless: a literal
+  `fdBuildWritePacket(160, ...)` call site exists in Java (see the §4.4 table row above). It is
+  cited there as corroboration of the *payload* Worthless sends (`0x88` + sub-command byte),
+  not as evidence about address encoding in general.
+
+### Disagreements
+
+**None found.** No `registers.json` entry has a Worthless-sourced value that contradicts the
+official app's documented unit, scale, type, or range. This is expected given the scope
+constraint above: the only place Worthless exposes a concrete, comparable number is the
+`fd_override_current_desc` ×4-scale note (addr 38/39), and it **agrees** with the official
+value (§ above). Nothing else in Worthless's statically-visible surface (Kotlin field types,
+UI label text) makes a strong-enough claim about a specific unit/scale/range to be checked
+against `registers.json` and found to conflict — everywhere else the evidence only supports a
+name/semantics match, not a numeric one, so no basis exists to raise *or* contest confidence.
+If this section is empty in a future re-read of `registers.json`, that continues to mean "none
+found," not "not checked" — see the per-entry `source`/`notes` fields for what *was* checked.

@@ -314,6 +314,99 @@ is rejected).
 - English config split: `reference/decompiled/worthless/jadx-en/` decompiled from
   `worthless-en.apk` (small resource-only config APK; jadx finished cleanly, no errors).
 
+### Task 6: Cross-check findings
+
+**Everything protocol-level is native — confirmed, not assumed.** Every method on
+`protocol/NativeProtocol.java` (frame builders, parsers, checksum-adjacent getters — `fdBuildReadPacket`,
+`fdBuildWritePacket`, `fdHandleNotification`, `fdGetConfig`, etc., plus the equivalent `votol*`/`vesc*`/
+`daly*`/`jbd*`/`jk*`/`sotion*`/`ant*`/`enerkey*` families for the app's other supported brands) is
+declared `native`; the class's static initializer is `System.loadLibrary("fd_protocol")`. `grep -rniE
+'ffe0|ffec'` and a checksum-shaped-arithmetic grep (`\^ *=|& *255|>> *8|0xAA|-86\b`) across all of
+`jadx/sources/com/rcplusplus/` came back empty — no BLE UUID literal and no CRC/XOR/checksum arithmetic
+exists anywhere in Worthless's Java/Kotlin code. `ble/ConnectionService.java` (76 lines) is only an
+Android foreground-notification service (keeps the BLE connection alive while backgrounded); it contains
+no GATT/UUID code at all. Per the task's binding controller adjustment, `libfd_protocol.so` itself was
+not disassembled. **Brief steps 2 and 3 (UUID cross-check, checksum cross-check) are therefore "Worthless:
+not statically verifiable"** — recorded as such in `docs/protocol.md` §1's opening note.
+
+**`data/FardriverConfig.java`** is a kotlinx-serialization `data class` with 199 fields (`private final
+int/float/boolean/List<Integer>/int[]`), declared alphabetically in the source and numbered 0..~195 in
+the generated `write$Self$shared_release`/constructor (that numbering is the class's own serialization
+field-index order, *not* a register address or `fdGetConfig()` int-array order — nothing in the
+statically-visible Kotlin/Java code ties a `FardriverConfig` field to a specific register `addr`; that
+mapping, if any, happens inside `fdGetConfig`'s native implementation). Because R8 keeps kotlinx-serialization
+property names for reflection, all 199 names survived deobfuscation intact and were the primary
+cross-check tool for Task 6: matched against `registers.json`'s existing `key`/`name`/`notes` (which
+already carry the official app's C# variable names, e.g. `SpeedKP`/`CurveTime`/`PhaseOffset`) by normalized
+substring. 81 of 110 registers picked up at least one `worthless:` citation this way (see
+`docs/protocol.md` §5 for the summary and `registers.json` per-entry `source`/`notes` for specifics).
+**Getter access to these fields from the Compose UI is fully obfuscated** — `grep -rln 'speedKP\|SpeedKP\|getSpeedKP'`
+across all of `jadx/sources` returns nothing outside `FardriverConfig.java` itself, even though 785 files
+reference the `FardriverConfig` type — meaning the UI reads/writes these fields through renamed
+(`get<Obfuscated>()`) accessors that can't be traced back to a field name without much deeper per-getter
+reverse engineering. This is why range/clamp values (needed for a full "medium confidence" bump per the
+task's redefined agreement rule) could only be recovered for a few registers, from **string resources**
+rather than code — `strings/values.json`'s `fd_override_current_desc` ("Override max current limits
+(stored as value×4 internally)") was the one place an explicit numeric scale surfaced statically, and it
+matches `registers.json`'s existing scale=0.25 A for addr 38/39 exactly (see `docs/protocol.md` §5).
+
+**Two literal register addresses were found passed from Java into the native `fdBuildWritePacket(addr,
+payload)`**, despite the general "native, not statically observable" rule above — these are Java-side
+literals at the *call site*, not decoded from the `.so`, so they don't contradict the task's constraint
+on claiming Worthless address agreement in general; they're still not used to raise any `registers.json`
+confidence, per the task's explicit instruction:
+- `fdBuildWritePacket(160, new byte[]{-120, (byte) i})` (worthless:jadx/sources/p000a/w31.java#L777) — a
+  reset/flash-save routine. `-120` as a signed Java byte is `0x88`; `i` is `15` for "ISOLATE_"-prefixed
+  model names, `16` for "CG56_"-prefixed ones, else `5`. This is the exact same address (`160 == 0xA0`)
+  and the exact same fixed byte (`0x88`) and 3-way sub-command split (`5`/`15`/`16`) already documented
+  from the *official* app for `addr=0xA0` (`docs/protocol.md` §4.4's `WriteSysCmd` row) — cited there as
+  corroboration of the payload, not as new address evidence.
+- `fdBuildWritePacket(173, fdBuildPasswordData(str))` then, ~150ms later, `fdBuildWritePacket(174,
+  fdBuildPasswordData(str))` (worthless:jadx/sources/p000a/nk0.java#L90-L220) — looks like a two-step
+  "change controller password" admin flow (matches UI strings `fd_new_password_label`="New Password
+  (6-13 digits)" and `fd_dealer_pw_locked_desc`). **Not added to `registers.json`**: like the official
+  app's own excluded `addr=3` "write key" blob (Task 5 notes above), a password payload isn't a
+  scalar/bitfield parameter, so it doesn't fit the schema. Documented here instead of as a register.
+  Relationship (if any) to the official app's `cmd=0x7F` unlock handshake (`docs/protocol.md` §4.3) is
+  unestablished — different app, different observable mechanism, not asserted to be the same feature.
+
+**Unaddressable Worthless-only fields** (named in `FardriverConfig.java`, semantically clear, but no
+literal register `addr` observed anywhere for them — so, per the task instruction, not added to
+`registers.json`): `enMaxLineCurr`/`enMaxPhaseCurr` (the "EN Current Override" section per
+`strings/values.json#section_en_current` — a *third* current-override tier alongside the documented
+hardware-ceiling (addr 25/45) and Custom-override (addr 38/39) registers, whose own register address is
+never a literal in Java); `kzqVersion0`/`kzqVersion1`, `softVer`, `protocol485`, `rxdSel`, `xsControl`,
+`globalState1`/`globalState2`, `pinState0`/`pinState1`, `paraIndex`, `specialCode`, `specialWeak`,
+`gPara0`, `dataVoltage4`, `taRlB9D0SP`, `moe` — all plausible firmware-state/telemetry-shaped fields with
+no corresponding write call site found. Several of these look read-only (mirroring the official app's own
+`App.gflash[]`/`App.gcflash[]` exclusion in Task 5) rather than writable parameters; none are asserted
+either way without more evidence.
+
+**`files/motors.json`** (`schema: "fardriver-motor-db/v1"`, 253 entries) is a curated **motor preset
+database** — brand/model, pole pairs, rated/peak power, nominal voltage, rated/max phase/line current,
+max RPM, wheel size, gear ratio, and a `recommended_fardriver` controller-model list per motor (e.g. a
+Bafang direct-drive hub entry recommending the `ND72200` controller) — reference data for a motor-picker
+UI, not register definitions. Matches `data/Motor.java`/`FdPreset.java`'s presets concept. Not merged into
+`registers.json` (it's motor metadata, not controller register values).
+
+**`files/sotion_params.json`** (4 top-level groups: `paralistkey`, `hallsensordata`, `sensorlessdata`,
+`pcudata`) is confirmed to be a **different controller brand's** (Sotion) parameter table, not FarDriver:
+its own `paraId`/`id`-numbered schema (`{"id": 5001, "SignalName": "Nominal Voltage (V)", "dinfo": {"dlen":
+2, "dr": 0.1, "dt": 1}}`) has no overlap with FarDriver's register-address model, and `NativeProtocol.java`
+has a parallel, fully separate `sotion*` native method family (`sotionBuildParamRead`/`sotionGetStatus`/
+etc.) distinct from the `fd*` FarDriver family. Correctly kept out of `registers.json`.
+
+**Brake-mode enum, one concrete find**: `strings/values.json#fd_brake_mode_hint` = "Set to 5 (LinearBrake)
+or 6 (P+LineBrake) for analog brake + regen depth control" gives two concrete enum values for whatever
+sub-field of `registers.json`'s `direction_brake_park_config` (addr 11) controls brake response mode;
+folded into that entry's `explain` (not raised to `medium` — it's one value pair inside a still-mostly-
+unconfirmed packed word).
+
+**KI/KP firmware convention**: `strings/values.json#fd_resistance_scan_warning` documents "Run Scan
+auto-applies the full KI schedule (Start/Mid/Max = KI, KP = 10×KI)" — i.e. Worthless's auto-tune feature
+independently confirms Start/Mid/Max-staged current-loop KI/KP gains are a real firmware concept with a
+KP≈10×KI convention. Folded into addr 15's `explain`.
+
 ## GDriver (Hermes)
 
 - `reference/decompiled/gdriver/index.android.bundle` — extracted from `gdriver.apk`
