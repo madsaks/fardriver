@@ -1,0 +1,10 @@
+# proprietary binaries and regenerable decompile output
+reference/apps/
+reference/decompiled/
+reference/firmware/
+
+# local tooling
+.remember/
+node_modules/
+dist/
+.venv/
