@@ -129,7 +129,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Packed configuration word written by many separate UI controls, each preserving the other bits: bit7=motor rotation direction, bits5-6=park mode (0=reverse-park,1=switch-park,2=disabled,3=slow-descent park), bits0-4=brake response mode, high-byte bits4-7(low nibble of low byte per NTC_PTC)=temperature sensor type, high-byte bit3=PC13/response mode, high-byte bit4=current anti-theft enable, low-byte bit7=phase exchange, high-byte bits0-2=slow-descent (steep hill) level (effect unverified). Worthless models direction, parkConfig, phaseExchange and brakeConfig as four separate top-level fields, corroborating that this really is a multi-purpose packed word matching the official bit breakdown; Worthless separately documents that two of the brake-response sub-field's values, 5 and 6, select distinct brake modes that turn on analog brake-lever input with an adjustable regen depth (one plain, one combined with park), refining but not fully resolving the bits0-4 brake-mode enum. GDriver's own parameter registry independently confirms this exact address for three of these packed sub-fields — 'motorDirection', 'phaseExchange', and 'temperatureSensorType' — matching the direction, phase-exchange and NTC/PTC bits above, and adds that motor-direction is 'not always equivalent to physically swapping two phase wires', while phase-exchange is instead a software-side current-sensor/output-channel swap that does not by itself reverse motor direction or correct every Hall/phase combination. GDriver also independently describes (by name match only, address unconfirmed) matching park-mode, brake-input, PC13, current-anti-theft, and slow-down-Park parameters consistent with this word's remaining sub-fields, including that PC13's role (drive-cutoff/cruise-on-ground-or-disconnect vs. a Normal/Race response-profile selector) is itself controller-design-dependent.",
+    "explain": "Packed configuration word written by many separate UI controls, each preserving the other bits: bit7=motor rotation direction, bits5-6=park mode (0=reverse-park,1=switch-park,2=disabled,3=slow-descent park), bits0-4=brake response mode, high-byte bits4-7(low nibble of low byte per NTC_PTC)=temperature sensor type, high-byte bit3=PC13/response mode, high-byte bit4=current anti-theft enable, low-byte bit7=phase exchange, high-byte bits0-2=slow-descent (steep hill) level (effect unverified). Worthless models direction, parkConfig, phaseExchange and brakeConfig as four separate top-level fields, corroborating that this really is a multi-purpose packed word matching the official bit breakdown; Worthless separately documents that two of the brake-response sub-field's values, 5 and 6, select distinct brake modes that turn on analog brake-lever input with an adjustable regen depth (one plain, one combined with park), refining but not fully resolving the bits0-4 brake-mode enum. GDriver's own parameter registry independently confirms this exact address for three of these packed sub-fields — 'motorDirection', 'phaseExchange', and 'temperatureSensorType' — matching the direction, phase-exchange and NTC/PTC bits above, and adds that flipping motor-direction is not guaranteed to be the same operation as physically swapping a pair of phase leads, while phase-exchange instead swaps which current sensor and output channel line up with each phase in software, without by itself reversing motor rotation or fixing every possible Hall/phase mismatch. GDriver also independently describes (by name match only, address unconfirmed) matching park-mode, brake-input, PC13, current-anti-theft, and slow-down-Park parameters consistent with this word's remaining sub-fields, including that PC13's role (drive-cutoff/cruise-on-ground-or-disconnect vs. a Normal/Race response-profile selector) is itself controller-design-dependent.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2378",
@@ -168,7 +168,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Electrical angle offset applied between the encoder/Hall reading and the motor's true rotor position, used to correct phase alignment; no min/max clamp observed in the UI. GDriver's own parameter registry independently confirms this exact address and describes it as the learned electrical angle that aligns rotor-position feedback with the controller's phase-current commands — an incorrect value can cause weak torque, rough/noisy running, high current, incorrect commutation, or motor faults, and it should be set only via self-learning or a known-correct value for the exact motor and wiring (effect unverified).",
+    "explain": "Electrical angle offset applied between the encoder/Hall reading and the motor's true rotor position, used to correct phase alignment; no min/max clamp observed in the UI. GDriver's own parameter registry independently confirms this exact address, describing the stored value as a self-learned electrical-angle figure that keeps the rotor-position reading lined up with what the controller commands for phase current — get it wrong and the symptoms run from weak torque and rough or noisy running to high current, bad commutation, or outright motor faults, so it should only be set by running self-learning or by copying a value already proven correct for that specific motor/wiring combination (effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5078",
@@ -310,7 +310,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Motor's d-axis winding inductance parameter used by the FOC current controller; units are not confirmed from the decompiled UI. GDriver independently reports that, despite the 'LD' name matching d-axis inductance, at least one FarDriver controller design actually treats this field as a 20-90 degree ceiling on the requested motor-current vector angle rather than a literal inductance value, with related controller designs said to use the field differently again — so this field's real physical meaning may not be a plain inductance on every controller (name match only, address unconfirmed; effect unverified).",
+    "explain": "Motor's d-axis winding inductance parameter used by the FOC current controller; units are not confirmed from the decompiled UI. GDriver independently reports that, despite the 'LD' name matching d-axis inductance, on at least one FarDriver controller design the accepted value is instead clamped into a 20-to-90-degree cap applied to the commanded current-vector angle, not consumed as a literal inductance figure, and other controller designs are said to handle the same field yet another way — so this field's true physical meaning is not safely assumed to be a plain inductance on every controller (name match only, address unconfirmed; effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6340",
@@ -351,7 +351,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Number of magnetic pole pairs in the motor; used to convert between electrical and mechanical RPM. GDriver's own parameter registry independently confirms this exact address and role, converting electrical rotation to calculated mechanical RPM (a larger entered count produces a lower calculated RPM for the same signal); it also independently notes that the pole-pair count only relabels the RPM axis GDriver shows for the drive-current/regen curves (addr136-155) without moving their stored breakpoints or changing commutation, current, or torque.",
+    "explain": "Number of magnetic pole pairs in the motor; used to convert between electrical and mechanical RPM. GDriver's own parameter registry independently confirms this exact address and role, converting electrical rotation to calculated mechanical RPM (enter a bigger count and the same electrical signal computes out to a slower calculated RPM); it also independently notes that the pole-pair count only relabels the RPM axis GDriver displays for the drive-current/regen curves (addr136-155), leaving their stored breakpoints, commutation, current, and torque untouched.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4971",
@@ -539,7 +539,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Motor's q-axis winding inductance parameter used by the FOC current controller; units are not confirmed. GDriver independently reports that, despite the 'LQ' name matching q-axis inductance, at least one FarDriver controller design uses this field to form an upper and lower switching band around a live motor state rather than as a simple physical inductance number — so, like addr18/LD, the field's real physical meaning may differ from its name on some controllers (name match only, address unconfirmed; effect unverified).",
+    "explain": "Motor's q-axis winding inductance parameter used by the FOC current controller; units are not confirmed. GDriver independently reports that, despite the 'LQ' name matching q-axis inductance, at least one FarDriver controller design builds a pair of switching thresholds — one above, one below — that track a live motor state from this field, instead of consuming it as a bare physical inductance figure; so, as with addr18/LD, this field's true physical meaning may not match its name on every controller (name match only, address unconfirmed; effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6382",
@@ -585,7 +585,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Stator winding resistance value used by the controller's motor model / FOC estimator; units are not confirmed. GDriver's own parameter registry independently confirms this exact address and adds an important caveat: the stored word also carries current-loop response selector bits alongside the resistance calibration, so it cannot be treated as one plain milliohm value — overwriting the whole register can change current-loop response as a side effect (effect unverified).",
+    "explain": "Stator winding resistance value used by the controller's motor model / FOC estimator; units are not confirmed. GDriver's own parameter registry independently confirms this exact address and adds an important caveat: the stored word also carries current-loop response selector bits alongside the resistance calibration, so this register is not safely read as a single milliohm figure — writing the whole 16 bits at once can shift current-loop response as an unintended side effect (effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4716",
@@ -607,7 +607,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Percentage limit applied to output power/torque when the motor runs in reverse, relative to forward, per the official 'FwReRatio' label (后退齿比, literally \"reverse gear ratio\"). GDriver instead describes a matching field as a ratio applied to a speed-derived quantity (not a power/torque limit), using 64 as the internal full-scale reference on at least one control path, and explicitly states it is not the same thing as the Reverse-current ratio (addr201) or the Reverse-speed ceiling (addr41) — a materially different framing from this entry's original power/torque-percentage guess. Both readings remain unverified against a live controller (name match only, address unconfirmed); treat the power/torque-percentage framing with reduced confidence pending resolution.",
+    "explain": "Percentage limit applied to output power/torque when the motor runs in reverse, relative to forward, per the official 'FwReRatio' label (后退齿比, literally \"reverse gear ratio\"). GDriver instead describes a matching field as a ratio applied to a speed-derived quantity (not a power/torque limit), with one control path treating a raw value of 64 as full scale internally, and explicitly states it is a different thing from both the Reverse-current ratio (addr201) and the Reverse-speed ceiling (addr41) — a materially different framing from this entry's original power/torque-percentage guess. Both readings remain unverified against a live controller (name match only, address unconfirmed); treat the power/torque-percentage framing with reduced confidence pending resolution.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9694",
@@ -629,7 +629,7 @@
     "access": "rw",
     "group": "protection",
     "enum": null,
-    "explain": "Pack voltage below which the controller cuts or limits power to protect the battery from over-discharge. GDriver's own parameter registry independently confirms this exact address and adds that the stored threshold is recalculated together with Rated voltage (addr23), and that the precise path from this normalized value to an actual amount of current reduction or drive cutoff is not established across all controllers, so it should not be described as one universal trip voltage.",
+    "explain": "Pack voltage below which the controller cuts or limits power to protect the battery from over-discharge. GDriver's own parameter registry independently confirms this exact address and adds that the stored figure gets recomputed alongside Rated voltage (addr23) whenever that changes; it stops short of pinning down, for every controller, exactly how many amps get shed or whether drive gets cut once the normalized threshold is crossed, so this entry avoids claiming one single trip voltage applies everywhere.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7669",
@@ -734,7 +734,7 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "The Boost mode's secondary battery-current (line-current) ceiling — a second, user-adjustable limit distinct from the primary MaxLineCurr register (addr25) that only takes effect while the assigned Boost input is active, providing a line-current ceiling above or alongside the normal High-gear setting. GDriver's own parameter registry independently confirms this exact address and role (id 'customMaxLineCurrent'), replacing this entry's earlier 'likely a generic customer cap' guess with a specific Boost-path function; the ×4-scale note from Worthless (see notes) still applies.",
+    "explain": "The Boost mode's secondary battery-current (line-current) ceiling — a second, user-adjustable limit distinct from the primary MaxLineCurr register (addr25) that only takes effect while the assigned Boost input is active, providing a line-current ceiling that sits on top of, or beside, the normal High-gear setting. GDriver's own parameter registry independently confirms this exact address and role (id 'customMaxLineCurrent'), replacing this entry's earlier 'likely a generic customer cap' guess with a specific Boost-path function; the ×4-scale note from Worthless (see notes) still applies.",
     "confidence": "medium",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5228",
@@ -1116,7 +1116,7 @@
     "access": "rw",
     "group": "display",
     "enum": null,
-    "explain": "Number of pulses per revolution (or similar divider) the controller outputs to drive an external pulse speedometer. GDriver's own parameter registry independently confirms this exact address and role, and clarifies the value linearly scales the published speed-pulse signal for a compatible display without changing actual motor RPM or road speed — and, notably, that this particular pulse calculation does not use the Pole-pairs value (addr20), unlike the analog-speed scaling at addr46.",
+    "explain": "Number of pulses per revolution (or similar divider) the controller outputs to drive an external pulse speedometer. GDriver's own parameter registry independently confirms this exact address and role, and clarifies the value linearly scales the published speed-pulse signal for a compatible display, leaving the bike's true motor RPM and road speed unaffected — and, notably, that this particular pulse calculation skips the Pole-pairs value (addr20) entirely, unlike the analog-speed scaling at addr46.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10502",
@@ -1174,14 +1174,15 @@
       "12": "PB4",
       "13": "invalid/disabled"
     },
-    "explain": "Four 4-bit nibbles pick which physical controller pin (or none) is wired to the Boost, Cruise (XH), Side-stand (BC) and Pause/Park (P) input functions.",
+    "explain": "Four 4-bit nibbles pick which physical controller pin (or none) is wired to the Boost, Cruise (XH), Side-stand (BC) and Pause/Park (P) input functions. GDriver carries a dedicated pin-shift lookup table (separate from its flat id/address list, which shows 0 for these same parameter ids) that independently pins down this exact address across all four nibbles and in the same order: boostPin at shift 12, cruisePin at shift 8, sideStandPin at shift 4, pausePin at shift 0 — all under address 105.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11450",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11480",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11510",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11540",
-      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1079"
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1079",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673123"
     ],
     "notes": "Boost/巡航/边撑/P档 Pin",
     "rx_frame": "0x98",
@@ -1214,14 +1215,15 @@
       "12": "PB4",
       "13": "invalid/disabled"
     },
-    "explain": "Four 4-bit nibbles pick which physical controller pin drives the Forward (FW), Reverse (RE), High-speed (SDH) and Low-speed (SDL) gear-select inputs.",
+    "explain": "Four 4-bit nibbles pick which physical controller pin drives the Forward (FW), Reverse (RE), High-speed (SDH) and Low-speed (SDL) gear-select inputs. GDriver's same dedicated pin-shift lookup table (see addr105) independently pins down this exact address across all four nibbles and in the same order: forwardPin at shift 12, reversePin at shift 8, highSpeedPin at shift 4, lowSpeedPin at shift 0 — all under address 106.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11570",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11600",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11630",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11660",
-      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1080"
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1080",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673123"
     ],
     "notes": "前进/后退/高速/低速 Pin",
     "rx_frame": "0x98",
@@ -1254,14 +1256,15 @@
       "12": "PB4",
       "13": "invalid/disabled"
     },
-    "explain": "Four 4-bit nibbles pick which physical controller pin drives the Charge (CHG), Anti-theft (FD), Seat-switch and Voltage-select inputs.",
+    "explain": "Four 4-bit nibbles pick which physical controller pin drives the Charge (CHG), Anti-theft (FD), Seat-switch and Voltage-select inputs. GDriver's same dedicated pin-shift lookup table (see addr105) independently pins down this exact address across all four nibbles and in the same order: chargePin at shift 12, antiTheftPin at shift 8, seatPin at shift 4, switchVoltagePin at shift 0 — all under address 107.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11776",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11806",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11836",
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11866",
-      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1081"
+      "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1081",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673123"
     ],
     "notes": "充电/防盗/坐桶/选择电压 Pin",
     "rx_frame": "0x98",
@@ -1300,7 +1303,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Packed word combining several Pro-mode toggles: MOE enable, 0-speed switch valid/invalid, a 3-bit weak-field response time, a 3-bit quick-throttle-release response, speedometer output mode (pulse/analog/isolated), and a deep-weak-field special mode bit; each toggle preserves the other bits via cached rconfig_word0/1 values. GDriver's own parameter registry maps a 'speedometerMode' field to this same address, and independently confirms it shares packed storage with field-weakening, protection, reverse, and throttle-release settings that must be preserved on any write — corroborating this entry's existing packed-word description without resolving the individual bit layout (effect unverified).",
+    "explain": "Packed word combining several Pro-mode toggles: MOE enable, 0-speed switch valid/invalid, a 3-bit weak-field response time, a 3-bit quick-throttle-release response, speedometer output mode (pulse/analog/isolated), and a deep-weak-field special mode bit; each toggle preserves the other bits via cached rconfig_word0/1 values. GDriver's own parameter registry maps a 'speedometerMode' field to this same address, and independently confirms it shares one packed word with a handful of unrelated bits — field-weakening, protection, reverse, and throttle-release settings among them — that any write to this register has to leave untouched, corroborating this entry's existing packed-word description without resolving the individual bit layout (effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8304",
@@ -1371,13 +1374,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Percentage of max current/torque allowed at 500 rpm; both bytes are set to the same value at this end point of a 10-point power-limiting curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
+    "explain": "Percentage of max current/torque allowed at 500 rpm; both bytes are set to the same value at this end point of a 10-point power-limiting curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5419",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio500 | label: Ratio500 (no localized string in .cs)"
   },
@@ -1393,13 +1397,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 1000 rpm, high byte = ratio at 1500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 1000 rpm, high byte = ratio at 1500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5466",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio1000/Ratio1500 | label: Ratio1000 / Ratio1500 (no localized string in .cs)"
   },
@@ -1415,13 +1420,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 2000 rpm, high byte = ratio at 2500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 2000 rpm, high byte = ratio at 2500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5562",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio2000/Ratio2500 | label: Ratio2000 / Ratio2500 (no localized string in .cs)"
   },
@@ -1437,13 +1443,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 3000 rpm, high byte = ratio at 3500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 3000 rpm, high byte = ratio at 3500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5662",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio3000/Ratio3500 | label: Ratio3000 / Ratio3500 (no localized string in .cs)"
   },
@@ -1459,13 +1466,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 4000 rpm, high byte = ratio at 4500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 4000 rpm, high byte = ratio at 4500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5762",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio4000/Ratio4500 | label: Ratio4000 / Ratio4500 (no localized string in .cs)"
   },
@@ -1481,13 +1489,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 5000 rpm, high byte = ratio at 5500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 5000 rpm, high byte = ratio at 5500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5862",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio5000/Ratio5500 | label: Ratio5000 / Ratio5500 (no localized string in .cs)"
   },
@@ -1503,13 +1512,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 6000 rpm, high byte = ratio at 6500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 6000 rpm, high byte = ratio at 6500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5962",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio6000/Ratio6500 | label: Ratio6000 / Ratio6500 (no localized string in .cs)"
   },
@@ -1525,13 +1535,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 7000 rpm, high byte = ratio at 7500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 7000 rpm, high byte = ratio at 7500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6062",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio7000/Ratio7500 | label: Ratio7000 / Ratio7500 (no localized string in .cs)"
   },
@@ -1547,13 +1558,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Low byte = ratio at 8000 rpm, high byte = ratio at 8500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = ratio at 8000 rpm, high byte = ratio at 8500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6157",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio8000/Ratio8500 | label: Ratio8000 / Ratio8500 (no localized string in .cs)"
   },
@@ -1569,13 +1581,14 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Percentage of max current/torque allowed at 9000 rpm; both bytes are set to the same value at this end point of a 10-point power-limiting curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
+    "explain": "Percentage of max current/torque allowed at 9000 rpm; both bytes are set to the same value at this end point of a 10-point power-limiting curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6251",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196",
       "worthless:strings/values.json#speed_ratio_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673181"
     ],
     "notes": "Ratio9000 | label: Ratio9000 (no localized string in .cs) | Worthless models the power/rpm curve as a single `rpmCurve: List<Integer>` field (name/shape match to the 10-register Ratio500..Ratio9000 curve); exact element count/scale/address not independently verifiable (native)."
   },
@@ -1591,14 +1604,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Regenerative-braking current/torque ratio at 500 rpm, stored as a negative percentage; end point of a 10-point regen curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
+    "explain": "Regenerative-braking current/torque ratio at 500 rpm, stored as a negative percentage; end point of a 10-point regen curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6431",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio500 (no localized string in .cs)"
   },
@@ -1614,14 +1628,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 1000 rpm, high byte = regen ratio at 1500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 1000 rpm, high byte = regen ratio at 1500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6485",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio1000/NRatio1500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio1000 / NRatio1500 (no localized string in .cs)"
   },
@@ -1637,14 +1652,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 2000 rpm, high byte = regen ratio at 2500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 2000 rpm, high byte = regen ratio at 2500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6593",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio2000/NRatio2500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio2000 / NRatio2500 (no localized string in .cs)"
   },
@@ -1660,14 +1676,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 3000 rpm, high byte = regen ratio at 3500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 3000 rpm, high byte = regen ratio at 3500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6701",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio3000/NRatio3500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio3000 / NRatio3500 (no localized string in .cs)"
   },
@@ -1683,14 +1700,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 4000 rpm, high byte = regen ratio at 4500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 4000 rpm, high byte = regen ratio at 4500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6807",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio4000/NRatio4500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio4000 / NRatio4500 (no localized string in .cs)"
   },
@@ -1706,14 +1724,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 5000 rpm, high byte = regen ratio at 5500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 5000 rpm, high byte = regen ratio at 5500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6909",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio5000/NRatio5500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio5000 / NRatio5500 (no localized string in .cs)"
   },
@@ -1729,14 +1748,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 6000 rpm, high byte = regen ratio at 6500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 6000 rpm, high byte = regen ratio at 6500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7011",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio6000/NRatio6500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio6000 / NRatio6500 (no localized string in .cs)"
   },
@@ -1752,14 +1772,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 7000 rpm, high byte = regen ratio at 7500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 7000 rpm, high byte = regen ratio at 7500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7113",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio7000/NRatio7500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio7000 / NRatio7500 (no localized string in .cs)"
   },
@@ -1775,14 +1796,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = regen ratio at 8000 rpm, high byte = regen ratio at 8500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale.",
+    "explain": "Low byte = regen ratio at 8000 rpm, high byte = regen ratio at 8500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7215",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio8000/NRatio8500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio8000 / NRatio8500 (no localized string in .cs)"
   },
@@ -1798,14 +1820,15 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Regenerative-braking current/torque ratio at 9000 rpm, stored as a negative percentage; end point of a 10-point regen curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
+    "explain": "Regenerative-braking current/torque ratio at 9000 rpm, stored as a negative percentage; end point of a 10-point regen curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7317",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159",
       "worthless:strings/values.json#energy_regen_curve",
       "worthless:strings/values.json#regen_curve",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
     "notes": "NRatio9000 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio9000 (no localized string in .cs) | Worthless models the regen curve as a single `nRatioCurve: List<Integer>` field (name/shape match to the 10-register NRatio500..NRatio9000 curve); exact element count/scale/address not independently verifiable (native)."
   },
@@ -1865,7 +1888,7 @@
     "access": "rw",
     "group": "battery",
     "enum": null,
-    "explain": "Ratio used to automatically detect/select the connected battery's voltage class from a measured voltage. GDriver independently describes a matching 'VolSelectRatio'-named field ('voltageSelectionRatio') as rescaling normalized pack voltage before the addr13/addr14 empty/full-battery-gauge calculation on controllers that use it that way, while other controllers may only validate and store the value without that runtime effect (name match only, address unconfirmed; effect unverified).",
+    "explain": "Ratio used to automatically detect/select the connected battery's voltage class from a measured voltage. GDriver independently describes a matching 'VolSelectRatio'-named field ('voltageSelectionRatio') as rescaling normalized pack voltage before the addr13/addr14 empty/full-battery-gauge calculation on controllers that use it that way, while on other controllers the field is apparently just sanity-checked and saved, with no such runtime role (name match only, address unconfirmed; effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9737",
@@ -2042,7 +2065,7 @@
     "access": "rw",
     "group": "display",
     "enum": null,
-    "explain": "Scaling coefficient applied to the line-current value reported over the one-wire dashboard protocol. GDriver confirms a matching 'OneLineCurrCoeff'-named field ('oneWireCurrentCoefficient') calibrates the current value reported over one-wire communication only — it does not raise the controller's actual line- or phase-current limits and cannot add motor power (name match only, address unconfirmed).",
+    "explain": "Scaling coefficient applied to the line-current value reported over the one-wire dashboard protocol. GDriver confirms a matching 'OneLineCurrCoeff'-named field ('oneWireCurrentCoefficient') calibrates only the current figure shown over one-wire communication — it leaves the controller's real line- and phase-current ceilings untouched and can't put any extra power into the motor (name match only, address unconfirmed).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13160",
@@ -2223,7 +2246,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Scaling coefficient the controller uses to convert current/FOC quantities into a torque command or display value. GDriver confirms a matching 'TorqueCoeff'-named field ('torqueCoefficient') calibrates this same calculated torque-related signal, and clarifies the controller divides the derived magnitude by this coefficient — so increasing it actually lowers the reported/calibrated torque value for the same underlying current, and it does not raise the motor's real torque ceiling (name match only, address unconfirmed; effect unverified — exact scale).",
+    "explain": "Scaling coefficient the controller uses to convert current/FOC quantities into a torque command or display value. GDriver confirms a matching 'TorqueCoeff'-named field ('torqueCoefficient') calibrates this same calculated torque-related signal, and clarifies the firmware uses this coefficient as a divisor against the derived magnitude — so a bigger setting here actually pulls the reported/calibrated torque figure down for the same underlying current, rather than raising the motor's real torque ceiling (name match only, address unconfirmed; effect unverified — exact scale).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12165",
@@ -2244,7 +2267,7 @@
     "access": "rw",
     "group": "throttle",
     "enum": null,
-    "explain": "Raw ADC value captured during throttle auto-learn for the released position, per the official 'LearnVol' label. GDriver independently describes a matching 'learnVoltageLow'-named field as sharing its packed word with an additional, unrelated control bit used by the Rated-voltage (addr23) normalization path — meaning a naive whole-register overwrite can silently touch that unrelated bit alongside the learned ADC endpoint (name match only, address unconfirmed; effect unverified).",
+    "explain": "Raw ADC value captured during throttle auto-learn for the released position, per the official 'LearnVol' label. GDriver independently describes a matching 'learnVoltageLow'-named field as bundled into the same packed word as one further, otherwise-unrelated flag that feeds Rated-voltage (addr23) normalization — so a blind whole-register overwrite risks flipping that unconnected flag right along with the learned ADC endpoint (name match only, address unconfirmed; effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11304",
@@ -2266,7 +2289,7 @@
     "access": "rw",
     "group": "throttle",
     "enum": null,
-    "explain": "Raw ADC value captured during throttle auto-learn for the fully-open position, per the official 'LearnVoh' label. GDriver independently describes a matching 'learnVoltageHigh'-named field as sharing its packed word with several additional, unrelated control bits affecting motor-response hysteresis, a speed-limit override, acceleration/deceleration policy, and an alternate current-vector-angle path — meaning a naive whole-register overwrite can change far more than the learned ADC endpoint (name match only, address unconfirmed; effect unverified).",
+    "explain": "Raw ADC value captured during throttle auto-learn for the fully-open position, per the official 'LearnVoh' label. GDriver independently describes a matching 'learnVoltageHigh'-named field as bundled into the same packed word as several other, otherwise-unrelated control bits — covering motor-response hysteresis, a speed-limit override, the acceleration/deceleration policy, and an alternate current-vector-angle path — so a blind whole-register overwrite risks disturbing a lot more than just this learned ADC endpoint (name match only, address unconfirmed; effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11346",
@@ -2376,7 +2399,7 @@
     "access": "rw",
     "group": "misc",
     "enum": null,
-    "explain": "Low byte = angle-learn status/result byte; high byte packs the speed-limit input pin selection (low nibble) and one-key-repair input pin selection (high nibble). Worthless models angleLearn and spdLmtSel as two separate fields, corroborating the official note that this register packs angle-learn and speed-limit-source selection together.",
+    "explain": "Low byte = angle-learn status/result byte; high byte packs the speed-limit input pin selection (low nibble) and one-key-repair input pin selection (high nibble). Worthless models angleLearn and spdLmtSel as two separate fields, corroborating the official note that this register packs angle-learn and speed-limit-source selection together. GDriver's dedicated pin-shift lookup table (the same table confirming addr105-107) independently pins down this exact address and even the same high-byte placement: speedLimitPin sits at address 202, shift 0, tagged byte 'high', and repairPin sits at address 202, shift 4, also tagged byte 'high' — matching this entry's high-byte low-nibble/high-nibble split exactly, and giving 'repairPin' as GDriver's own name for the one-key-repair selector.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3424",
@@ -2385,7 +2408,8 @@
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1274",
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1275",
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L37",
-      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L205"
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L205",
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L673123"
     ],
     "notes": "anglelearn/限速Pin/一键修复Pin",
     "rx_frame": "0xAE",
@@ -2514,7 +2538,7 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Coefficient shaping how quickly torque resumes when the throttle is reapplied after a regenerative-braking event, per this entry's key name — though the official app's own field is labelled 'ReAcc' / 后退加速 (\"reverse acceleration\"), and GDriver independently matches a 'reverseAcceleration' parameter describing it as a reverse-mode acceleration-time setting that caps the acceleration step while a reverse-related operating mode is active, changing how quickly the reverse command builds rather than the final Reverse speed or current ceiling (addr41/201) — a materially different reading (reverse-drive acceleration, not post-regen throttle reapplication) from this entry's original 'regen acceleration ratio' framing. Treat the regen-specific framing with reduced confidence; 'reverse acceleration' is the better-supported reading (name match only, address unconfirmed).",
+    "explain": "Coefficient shaping how quickly torque resumes when the throttle is reapplied after a regenerative-braking event, per this entry's key name — though the official app's own field is labelled 'ReAcc' / 后退加速 (\"reverse acceleration\"), and GDriver independently matches a 'reverseAcceleration' parameter describing it as a reverse-mode acceleration-time setting that caps the acceleration step while a reverse-related operating mode is active — it shapes the ramp-up of the reverse command itself, leaving the Reverse-speed limit and current ceiling elsewhere (addr41/201) untouched — a materially different reading (reverse-drive acceleration, not post-regen throttle reapplication) from this entry's original 'regen acceleration ratio' framing. Treat the regen-specific framing with reduced confidence; 'reverse acceleration' is the better-supported reading (name match only, address unconfirmed).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10460",

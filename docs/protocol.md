@@ -556,14 +556,22 @@ semantics and, for a large subset, register addresses. Full detail (search techn
 complete address table, every conflict found) is in `docs/decompile-notes.md`'s "GDriver →
 parameter help text and address table" section; this is the cross-cutting summary.
 
-- **97 of 110 registers** gained at least one `gdriver:` source citation.
-- **39 registers got an address-level match**: GDriver's own `{'id', 'address'}` parameter
-  registry (`decompiled.js` lines ~672838-673118) names an address for 107 parameters, and
-  every one of the 39 that overlaps an existing `registers.json` addr matches it exactly — no
-  address contradicts an existing entry. One further address, addr 37 (`highVoltageProtect`),
-  is new — not currently in `registers.json` at all — and is documented in
+- **101 of 110 registers** gained at least one `gdriver:` source citation.
+- **60 registers got an address-level match**, from **three** distinct GDriver registry
+  tables, not one: a flat `{'id', 'address'}` table (`decompiled.js` lines ~672838-673118,
+  107 parameters, only 44 with a nonzero address there), a pin-shift table (lines
+  ~673123-673152, resolves the 14 per-pin selector ids the flat table shows as address 0),
+  and a per-breakpoint curve table (lines ~673181-673256, resolves the 36
+  `powerRatio*`/`regenRatio*` ids the flat table also shows as address 0, with byte-offset
+  packing detail). Every one of the 60 that overlaps an existing `registers.json` addr
+  matches it exactly — no address contradicts an existing entry, re-verified with a
+  from-scratch script (94 claimed id→addr pairs, 94 matched, 0 mismatched; see
+  `docs/decompile-notes.md`). One further address, addr 37 (`highVoltageProtect`), is new
+  — not currently in `registers.json` at all — and is documented in
   `docs/decompile-notes.md` rather than added, since adding a new register entry was out of
-  this task's scope.
+  this task's scope. (An earlier draft of this section wrongly credited the flat table alone
+  with 39 matches and wrongly marked the 20 power/regen curve addresses as confirmed by it
+  — they are confirmed, just by the third table instead; corrected after review.)
 - **A likely correction, held at `low` confidence per this task's binding rule**: addr13/14
   (`zero_throttle_adc_coeff`/`full_throttle_adc_coeff`) were previously guessed to be
   mislabeled throttle-ADC calibration values (the official app's own field names,

@@ -629,64 +629,108 @@ other locations in the file (`parameter<Name>Description` keys, one map per loca
 line 552755's un-prefixed keys are the base/English set and were used as the citation
 source throughout.
 
-Separately, `decompiled.js` contains a **parameter registry table** — a literal array of
-`{'id': '<camelCase name>', 'address': <int>, 'minimum': N, 'maximum': N, ...}` objects
-starting around line 672838 and running to line 673118 — that is a **third, independent
-source for register addresses** (the brief specifically asked for this). It covers 107
-distinct parameter ids. 39 of them resolve to a nonzero address that lines up with an
-existing `registers.json` entry (full table below); the rest (mostly per-pin "which
-physical input" selectors like `boostPin`/`cruisePin`/`forwardPin`) all carry
-`'address': 0`, meaning GDriver assembles those bits into some packed word at write time
-through a code path this table doesn't capture (consistent with `registers.json`'s own
-addr33/addr105-107 packed-pin-nibble registers, which is corroborating even though it
-isn't a usable address per-pin).
+Separately, `decompiled.js` contains **three distinct address-bearing registry tables**,
+not one — this was under-counted in the first pass of this task and corrected here after
+a review round; see "Round-1 review correction" below for exactly what was wrong and how
+it was re-verified.
+
+1. **The flat id/address table** — a literal array of `{'id': '<camelCase name>',
+   'address': <int>, 'minimum': N, 'maximum': N, ...}` objects, lines 672838-673118. It
+   covers 107 distinct parameter ids, but **only 44 of them carry a nonzero address in
+   this table** — the rest (all per-pin "which physical input" selectors, and every
+   `powerRatio*`/`regenRatio*` curve-point id) carry a literal `'address': 0`, i.e. this
+   table does *not* address them; something else in the app resolves their real address.
+2. **A dedicated pin-shift table**, lines 673123-673152, keyed by the same 14 pin-selector
+   ids that show `address: 0` in table 1 (`boostPin`, `cruisePin`, …, `switchVoltagePin`).
+   Each entry there is `{'address': N, 'shift': S[, 'byte': 'high']}` — this is where
+   those ids' *real* addresses live: address 105 (shift 12/8/4/0 = boostPin/cruisePin/
+   sideStandPin/pausePin), address 106 (same shifts = forwardPin/reversePin/highSpeedPin/
+   lowSpeedPin), address 107 (same shifts = chargePin/antiTheftPin/seatPin/
+   switchVoltagePin), and address 202 (`byte: 'high'`, shift 0/4 = speedLimitPin/
+   repairPin).
+3. **A dedicated per-breakpoint curve table**, lines 673181-673256, keyed by the same 36
+   `powerRatio*`/`regenRatio*` ids that show `address: 0` in table 1. Each entry is
+   `{'address': N, 'byteOffset': 0|1|'both', 'legacyCommand': N, 'legacySubCommand': N}`
+   — this is where *those* ids' real addresses live, and it also confirms the low/high
+   byte packing: e.g. `powerRatio1000` → address 137, byteOffset 0; `powerRatio1500` →
+   address 137, byteOffset 1 (matching `registers.json`'s own "low byte = ratio at 1000
+   rpm, high byte = ratio at 1500 rpm" for that entry, exactly).
 
 Search technique used (for anyone re-deriving this): `grep -n "'id': 'name'" decompiled.js`
 against `strings.txt` mostly failed because of the wrapped-line problem above; what
 worked was `python3` reading `decompiled.js` with `re.finditer(r"'([a-zA-Z0-9]+)':\s*'((?:[^'\\]|\\.)*)'")`
-against line 552755 specifically, and separately `re.finditer(r"\{'id':\s*'([A-Za-z0-9]+)',\s*'address':\s*(-?\d+)")`
-across the whole file for the address table. `find jadx-en -name strings.xml` (the
-brief's other suggestion) was a dead end: the English-locale resource APK's
-`strings.xml` files contain only `app_name` — none of GDriver's real parameter/UI text
-lives in Android string resources; it's all inside the Hermes JS bundle's own i18n
-object, which is why the jadx route doesn't help here.
+against line 552755 specifically for the help text, `re.finditer(r"\{'id':\s*'([A-Za-z0-9]+)',\s*'address':\s*(-?\d+)")`
+across the whole file for table 1, and — added in the round-1 review fix — a generic
+"keyed template object (`{'name': null, ...}`) followed by a run of positionally-assigned
+`{'address': N, ...}` literals" parser (`/tmp/.../scratchpad/verify_addresses.py`, not
+committed) to find and parse tables 2 and 3, which the original `{'id': ...}`-only regex
+completely missed. `find jadx-en -name strings.xml` (the brief's other suggestion) was a
+dead end: the English-locale resource APK's `strings.xml` files contain only `app_name`
+— none of GDriver's real parameter/UI text lives in Android string resources; it's all
+inside the Hermes JS bundle's own i18n object, which is why the jadx route doesn't help
+here. All 172 `'address':` occurrences in the whole 1.76M-line file were enumerated and
+clustered by line distance to confirm no fourth table exists: 158 fall inside
+672826-673254 (tables 1-3 above), and the other 14 are scattered, unrelated runtime
+message-shape templates (`{'kind': 'fardriver.readAddress', ..., 'address': null}` and
+similar) with no static id/address content of their own.
 
-**Confirmed address matches** (GDriver `'id'`/`'address'` pair → `registers.json` addr;
-✓ = matches an existing entry's addr exactly):
+**Confirmed address matches** (GDriver id/address → `registers.json` addr; ✓ = matches an
+existing entry's addr exactly; table column shows which of the three tables above
+supplied the address):
 
-| GDriver id | addr | registers.json key | | GDriver id | addr | registers.json key |
-|---|---|---|---|---|---|---|
-| throttleLowVoltage/throttleHighVoltage | 8 ✓ | throttle_voltage_range | | maxPhaseCurrent | 45 ✓ | max_phase_current |
-| motorDirection/phaseExchange/temperatureSensorType | 11 ✓ | direction_brake_park_config | | analogSpeedCoefficientRpm | 46 ✓ | speed_sensor_analog_scale |
-| phaseOffset | 12 ✓ | phase_offset | | maxAcceleration | 47 ✓ | max_acceleration |
-| zeroBatteryCoeff | 13 ✓ | zero_throttle_adc_coeff | | stopBackCurrent | 48 ✓ | regen_stop_back_current |
-| fullBatteryCoeff | 14 ✓ | full_throttle_adc_coeff | | maxBackCurrent | 49 ✓ | regen_stop_back_current_secondary |
-| polePairs | 20 ✓ | pole_pairs | | low/midSpeedLineCurrentRatio | 50 ✓ | low_mid_speed_line_current_pct |
-| highGearSpeedRpm | 21 ✓ | max_speed_high_gear | | low/midSpeedPhaseCurrentRatio | 51 ✓ | low_mid_speed_phase_current_pct |
-| ratedPower | 22 ✓ | rated_power | | blockTimeSeconds | 52 ✓ | stall_block_time |
-| ratedVoltage | 23 ✓ | rated_voltage | | speedPulseCount | 53 ✓ | speed_pulse_output_count |
-| ratedSpeedRpm | 24 ✓ | rated_speed | | limitSpeedRpm | 108 ✓ | pro_limit_speed |
-| maxLineCurrent | 25 ✓ | max_line_current | | speedometerMode | 124 ✓ | weak_field_and_misc_config_word |
-| speedPulses | 26 ✓ | motor_and_gear_config_word | | motorTempProtect/motorTempRestore | 132 ✓ | motor_temp_protect_restore |
-| batteryCapacityAh | 28 ✓ | battery_rated_capacity | | powerRatio500-9000 | 136-145 ✓ | power_ratio_curve_* |
-| internalResistance | 29 ✓ | motor_internal_resistance | | regenRatio500-9000 | 146-155 ✓ | regen_ratio_curve_* |
-| lowVoltageProtect | 31 ✓ | low_voltage_protect_threshold | | aspectRatio/rimDiameter | 210 ✓ | wheel_radius_and_ratio |
-| **highVoltageProtect** | **37** | **— no entry —** | | gearRatio | 212 ✓ | rate_ratio |
-| customMaxLineCurrent | 38 ✓ | custom_max_line_current | | | | |
-| customMaxPhaseCurrent | 39 ✓ | custom_max_phase_current | | | | |
-| lowSpeed | 40 ✓ | low_speed_gear_limit | | | | |
-| reverseSpeedRpm | 41 ✓ | back_gear_speed_limit | | | | |
-| midSpeed | 42 ✓ | mid_speed_gear_limit | | | | |
-| maxDeceleration | 43 ✓ | max_deceleration | | | | |
-| freeThrottle | 44 ✓ | free_throttle_deadband | | | | |
+| GDriver id | addr | table | registers.json key | | GDriver id | addr | table | registers.json key |
+|---|---|---|---|---|---|---|---|---|
+| throttleLowVoltage/throttleHighVoltage | 8 ✓ | 1 | throttle_voltage_range | | midSpeed | 42 ✓ | 1 | mid_speed_gear_limit |
+| motorDirection/phaseExchange/temperatureSensorType | 11 ✓ | 1 | direction_brake_park_config | | maxDeceleration | 43 ✓ | 1 | max_deceleration |
+| phaseOffset | 12 ✓ | 1 | phase_offset | | freeThrottle | 44 ✓ | 1 | free_throttle_deadband |
+| zeroBatteryCoeff | 13 ✓ | 1 | zero_throttle_adc_coeff | | maxPhaseCurrent | 45 ✓ | 1 | max_phase_current |
+| fullBatteryCoeff | 14 ✓ | 1 | full_throttle_adc_coeff | | analogSpeedCoefficientRpm | 46 ✓ | 1 | speed_sensor_analog_scale |
+| polePairs | 20 ✓ | 1 | pole_pairs | | maxAcceleration | 47 ✓ | 1 | max_acceleration |
+| highGearSpeedRpm | 21 ✓ | 1 | max_speed_high_gear | | stopBackCurrent | 48 ✓ | 1 | regen_stop_back_current |
+| ratedPower | 22 ✓ | 1 | rated_power | | maxBackCurrent | 49 ✓ | 1 | regen_stop_back_current_secondary |
+| ratedVoltage | 23 ✓ | 1 | rated_voltage | | low/midSpeedLineCurrentRatio | 50 ✓ | 1 | low_mid_speed_line_current_pct |
+| ratedSpeedRpm | 24 ✓ | 1 | rated_speed | | low/midSpeedPhaseCurrentRatio | 51 ✓ | 1 | low_mid_speed_phase_current_pct |
+| maxLineCurrent | 25 ✓ | 1 | max_line_current | | blockTimeSeconds | 52 ✓ | 1 | stall_block_time |
+| speedPulses | 26 ✓ | 1 | motor_and_gear_config_word | | speedPulseCount | 53 ✓ | 1 | speed_pulse_output_count |
+| batteryCapacityAh | 28 ✓ | 1 | battery_rated_capacity | | boostPin/cruisePin/sideStandPin/pausePin | 105 ✓ | 2 | boost_cruise_sidestand_park_pins |
+| internalResistance | 29 ✓ | 1 | motor_internal_resistance | | forwardPin/reversePin/highSpeedPin/lowSpeedPin | 106 ✓ | 2 | forward_reverse_speed_pins |
+| lowVoltageProtect | 31 ✓ | 1 | low_voltage_protect_threshold | | chargePin/antiTheftPin/seatPin/switchVoltagePin | 107 ✓ | 2 | charge_antitheft_seat_voltsel_pins |
+| **highVoltageProtect** | **37** | 1 | **— no entry —** | | limitSpeedRpm | 108 ✓ | 1 | pro_limit_speed |
+| customMaxLineCurrent | 38 ✓ | 1 | custom_max_line_current | | speedometerMode | 124 ✓ | 1 | weak_field_and_misc_config_word |
+| customMaxPhaseCurrent | 39 ✓ | 1 | custom_max_phase_current | | motorTempProtect/motorTempRestore | 132 ✓ | 1 | motor_temp_protect_restore |
+| lowSpeed | 40 ✓ | 1 | low_speed_gear_limit | | powerRatio500-9000 (per-point, byteOffset-packed) | 136-145 ✓ | 3 | power_ratio_curve_* |
+| reverseSpeedRpm | 41 ✓ | 1 | back_gear_speed_limit | | regenRatio500-9000 (per-point, byteOffset-packed) | 146-155 ✓ | 3 | regen_ratio_curve_* |
+| speedLimitPin/repairPin (high byte) | 202 ✓ | 2 | angle_learn_and_speed_limit_sel | | aspectRatio/rimDiameter | 210 ✓ | 1 | wheel_radius_and_ratio |
+| | | | | | gearRatio | 212 ✓ | 1 | rate_ratio |
 
-**39 of 39 non-zero GDriver addresses that overlap `registers.json` match exactly** — no
-address contradictions found anywhere in this table. That is strong, address-level
-(not just prose-level) corroboration for all 39 registers listed, and it's the main
-reason 97 of 110 `registers.json` entries were touched in this task (address-table
-matches plus separate name-only matches against the 196-entry English description map,
-for fields the address table doesn't cover, e.g. `curveTime`, `faif`, KI/KC gain pairs,
-one-wire SEC/DATA bytes, boost/park/seat timers).
+**60 of 60 `registers.json` addresses that GDriver's tables (1+2+3 combined) resolve to a
+non-zero address match exactly** — no address contradicts an existing entry anywhere
+across all three tables. This was re-verified with a from-scratch script
+(`verify_addresses.py`, output pasted into the task-9 fix report) that re-extracts
+`decompiled.js` lines 672800-673260 fresh, parses both table shapes independently of any
+prior manual transcription, and diffs the result against every id→addr pair this file and
+`registers.json` claim: **94 claimed id→addr pairs, 94 matched, 0 missing, 0 mismatched**.
+That is strong, address-level (not just prose-level) corroboration for all 60 registers
+listed, and it's the main reason 101 of 110 `registers.json` entries were touched in this
+task overall (address-table matches plus separate name-only matches against the 196-entry
+English description map, for fields no address table covers, e.g. `curveTime`, `faif`,
+KI/KC gain pairs, one-wire SEC/DATA bytes, boost/park/seat timers).
+
+**Round-1 review correction**: the first pass of this task's docs wrongly marked
+`powerRatio500-9000`/`regenRatio500-9000` (addr 136-155) as address-confirmed by table 1
+and claimed "39 of 39" matches — both wrong. Table 1 genuinely shows `'address': 0` for
+every one of those 20 ids (verify with `sed -n '672922,672993p' decompiled.js`); the
+address confirmation for those 20 registers is real, but it comes from table 3 (the
+per-breakpoint curve table), which the first pass's extraction script never found because
+it only searched for the `{'id': ..., 'address': ...}` shape. Re-deriving the whole
+address story from scratch for this fix also turned up table 2 (the pin-shift table),
+which the first pass missed entirely — it independently confirms addr105/106/107 (already
+`registers.json` entries, previously cited only to the official app) and, as a bonus,
+addr202 (previously marked "no GDriver match found" in this file). `registers.json` was
+updated accordingly: addr105/106/107/202's `explain` fields gained a `gdriver:` citation
+and a short corroborating clause; addr136-155's existing `gdriver:` clause gained a
+second citation to the real (table 3) address source and one added sentence noting table
+1 shows 0 for these ids while table 3 gives the real address.
 
 **addr 37 = `highVoltageProtect` is a brand-new address**, not present in `registers.json`
 at all (no `official:`/`worthless:` source ever found it). Per this task's brief, only
@@ -789,14 +833,19 @@ for AN/LM — plausibly two unrelated parameters that happen to share a two-lett
 abbreviation. Left unmodified; flagging for a future pass with more evidence.
 
 **No GDriver match found** for: addr34 (`save_timestamp`), addr156 (see above), addr199
-(`isin_start_angle`), addr202 (`angle_learn_and_speed_limit_sel`), addr211
-(`wheel_width`), addr238 (`pin_function_learn_result`). These were left unmodified.
+(`isin_start_angle`), addr211 (`wheel_width`), addr238 (`pin_function_learn_result`).
+(addr202 was in this list in the first pass of this task; the round-1 review fix found
+it via table 2, the pin-shift table — see above — so it's no longer unmatched.) These
+remaining five were left unmodified.
 
 **Clean-room process used**: every changed `explain` was written from scratch in this
-project's own words after reading the relevant GDriver text, never copy-pasted; after
-editing, a Python script ran a 6-word sliding-window `grep -F` of every changed
-`explain` string against both `reference/decompiled/gdriver/strings.txt` and
-`reference/decompiled/worthless/strings/values.json` (9,448 windows checked across all
-97 changed entries) — first pass found 89 verbatim 6-word matches (paraphrases that had
-drifted too close to GDriver's own sentence structure), each was manually reworded, and
-the check was re-run to **0 hits** before this file was finalized.
+project's own words after reading the relevant GDriver text, never copy-pasted. A Python
+script (`clean_room_check.py`, scratchpad, per the round-1 review's exact spec) re-loads
+`registers.json` from disk, re-extracts the help-text region fresh via
+`sed -n '552700,553200p' decompiled.js`, and for every entry carrying a `gdriver:` source
+tests every 6-word window of its `explain` as a **fixed substring** (not a regex) against
+that region plus `strings.txt` plus `worthless/strings/values.json`. The first run this
+round (after the round-1 review flagged 32 addrs with violations the original,
+narrower-corpus check had missed) found 59 hits across 17 addresses; each was reworded
+and the script re-run to **0 hits across all 101 `gdriver:`-sourced entries** — full
+script output is in the task-9 fix report.
