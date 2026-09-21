@@ -56,9 +56,68 @@ install() {
   fi
 }
 
+unpack() {
+  mkdir -p "$OUT/_apks"
+  log "unpacking XAPKs"
+  unzip -oq "$APPS"/Worthless*.xapk worthless.control.apk config.en.apk -d "$OUT/_apks/w"
+  mv -f "$OUT/_apks/w/worthless.control.apk" "$OUT/_apks/worthless.apk"
+  mv -f "$OUT/_apks/w/config.en.apk" "$OUT/_apks/worthless-en.apk"
+  unzip -oq "$APPS"/GDriver*.xapk app.ghdriver.android.apk config.en.apk -d "$OUT/_apks/g"
+  mv -f "$OUT/_apks/g/app.ghdriver.android.apk" "$OUT/_apks/gdriver.apk"
+  mv -f "$OUT/_apks/g/config.en.apk" "$OUT/_apks/gdriver-en.apk"
+  rm -rf "$OUT/_apks/w" "$OUT/_apks/g"
+  cp -f "$APPS"/南京远驱288-Signed.Apk "$OUT/_apks/official.apk"
+}
+
+decompile_official() {
+  local d="$OUT/official"
+  [ -d "$d/src/MotorNet6" ] && { log "official already decompiled"; return; }
+  mkdir -p "$d/blob" "$d/assemblies" "$d/src"
+  unzip -oq "$OUT/_apks/official.apk" 'assemblies/*' -d "$d/blob"
+  log "unpacking assemblies.blob"
+  (cd "$d/blob/assemblies" && "$PYXAMSTORE" unpack -d .)
+  # pyxamstore writes to ./out/ next to the blob
+  cp -f "$d/blob/assemblies/out/"*.dll "$d/assemblies/"
+  for asm in MotorNet6 MotorNet6.Android Plugin.BLE Plugin.BLE.Abstractions; do
+    log "ilspy $asm"
+    "$ILSPY" "$d/assemblies/$asm.dll" -p -o "$d/src/$asm" --referencepath "$d/assemblies" || true
+  done
+}
+
+decompile_worthless() {
+  local d="$OUT/worthless"
+  [ -d "$d/jadx/sources" ] && { log "worthless already decompiled"; return; }
+  mkdir -p "$d/jadx" "$d/strings" "$d/files"
+  log "jadx worthless (this takes a few minutes)"
+  "$JADX" --deobf --threads-count 8 -d "$d/jadx" "$OUT/_apks/worthless.apk"
+  "$JADX" -d "$d/jadx-en" "$OUT/_apks/worthless-en.apk" || true
+  local res="$d/jadx/resources/assets/composeResources/fd_android.shared.generated.resources"
+  cp -f "$res/files/motors.json" "$res/files/sotion_params.json" "$res/files/racedash.html" "$d/files/"
+  for cvr in "$res"/values*/strings.commonMain.cvr; do
+    loc="$(basename "$(dirname "$cvr")")"
+    uv run --no-project "$REPO/tools/cvr2json.py" "$cvr" > "$d/strings/$loc.json"
+  done
+}
+
+decompile_gdriver() {
+  local d="$OUT/gdriver"
+  [ -f "$d/decompiled.js" ] && { log "gdriver already decompiled"; return; }
+  mkdir -p "$d"
+  unzip -p "$OUT/_apks/gdriver.apk" assets/index.android.bundle > "$d/index.android.bundle"
+  log "hermes-dec gdriver"
+  "$HBC" "$d/index.android.bundle" "$d/decompiled.js" || log "hbc-decompiler failed (unsupported bytecode version?) — falling back to disassembler"
+  "$HBC_DISASM" "$d/index.android.bundle" "$d/disasm.txt" || true
+  strings -n 6 "$d/index.android.bundle" > "$d/strings.txt"
+  "$JADX" -d "$d/jadx-en" "$OUT/_apks/gdriver-en.apk" || true
+}
+
+decompile() { decompile_official; decompile_worthless; decompile_gdriver; }
+
 case "${1:-all}" in
   --check) check ;;
   --install) install ;;
-  all) install && check ;;
-  *) echo "usage: $0 [--check|--install]" >&2; exit 2 ;;
+  --unpack) unpack ;;
+  --decompile) decompile ;;
+  all) install && check && unpack && decompile ;;
+  *) echo "usage: $0 [--check|--install|--unpack|--decompile]" >&2; exit 2 ;;
 esac
