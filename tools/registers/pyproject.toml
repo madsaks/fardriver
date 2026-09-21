@@ -1,0 +1,12 @@
+[project]
+name = "fardriver-registers"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["jsonschema>=4.23"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

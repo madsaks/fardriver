@@ -8,6 +8,7 @@ reference/firmware/
 node_modules/
 dist/
 .venv/
+__pycache__/
 
 # SDD scratch
 .superpowers/

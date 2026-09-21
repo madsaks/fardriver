@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FarDriver register",
+  "type": "object",
+  "required": ["addr", "key", "name", "type", "scale", "unit", "min", "max", "access", "group", "enum", "explain", "confidence", "source"],
+  "additionalProperties": false,
+  "properties": {
+    "addr": { "type": "integer", "minimum": 0, "maximum": 65535 },
+    "key": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["u8", "i8", "u16", "i16", "u32", "i32", "bitfield", "enum"] },
+    "scale": { "type": "number", "exclusiveMinimum": 0 },
+    "unit": { "type": "string" },
+    "min": { "type": "number" },
+    "max": { "type": "number" },
+    "access": { "enum": ["r", "rw"] },
+    "group": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "enum": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "object", "patternProperties": { "^[0-9]+$": { "type": "string" } }, "additionalProperties": false }
+      ]
+    },
+    "explain": { "type": "string", "minLength": 20 },
+    "confidence": { "enum": ["high", "medium", "low"] },
+    "source": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^(official|worthless|gdriver):" } },
+    "notes": { "type": "string" }
+  }
+}
