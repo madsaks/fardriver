@@ -122,4 +122,5 @@ If you have the reference packages, inspect [`tools/decompile.sh`](tools/decompi
 - [Decompilation findings and source evidence](docs/decompile-notes.md)
 - [Firmware findings](docs/firmware-notes.md)
 - [Segway E125S stock power envelope](docs/e125s-power-envelope.md)
+- [E125S UI concepts and wireframes](docs/ui/README.md)
 - [Protocol and web app design](docs/superpowers/specs/2026-09-21-fardriver-protocol-and-web-app-design.md)
