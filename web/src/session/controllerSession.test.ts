@@ -140,7 +140,8 @@ it("rejects writes in read-only mode", async () => {
 });
 
 it("rejects out-of-range writes", async () => {
-  const session = new ControllerSession({ connection: new FakeConnection(), now: () => 1000 });
+  const connection = new FakeConnection();
+  const session = new ControllerSession({ connection, now: () => 1000 });
   emitCompleteHebDump(connection);
   session.setWriteMode("armed");
   await session.writeRegister("rated_voltage", 7000);
