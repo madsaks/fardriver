@@ -79,7 +79,7 @@ export class ControllerSession {
   private readonly listeners = new Set<Listener>();
   private readonly registers: RegisterMeta[];
   private readonly now: () => number;
-  private pendingWrite: { key: string; displayValue: number } | null = null;
+  private pendingWrite: { key: string; displayValue: number; sentAt: number } | null = null;
   private lastTx: RawLogEntry | null = null;
 
   constructor(options: { connection: SessionConnection; registers?: RegisterMeta[]; now?: () => number }) {
@@ -139,7 +139,7 @@ export class ControllerSession {
 
   setWriteMode(mode: WriteMode): void {
     if (mode === "armed" && this.snapshotValue.backup.required) {
-      this.pushError("Run a register backup before arming writes.");
+      this.pushError("Run a complete HEB backup before arming writes.");
       return;
     }
     this.update({ writeMode: mode });
@@ -165,12 +165,15 @@ export class ControllerSession {
 
     if (this.pendingWrite) {
       const observed = updates[this.pendingWrite.key];
-      if (observed === undefined) {
-        this.pushError(`Read-back unavailable for ${this.pendingWrite.key}.`);
-      } else if (observed !== this.pendingWrite.displayValue) {
-        this.pushError(`Read-back mismatch for ${this.pendingWrite.key}.`);
+      if (observed !== undefined) {
+        if (observed !== this.pendingWrite.displayValue) {
+          this.pushError(`Read-back mismatch for ${this.pendingWrite.key}.`);
+        }
+        this.pendingWrite = null;
+      } else if (this.now() - this.pendingWrite.sentAt > 5000) {
+        this.pushError(`Timed out waiting for read-back of ${this.pendingWrite.key}.`);
+        this.pendingWrite = null;
       }
-      this.pendingWrite = null;
     }
   }
 
@@ -185,8 +188,8 @@ export class ControllerSession {
     this.update({
       backup: {
         ...this.snapshotValue.backup,
-        required: false,
-        completedAt: this.now(),
+        required: this.snapshotValue.backup.required,
+        completedAt: this.snapshotValue.backup.completedAt,
         values,
       },
     });
@@ -194,7 +197,7 @@ export class ControllerSession {
       at: this.now(),
       direction: "rx",
       bytes: new Uint8Array(),
-      note: "passive backup snapshot; no register reads sent",
+      note: "passive JSON snapshot; complete HEB backup still required before writes",
     });
   }
 
@@ -241,9 +244,19 @@ export class ControllerSession {
       return;
     }
 
+    if (this.pendingWrite) {
+      this.pushError(`Wait for read-back of ${this.pendingWrite.key} before sending another write.`);
+      return;
+    }
+
     const rawValue = toRawRegisterValue(register, displayValue);
-    this.pendingWrite = { key, displayValue };
-    await this.connection.write(encodeWrite(register.addr, rawValue));
+    this.pendingWrite = { key, displayValue, sentAt: this.now() };
+    try {
+      await this.connection.write(encodeWrite(register.addr, rawValue));
+    } catch (error) {
+      this.pendingWrite = null;
+      throw error;
+    }
   }
 
   exportBackup(): string {
@@ -297,8 +310,8 @@ export class ControllerSession {
     this.update({
       backup: {
         ...this.snapshotValue.backup,
-        required: false,
-        completedAt: this.now(),
+        required: true,
+        completedAt: this.snapshotValue.backup.completedAt,
         values: parsed.values,
       },
     });
