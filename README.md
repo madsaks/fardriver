@@ -8,10 +8,11 @@ The web app is built with React, TypeScript, and Vite. Python tools validate pro
 
 - Live telemetry dashboard and raw RX/TX logs.
 - Grouped controller settings with original-app limits, technical explanations, and validation confidence.
-- Read-only startup, a backup gate before arming writes, and confirmation for individual setting writes.
-- Passive JSON snapshots and full HEB dump requests, with JSON and HEB export.
+- Read-only startup; a **complete HEB backup** is required before writes can be armed, and individual setting writes require confirmation.
+- Passive JSON snapshots and full HEB dump requests, with JSON and HEB export. Passive/imported JSON no longer satisfies the write-safety gate.
 - Settings hydration from received HEB data.
-- Generic FarDriver and Segway E125S + FarDriver 72450 comparison profiles. Selecting a profile does not apply settings to the controller.
+- Generic FarDriver and Segway E125S + FarDriver 72210 comparison profiles. The E125S profile records conservative 60 A baseline, 70 A recommended maximum and 80 A quick-setup ceiling values.
+- A guided **Setup** screen for E125S power and acceleration tuning. Road-speed tuning remains preview-only until RPM-to-road-speed calibration is hardware-validated.
 - A Segway exploration mode for BLE service discovery.
 - Server-side diagnostic captures and a web app manifest/service worker.
 
@@ -46,12 +47,12 @@ The Vite dev and preview servers provide `/api/captures`, which writes JSON to `
 1. Select a vehicle profile and connect to a FarDriver controller through the browser's Bluetooth chooser.
 2. Inspect telemetry and received settings. The FarDriver transport uses service `0xFFE0` and characteristic `0xFFEC` for writes and notifications.
 3. In **Backup**, use **Run HEB dump** to request the controller's parameter stream. Wait for all **156 main words and 192 extended words** before exporting the HEB file.
-4. Use **Snapshot JSON** to save currently observed register values, then **Export JSON** to download them. This snapshot is passive: it sends no register reads and may contain `null` for values not yet observed.
-5. To change a supported setting, arm writes, review its value and limits, and confirm the individual write.
+4. Use **Snapshot JSON** to save currently observed register values, then **Export JSON** to download them. This snapshot is passive: it sends no register reads and may contain `null` for values not yet observed. It does **not** unlock writes.
+5. After the HEB dump is complete, arm writes, review the value and limits, and confirm the individual write.
 
-The backup gate is a software guard, not a guarantee that every controller parameter has been captured. **Import JSON** loads backup data into the session; it does not replay a restore to the controller. The current UI does not implement bulk restore or firmware flashing.
+The backup gate only opens after the expected HEB main and extended words have been received. **Import JSON** loads reference data into the session but deliberately keeps writes locked; it does not replay a restore to the controller. The current UI does not implement bulk restore or firmware flashing.
 
-The Segway E125S comparison profile assumes 48 V and two 30 Ah packs (60 Ah total). Check those assumptions against your own vehicle before using its expected-value comparisons. Original-app limits are metadata, not confirmation that a value is suitable for a particular motor, battery, or firmware.
+The Segway E125S profile assumes 48 V and two 30 Ah packs (60 Ah total) with the stock QS rear hub motor and a FarDriver 72210. The quick-setup power slider is intentionally capped at 80 A and marks 70 A as the recommended stock-profile maximum. See [`docs/e125s-power-envelope.md`](docs/e125s-power-envelope.md) for the evidence and remaining validation work. Original-app limits are metadata, not confirmation that a value is suitable for a particular motor, battery, or firmware.
 
 ## Repository layout
 
@@ -120,4 +121,5 @@ If you have the reference packages, inspect [`tools/decompile.sh`](tools/decompi
 - [Coverage and verification limits](docs/coverage.md)
 - [Decompilation findings and source evidence](docs/decompile-notes.md)
 - [Firmware findings](docs/firmware-notes.md)
+- [Segway E125S stock power envelope](docs/e125s-power-envelope.md)
 - [Protocol and web app design](docs/superpowers/specs/2026-09-21-fardriver-protocol-and-web-app-design.md)
