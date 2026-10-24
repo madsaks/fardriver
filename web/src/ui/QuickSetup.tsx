@@ -38,10 +38,12 @@ export function QuickSetup({
   const [lineCurrentA, setLineCurrentA] = useState(defaultLineCurrent || (hasPowerEnvelope ? 60 : 40));
   const [acceleration, setAcceleration] = useState(defaultAcceleration);
   const [targetSpeedKmh, setTargetSpeedKmh] = useState(45);
+  const [allowExperimentalPower, setAllowExperimentalPower] = useState(false);
 
   useEffect(() => {
     setLineCurrentA((values.max_line_current ?? profile.power.baselineLineCurrentA) || (hasPowerEnvelope ? 60 : 40));
     setAcceleration(values.max_acceleration ?? 170);
+    setAllowExperimentalPower(false);
   }, [hasPowerEnvelope, profile.id, profile.power.baselineLineCurrentA, values.max_acceleration, values.max_line_current]);
 
   const nominalPowerKw = useMemo(
@@ -50,6 +52,9 @@ export function QuickSetup({
   );
   const writesReady = hasPowerEnvelope && connected && !backupRequired && writeMode === "armed";
   const recommendedMax = profile.power.recommendedMaxLineCurrentA;
+  const sliderMax = allowExperimentalPower
+    ? profile.power.uiMaxLineCurrentA || recommendedMax || 80
+    : recommendedMax || profile.power.uiMaxLineCurrentA || 70;
   const isAboveRecommended = recommendedMax > 0 && lineCurrentA > recommendedMax;
 
   const choosePreset = (preset: TunePreset) => {
@@ -127,7 +132,7 @@ export function QuickSetup({
             aria-label="Maximum line current"
             type="range"
             min={40}
-            max={hasPowerEnvelope ? profile.power.uiMaxLineCurrentA : 80}
+            max={hasPowerEnvelope ? sliderMax : 80}
             step={1}
             value={lineCurrentA}
             onChange={(event) => setLineCurrentA(Number(event.target.value))}
@@ -136,12 +141,30 @@ export function QuickSetup({
           <div className="range-labels">
             <span>40 A</span>
             <span className="recommended-mark">Recommended max {recommendedMax || "--"} A</span>
-            <span>{hasPowerEnvelope ? profile.power.uiMaxLineCurrentA : 80} A</span>
+            <span>{hasPowerEnvelope ? sliderMax : 80} A</span>
           </div>
           <div className={isAboveRecommended ? "power-readout warning" : "power-readout"}>
             <strong>{nominalPowerKw.toFixed(2)} kW</strong>
             <span>nominal battery input at {profile.battery.voltage || "--"} V</span>
           </div>
+          {profile.power.uiMaxLineCurrentA > recommendedMax && recommendedMax > 0 ? (
+            <label className="experimental-power-toggle">
+              <input
+                type="checkbox"
+                checked={allowExperimentalPower}
+                onChange={(event) => {
+                  const enabled = event.target.checked;
+                  setAllowExperimentalPower(enabled);
+                  if (!enabled && lineCurrentA > recommendedMax) {
+                    setLineCurrentA(recommendedMax);
+                  }
+                }}
+              />
+              <span>
+                Allow experimental {recommendedMax + 1}-{profile.power.uiMaxLineCurrentA} A sport range
+              </span>
+            </label>
+          ) : null}
           {isAboveRecommended ? (
             <p className="inline-warning">
               Above the recommended stock-profile ceiling. The 80 A end of the slider is a short-duration sport ceiling,
