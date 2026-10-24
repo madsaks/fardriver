@@ -244,17 +244,30 @@ export class ControllerSession {
       return;
     }
 
-    if (this.pendingWrite) {
+    const supportsStreamReadback = register.rx_frame !== undefined && register.rx_offset !== undefined;
+    if (this.pendingWrite && supportsStreamReadback) {
       this.pushError(`Wait for read-back of ${this.pendingWrite.key} before sending another write.`);
       return;
     }
 
     const rawValue = toRawRegisterValue(register, displayValue);
-    this.pendingWrite = { key, displayValue, sentAt: this.now() };
+    if (supportsStreamReadback) {
+      this.pendingWrite = { key, displayValue, sentAt: this.now() };
+    }
     try {
       await this.connection.write(encodeWrite(register.addr, rawValue));
+      if (!supportsStreamReadback) {
+        this.pushLog({
+          at: this.now(),
+          direction: "tx",
+          bytes: new Uint8Array(),
+          note: `write sent for ${key}; stream read-back is unavailable, verify with a fresh HEB dump`,
+        });
+      }
     } catch (error) {
-      this.pendingWrite = null;
+      if (this.pendingWrite?.key === key) {
+        this.pendingWrite = null;
+      }
       throw error;
     }
   }
