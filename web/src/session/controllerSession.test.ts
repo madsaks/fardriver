@@ -175,6 +175,29 @@ it("does not fail a pending write when unrelated telemetry arrives first", async
   now = 1200;
 });
 
+
+it("does not block later writes when a register has no streamed read-back mapping", async () => {
+  const connection = new FakeConnection();
+  const session = new ControllerSession({ connection, now: () => 1000 });
+  emitCompleteHebDump(connection);
+  session.setWriteMode("armed");
+
+  await session.writeRegister("max_acceleration", 170);
+  await session.writeRegister("max_acceleration", 180);
+
+  expect(connection.writes).toHaveLength(2);
+  expect(session.snapshot().log.at(-1)?.note).toContain("verify with a fresh HEB dump");
+});
+
+it("does not let an imported JSON backup unlock controller writes", () => {
+  const connection = new FakeConnection();
+  const session = new ControllerSession({ connection, now: () => 1000 });
+  session.importBackup(JSON.stringify({ schema: "fardriver-backup/v1", values: { rated_voltage: 48 } }));
+  session.setWriteMode("armed");
+  expect(session.snapshot().writeMode).toBe("read-only");
+  expect(session.snapshot().backup.required).toBe(true);
+});
+
 it("decodes telemetry and raw bitfields from incoming frames", () => {
   const connection = new FakeConnection();
   const session = new ControllerSession({ connection });
