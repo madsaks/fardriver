@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+  <style>
+    .bg{fill:#fafafa}.frame{fill:#fff;stroke:#1f2937;stroke-width:4}.box{fill:#f5f5f5;stroke:#6b7280;stroke-width:2}.dash{fill:none;stroke:#9ca3af;stroke-width:2;stroke-dasharray:8 6}
+    .t{fill:#111827;font-family:Arial,sans-serif}.m{fill:#6b7280;font-family:Arial,sans-serif}.h{font-size:24px;font-weight:700}.b{font-size:15px}.s{font-size:12px}
+  </style>
+  <rect width="1536" height="1024" class="bg"/>
+  <text x="40" y="42" class="t h">FarDriver E125S UI Wireframes</text>
+  <text x="40" y="66" class="m b">Low-fidelity component/layout reference. Not visual styling.</text>
+
+  <!-- A -->
+  <rect x="40" y="92" width="440" height="880" rx="30" class="frame"/>
+  <text x="68" y="130" class="t h">A. Quick Tuner</text>
+  <rect x="68" y="156" width="384" height="76" rx="14" class="box"/><text x="86" y="184" class="t b">Connection + selected vehicle profile</text><text x="86" y="209" class="m s">E125S / stock motor / dual 48V 30Ah / 72210</text>
+  <rect x="68" y="252" width="384" height="74" rx="14" class="box"/><text x="86" y="281" class="t b">Preset row: Range | Daily | Sport</text>
+  <rect x="68" y="346" width="384" height="160" rx="14" class="box"/><text x="86" y="378" class="t b">Power slider</text><line x1="94" y1="426" x2="426" y2="426" class="dash"/><text x="86" y="468" class="m s">40–70 A default; 71–80 A experimental opt-in</text>
+  <rect x="68" y="526" width="384" height="130" rx="14" class="box"/><text x="86" y="558" class="t b">Acceleration slider</text><line x1="94" y1="606" x2="426" y2="606" class="dash"/>
+  <rect x="68" y="676" width="384" height="130" rx="14" class="box"/><text x="86" y="708" class="t b">Target speed preview</text><line x1="94" y1="756" x2="426" y2="756" class="dash"/><text x="86" y="786" class="m s">Disabled for writes until RPM→km/h calibration</text>
+  <rect x="68" y="826" width="384" height="68" rx="14" class="box"/><text x="168" y="867" class="t b">Apply / verify / save</text>
+  <rect x="68" y="914" width="384" height="34" rx="10" class="box"/><text x="86" y="936" class="m s">Advanced settings · backup · raw log</text>
+
+  <!-- B -->
+  <rect x="548" y="92" width="440" height="880" rx="30" class="frame"/>
+  <text x="576" y="130" class="t h">B. Guided Wizard</text>
+  <text x="576" y="163" class="m s">Best for first install / controller replacement</text>
+  <line x1="598" y1="194" x2="598" y2="906" class="dash"/>
+  <circle cx="598" cy="210" r="16" class="box"/><text x="630" y="216" class="t b">1 Connect</text>
+  <circle cx="598" cy="278" r="16" class="box"/><text x="630" y="284" class="t b">2 Complete HEB backup</text>
+  <rect x="630" y="304" width="326" height="82" rx="14" class="box"/><text x="648" y="335" class="m s">Backup status + export / compare</text>
+  <circle cx="598" cy="428" r="16" class="box"/><text x="630" y="434" class="t b">3 Select hardware</text>
+  <rect x="630" y="456" width="326" height="138" rx="14" class="box"/><text x="648" y="484" class="m s">Vehicle dropdown</text><text x="648" y="512" class="m s">Motor dropdown</text><text x="648" y="540" class="m s">Battery dropdown</text><text x="648" y="568" class="m s">Controller dropdown</text>
+  <circle cx="598" cy="636" r="16" class="box"/><text x="630" y="642" class="t b">4 Power envelope</text>
+  <rect x="630" y="666" width="326" height="104" rx="14" class="box"/><text x="648" y="696" class="m s">Recommended 70 A</text><text x="648" y="724" class="m s">Experimental opt-in to 80 A</text>
+  <circle cx="598" cy="808" r="16" class="box"/><text x="630" y="814" class="t b">5 Acceleration</text>
+  <circle cx="598" cy="858" r="16" class="box"/><text x="630" y="864" class="t b">6 Speed calibration</text>
+  <circle cx="598" cy="908" r="16" class="box"/><text x="630" y="914" class="t b">7 Apply, save, reconnect, verify</text>
+
+  <!-- C -->
+  <rect x="1056" y="92" width="440" height="880" rx="30" class="frame"/>
+  <text x="1084" y="130" class="t h">C. Telemetry First</text>
+  <rect x="1084" y="158" width="182" height="150" rx="14" class="box"/><text x="1125" y="214" class="t b">Road speed</text><text x="1120" y="262" class="m s">FarDriver / GPS compare</text>
+  <rect x="1286" y="158" width="182" height="150" rx="14" class="box"/><text x="1338" y="214" class="t b">RPM</text><text x="1320" y="262" class="m s">Motor + wheel estimate</text>
+  <rect x="1084" y="328" width="384" height="176" rx="14" class="box"/><text x="1104" y="358" class="t b">Live metrics grid</text><text x="1104" y="390" class="m s">Voltage · line current · phase current</text><text x="1104" y="420" class="m s">MOS temp · motor temp · throttle</text><text x="1104" y="450" class="m s">Gear · fault state · power</text>
+  <rect x="1084" y="524" width="384" height="52" rx="14" class="box"/><text x="1104" y="556" class="m s">Tabs: Tuning | Properties | Faults | Logs</text>
+  <rect x="1084" y="596" width="384" height="280" rx="14" class="box"/><text x="1104" y="628" class="t b">Inline tuning</text><text x="1104" y="666" class="m s">Power slider</text><line x1="1104" y1="692" x2="1444" y2="692" class="dash"/><text x="1104" y="736" class="m s">Acceleration slider</text><line x1="1104" y1="762" x2="1444" y2="762" class="dash"/><text x="1104" y="806" class="m s">Speed target preview</text><line x1="1104" y1="832" x2="1444" y2="832" class="dash"/>
+  <rect x="1084" y="896" width="384" height="52" rx="14" class="box"/><text x="1104" y="928" class="m s">Persistent safety/status footer</text>
+</svg>
