@@ -35,20 +35,20 @@ export function QuickSetup({
   const hasPowerEnvelope = profile.power.uiMaxLineCurrentA > 0;
   const defaultLineCurrent = values.max_line_current ?? profile.power.baselineLineCurrentA;
   const defaultAcceleration = values.max_acceleration ?? 170;
-  const [lineCurrentA, setLineCurrentA] = useState(defaultLineCurrent || 60);
+  const [lineCurrentA, setLineCurrentA] = useState(defaultLineCurrent || (hasPowerEnvelope ? 60 : 40));
   const [acceleration, setAcceleration] = useState(defaultAcceleration);
   const [targetSpeedKmh, setTargetSpeedKmh] = useState(45);
 
   useEffect(() => {
-    setLineCurrentA((values.max_line_current ?? profile.power.baselineLineCurrentA) || 60);
+    setLineCurrentA((values.max_line_current ?? profile.power.baselineLineCurrentA) || (hasPowerEnvelope ? 60 : 40));
     setAcceleration(values.max_acceleration ?? 170);
-  }, [profile.id, profile.power.baselineLineCurrentA, values.max_acceleration, values.max_line_current]);
+  }, [hasPowerEnvelope, profile.id, profile.power.baselineLineCurrentA, values.max_acceleration, values.max_line_current]);
 
   const nominalPowerKw = useMemo(
     () => (profile.battery.voltage > 0 ? (profile.battery.voltage * lineCurrentA) / 1000 : 0),
     [lineCurrentA, profile.battery.voltage],
   );
-  const writesReady = connected && !backupRequired && writeMode === "armed";
+  const writesReady = hasPowerEnvelope && connected && !backupRequired && writeMode === "armed";
   const recommendedMax = profile.power.recommendedMaxLineCurrentA;
   const isAboveRecommended = recommendedMax > 0 && lineCurrentA > recommendedMax;
 
@@ -63,7 +63,7 @@ export function QuickSetup({
     <section className="panel quick-setup-panel" aria-labelledby="quick-setup-heading">
       <div className="panel-heading quick-setup-heading">
         <div>
-          <p className="eyebrow">E125S guided tuning</p>
+          <p className="eyebrow">Guided tuning</p>
           <h2 id="quick-setup-heading">Quick setup</h2>
           <p>Back up first, then tune the two controls that materially change how the scooter feels.</p>
         </div>
@@ -102,12 +102,16 @@ export function QuickSetup({
 
       <div className="tune-preset-row" aria-label="Tune presets">
         {(Object.keys(PRESETS) as TunePreset[]).map((key) => (
-          <button className="tune-preset" type="button" key={key} onClick={() => choosePreset(key)}>
+          <button className="tune-preset" type="button" key={key} onClick={() => choosePreset(key)} disabled={!hasPowerEnvelope}>
             <strong>{PRESETS[key].label}</strong>
             <span>{PRESETS[key].lineCurrentA} A · accel {PRESETS[key].acceleration}</span>
           </button>
         ))}
       </div>
+
+      {!hasPowerEnvelope ? (
+        <p className="profile-warning">Select a vehicle profile with a validated power envelope before using quick writes.</p>
+      ) : null}
 
       <div className="quick-control-grid">
         <article className="quick-control-card">
@@ -127,6 +131,7 @@ export function QuickSetup({
             step={1}
             value={lineCurrentA}
             onChange={(event) => setLineCurrentA(Number(event.target.value))}
+            disabled={!hasPowerEnvelope}
           />
           <div className="range-labels">
             <span>40 A</span>
