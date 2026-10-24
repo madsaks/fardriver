@@ -52,7 +52,7 @@ The Vite dev and preview servers provide `/api/captures`, which writes JSON to `
 
 The backup gate only opens after the expected HEB main and extended words have been received. **Import JSON** loads reference data into the session but deliberately keeps writes locked; it does not replay a restore to the controller. The current UI does not implement bulk restore or firmware flashing.
 
-The Segway E125S profile assumes 48 V and two 30 Ah packs (60 Ah total) with the stock QS rear hub motor and a FarDriver 72210. The quick-setup power slider is intentionally capped at 80 A and marks 70 A as the recommended stock-profile maximum. See [`docs/e125s-power-envelope.md`](docs/e125s-power-envelope.md) for the evidence and remaining validation work. Original-app limits are metadata, not confirmation that a value is suitable for a particular motor, battery, or firmware.
+The Segway E125S profile assumes 48 V and two 30 Ah packs (60 Ah total) with the stock QS rear hub motor and a FarDriver 72210. The quick-setup power slider stops at 70 A by default; an explicit experimental opt-in extends it to 80 A. See [`docs/e125s-power-envelope.md`](docs/e125s-power-envelope.md) for the evidence and remaining validation work. Original-app limits are metadata, not confirmation that a value is suitable for a particular motor, battery, or firmware.
 
 ## Repository layout
 
