@@ -849,3 +849,39 @@ round (after the round-1 review flagged 32 addrs with violations the original,
 narrower-corpus check had missed) found 59 hits across 17 addresses; each was reworded
 and the script re-run to **0 hits across all 101 `gdriver:`-sourced entries** — full
 script output is in the task-9 fix report.
+
+
+## Native and cross-API follow-up (2026-10-24)
+
+The managed-only native exclusions in the historical findings above have been
+superseded by an AArch64 decompilation of Worthless Controls 5.1.16's
+`libfd_protocol.so` from the XAPK's `config.arm64_v8a.apk` split. The source
+library SHA-256 is `6d7b3f899c3c67ab2700c27c523a6aaf37efdd05d2d2f667da5ac60e809b471c`.
+
+- [Native findings and reproduction](native-protocol.md) cover core/JNI APIs,
+  packet builders, RX parsing, decoded arrays, firmware conditioning and sync.
+- [Cross-app agreements](api-agreements.md) identify software agreements and
+  preserve read-frame, signedness, HEB ordering, extended-block and hardware
+  restore differences with their source references.
+- [Source discovery inventory](../protocol/api/generated/discovery.md) covers
+  multiline official writes, legacy calls, UI prompts, file/cloud/BLE calls,
+  Worthless native boundaries, and named GDriver protocol functions.
+- [Native API catalog](../protocol/api/generated/native-api.md) records 186
+  exports, including all 93 JNI counterparts to the Java declarations.
+- [Managed field catalog](../protocol/api/generated/managed-fields.md) records
+  configuration, telemetry and preset declarations without treating field names
+  as proven register layouts.
+
+The local Ghidra export contains 425 function listings, including wrappers,
+PLT thunks and runtime functions. The code and original artifacts remain
+gitignored; only authored documentation, metadata, synthetic observations and
+reproduction tooling are tracked. Existing `registers.json` confidence levels
+are preserved. New native citations distinguish agreement from conflicts.
+
+A particularly important new HEB finding: `ll0.java:1524-1525` returns the
+native 256-word logical-address array to `C0205fk.java:163-179`, which copies
+indices 0-155 directly into its export. The official format instead packs
+addresses 0-53, 99-110, and 124-213 into 156 words. Therefore Worthless's
+export differs in main-word ordering as well as leaving the extended block
+zero-filled. Native emulation confirms logical address 99 occupies raw index
+99, not compact HEB offset 54.

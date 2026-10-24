@@ -1,6 +1,7 @@
 # File Formats
 
-| Name | Format | Safety | Status | Evidence | Notes |
-| --- | --- | --- | --- | --- | --- |
-| Official HEB export | heb | passive_observe | documented | `official.ConnectPage.OnExportClicked.5873` (reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs:5873) | Official app exports 156 main parameter words plus 192 extended/CAN words into a 696-byte file. |
-| Worthless HEB export | heb | passive_observe | documented | `worthless.C0205fk.heb_export.179` (reference/decompiled/worthless/jadx/sources/p000a/C0205fk.java:179) | Official exports main + extended blocks; Worthless fills only the main block. |
+| Name | Format | Safety | Confidence | Status | Evidence | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| Official HEB export | heb | passive_observe | high | documented | `official.ConnectPage.OnExportClicked.5873` (reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs:5873) | Official app exports 156 main parameter words plus 192 extended/CAN words into a 696-byte file. |
+| Worthless HEB export | heb | passive_observe | high | documented | `worthless.C0205fk.heb_export.179` (reference/decompiled/worthless/jadx/sources/p000a/C0205fk.java:179)<br>`worthless.native.ncFdGetRawConfigWords` (reference/decompiled/worthless/native/export/0010f4c4_ncFdGetRawConfigWords.c:1)<br>`worthless.native.rx_dispatch` (reference/decompiled/worthless/native/export/0010dcfc_FUN_0010dcfc.c:1) | Worthless copies raw logical addresses 0-155 rather than the official compact ranges 0-53/99-110/124-213; its extended block is also zero-filled. Equal 696-byte length does not imply backup compatibility. |
+| GDriver HEB backup | heb | passive_observe | high | documented | `gdriver.function.buildFarDriverHeb.894458` (reference/decompiled/gdriver/decompiled.js:894458)<br>`gdriver.function.parseFarDriverHeb.894727` (reference/decompiled/gdriver/decompiled.js:894727)<br>`gdriver.function.farDriverHebCompactWordAddresses.894304` (reference/decompiled/gdriver/decompiled.js:894304) | 696 bytes; 156 compact main words from ranges [0,54), [99,111), [124,214), plus 192 configuration words. Restore has separate hardware-specific CRC/options; unsupported Hermes output leaves some helpers empty. |

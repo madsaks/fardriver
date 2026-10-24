@@ -14,5 +14,37 @@
       "official.ConnectPage.ble_uuid.94"
     ],
     "notes": "FarDriver uses service 0000FFE0-0000-1000-8000-00805F9B34FB and characteristic 0000FFEC-0000-1000-8000-00805F9B34FB."
+  },
+  {
+    "id": "fardriver.transport.native_packets",
+    "type": "transport",
+    "protocolFamily": "fardriver",
+    "name": "Worthless native packet API",
+    "safety": "guarded_write",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdBuildReadPacket",
+      "worthless.native.ncFdBuildWritePacket"
+    ],
+    "transport": "native",
+    "notes": "Pure packet construction and session decoding behind JNI, not a BLE GATT implementation. Native code alone does not confirm BLE UUID selection."
+  },
+  {
+    "id": "fardriver.transport.official_mqtt",
+    "type": "transport",
+    "protocolFamily": "fardriver",
+    "name": "Official MQTT firmware and account transport",
+    "transport": "mqtt",
+    "safety": "auth_security",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ConnectPage.cloud_call.3000.MqttPub",
+      "official.ConnectPage.cloud_call.1526.SubscribeAsync"
+    ],
+    "notes": "ConnectPage.cs:1479-1509 constructs account-authenticated MQTT connections without a TLS option; line 3000 requests a selected firmware filename. Subscription wrapper exists but no caller was found. Client evidence does not establish server topic templates, broker policy, or firmware authenticity; see docs/firmware-notes.md."
   }
 ]

@@ -58,6 +58,23 @@ def test_valid_api_tree_passes(tmp_path):
     assert validate_api(root) == []
 
 
+def test_duplicate_index_ids_fail(tmp_path):
+    root = minimal_root(tmp_path)
+    path = root / "protocol/api/index/official.index.json"
+    records = json.loads(path.read_text())
+    write_json(path, records + records)
+    assert any("duplicate index id" in error for error in validate_api(root))
+
+
+def test_source_line_beyond_end_of_file_fails(tmp_path):
+    root = minimal_root(tmp_path)
+    path = root / "protocol/api/index/official.index.json"
+    records = json.loads(path.read_text())
+    records[0]["source"]["line"] = 99
+    write_json(path, records)
+    assert any("source.line exceeds" in error for error in validate_api(root))
+
+
 def test_missing_evidence_id_fails(tmp_path):
     root = minimal_root(tmp_path)
     commands = json.loads((root / "protocol/api/ledger/commands.json").read_text())

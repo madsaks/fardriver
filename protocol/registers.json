@@ -491,9 +491,10 @@
       "worthless:strings/values.json#max_line_curr",
       "worthless:strings/values.json#fd_hw_max_current_desc",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L672854",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "worthless:native/export/00115744_FUN_00115744.c#L90-L109 (ELF helper 0x15744; Ghidra 11.0.3)"
     ],
-    "notes": "MaxLineCurr | DH=高速档力度(ParaPage.cs:6283 label), MaxLineCurr=最大线电流(ProControlPage.cs:2137)",
+    "notes": "MaxLineCurr | DH=高速档力度(ParaPage.cs:6283 label), MaxLineCurr=最大线电流(ProControlPage.cs:2137) Native review 2026-10-24: Native decoder logical page 24 confirms unsigned raw/4 A; synthetic raw 400 gives 100 A after the separate Java fixed-point conversion. Confidence retained pending hardware validation.",
     "rx_frame": "0x8A",
     "rx_offset": 2
   },
@@ -744,9 +745,10 @@
       "worthless:strings/values.json#custom_line_curr",
       "worthless:strings/values.json#section_custom_current",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L672858",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "worthless:native/export/00115744_FUN_00115744.c#L132-L138 (ELF helper 0x15744; Ghidra 11.0.3)"
     ],
-    "notes": "CustomMaxLineCurr | CustomMaxLineCurr=Boost线电流(ProControlPage.cs:2139) | CONFIRMED by Worthless: customMaxLineCurrent (Float, amps) + fd_override_current_desc=\"Override max current limits (stored as value×4 internally)\" — ×4 storage matches official's scale=0.25 A exactly (same unit A, same width, compatible scale). Address agreement is NOT claimed (native-only).",
+    "notes": "CustomMaxLineCurr | CustomMaxLineCurr=Boost线电流(ProControlPage.cs:2139) | CONFIRMED by Worthless: customMaxLineCurrent (Float, amps) + fd_override_current_desc=\"Override max current limits (stored as value×4 internally)\" — ×4 storage matches official's scale=0.25 A exactly (same unit A, same width, compatible scale). Address agreement is NOT claimed (native-only). Native review 2026-10-24: Native decoder logical page 36 confirms raw/4 A for nonzero values; it preserves the previous decoded value for zero input. Confidence retained pending hardware validation.",
     "rx_frame": "0x8C",
     "rx_offset": 4
   },
@@ -772,9 +774,10 @@
       "worthless:strings/values.json#custom_phase_curr",
       "worthless:strings/values.json#section_custom_current",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L672860",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "worthless:native/export/00115744_FUN_00115744.c#L139-L143 (ELF helper 0x15744; Ghidra 11.0.3)"
     ],
-    "notes": "CustomMaxPhaseCurr | CustomMaxPhaseCurr=Boost相电流(ProControlPage.cs:2140) | CONFIRMED by Worthless: customMaxPhaseCurrent (Float, amps) + fd_override_current_desc=\"Override max current limits (stored as value×4 internally)\" — ×4 storage matches official's scale=0.25 A exactly (same unit A, same width, compatible scale). Address agreement is NOT claimed (native-only).",
+    "notes": "CustomMaxPhaseCurr | CustomMaxPhaseCurr=Boost相电流(ProControlPage.cs:2140) | CONFIRMED by Worthless: customMaxPhaseCurrent (Float, amps) + fd_override_current_desc=\"Override max current limits (stored as value×4 internally)\" — ×4 storage matches official's scale=0.25 A exactly (same unit A, same width, compatible scale). Address agreement is NOT claimed (native-only). Native review 2026-10-24: Native decoder logical page 36 confirms raw/4 A for nonzero values; it preserves the previous decoded value for zero input. Confidence retained pending hardware validation.",
     "rx_frame": "0x8C",
     "rx_offset": 6
   },
@@ -921,9 +924,10 @@
       "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L141",
       "worthless:strings/values.json#max_phase_curr",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L672856",
-      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755"
+      "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
+      "worthless:native/export/00115744_FUN_00115744.c#L149-L157 (ELF helper 0x15744; Ghidra 11.0.3)"
     ],
-    "notes": "MaxPhaseCurr | DH=高速档力度(ParaPage.cs:6283 label), MaxPhaseCurr=最大相电流(ProControlPage.cs:2138)",
+    "notes": "MaxPhaseCurr | DH=高速档力度(ParaPage.cs:6283 label), MaxPhaseCurr=最大相电流(ProControlPage.cs:2138) Native review 2026-10-24: Native decoder logical page 42 confirms unsigned raw/4 A for nonzero values. Confidence retained pending hardware validation.",
     "rx_frame": "0x8D",
     "rx_offset": 6
   },
@@ -1614,7 +1618,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio500 (no localized string in .cs)"
+    "notes": "NRatio500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 147,
@@ -1638,7 +1642,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio1000/NRatio1500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio1000 / NRatio1500 (no localized string in .cs)"
+    "notes": "NRatio1000/NRatio1500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio1000 / NRatio1500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 148,
@@ -1662,7 +1666,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio2000/NRatio2500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio2000 / NRatio2500 (no localized string in .cs)"
+    "notes": "NRatio2000/NRatio2500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio2000 / NRatio2500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 149,
@@ -1686,7 +1690,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio3000/NRatio3500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio3000 / NRatio3500 (no localized string in .cs)"
+    "notes": "NRatio3000/NRatio3500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio3000 / NRatio3500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 150,
@@ -1710,7 +1714,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio4000/NRatio4500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio4000 / NRatio4500 (no localized string in .cs)"
+    "notes": "NRatio4000/NRatio4500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio4000 / NRatio4500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 151,
@@ -1734,7 +1738,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio5000/NRatio5500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio5000 / NRatio5500 (no localized string in .cs)"
+    "notes": "NRatio5000/NRatio5500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio5000 / NRatio5500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 152,
@@ -1758,7 +1762,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio6000/NRatio6500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio6000 / NRatio6500 (no localized string in .cs)"
+    "notes": "NRatio6000/NRatio6500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio6000 / NRatio6500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 153,
@@ -1782,7 +1786,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio7000/NRatio7500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio7000 / NRatio7500 (no localized string in .cs)"
+    "notes": "NRatio7000/NRatio7500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio7000 / NRatio7500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 154,
@@ -1806,7 +1810,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio8000/NRatio8500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio8000 / NRatio8500 (no localized string in .cs)"
+    "notes": "NRatio8000/NRatio8500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio8000 / NRatio8500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 155,
@@ -1830,7 +1834,7 @@
       "gdriver:reference/decompiled/gdriver/decompiled.js#L552755",
       "gdriver:reference/decompiled/gdriver/decompiled.js#L673219"
     ],
-    "notes": "NRatio9000 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio9000 (no localized string in .cs) | Worthless models the regen curve as a single `nRatioCurve: List<Integer>` field (name/shape match to the 10-register NRatio500..NRatio9000 curve); exact element count/scale/address not independently verifiable (native)."
+    "notes": "NRatio9000 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio9000 (no localized string in .cs) | Worthless models the regen curve as a single `nRatioCurve: List<Integer>` field (name/shape match to the 10-register NRatio500..NRatio9000 curve); exact element count/scale/address not independently verifiable (native). Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view."
   },
   {
     "addr": 156,

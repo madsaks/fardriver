@@ -58,6 +58,8 @@ def _list_json(path: Path, errors: list[str]) -> list[dict[str, Any]]:
 
 def _validate_index_records(root: Path, errors: list[str]) -> set[str]:
     evidence_ids: set[str] = set()
+    all_ids: list[str] = []
+    line_counts: dict[Path, int] = {}
     index_paths = sorted(root.glob(INDEX_GLOB))
     if not index_paths:
         errors.append(f"{root / 'protocol/api/index'}: no *.index.json files")
@@ -71,6 +73,7 @@ def _validate_index_records(root: Path, errors: list[str]) -> set[str]:
                 errors.append(f"{path}[{index}]: missing id")
                 continue
             evidence_ids.add(record_id)
+            all_ids.append(record_id)
             source = record.get("source")
             if not isinstance(source, dict):
                 errors.append(f"{path}[{index}] {record_id}: missing source object")
@@ -83,8 +86,15 @@ def _validate_index_records(root: Path, errors: list[str]) -> set[str]:
                 errors.append(f"{path}[{index}] {record_id}: source path does not exist: {rel_path}")
             if not isinstance(line, int) or line < 1:
                 errors.append(f"{path}[{index}] {record_id}: source.line must be a positive integer")
+            elif isinstance(rel_path, str) and (root / rel_path).is_file():
+                source_path = root / rel_path
+                if source_path not in line_counts:
+                    with source_path.open(errors="replace") as stream:
+                        line_counts[source_path] = sum(1 for _ in stream)
+                if line > line_counts[source_path]:
+                    errors.append(f"{path}[{index}] {record_id}: source.line exceeds file length")
 
-    duplicates = [value for value, count in Counter(evidence_ids).items() if count > 1]
+    duplicates = [value for value, count in Counter(all_ids).items() if count > 1]
     for duplicate in duplicates:
         errors.append(f"{root / 'protocol/api/index'}: duplicate index id {duplicate}")
     return evidence_ids

@@ -1,0 +1,1222 @@
+{
+  "app": "Worthless Controls 5.1.16",
+  "architecture": "AArch64 little-endian ELF64",
+  "library": "libfd_protocol.so",
+  "sizeBytes": 140472,
+  "sha256": "6d7b3f899c3c67ab2700c27c523a6aaf37efdd05d2d2f667da5ac60e809b471c",
+  "sourceArchiveMember": "config.arm64_v8a.apk!lib/arm64-v8a/libfd_protocol.so",
+  "ghidraVersion": "11.0.3",
+  "ghidraImageBase": "0x100000",
+  "javaDeclarations": 93,
+  "functions": [
+    {
+      "symbol": "ncCreateSession",
+      "elfAddress": "0xbc48",
+      "sizeBytes": 4276
+    },
+    {
+      "symbol": "ncDestroySession",
+      "elfAddress": "0xccfc",
+      "sizeBytes": 4004
+    },
+    {
+      "symbol": "ncFdHandleNotification",
+      "elfAddress": "0xdca0",
+      "sizeBytes": 92
+    },
+    {
+      "symbol": "ncFdGetTelemetry",
+      "elfAddress": "0xe010",
+      "sizeBytes": 76
+    },
+    {
+      "symbol": "ncFdBuildReadPacket",
+      "elfAddress": "0xe05c",
+      "sizeBytes": 108
+    },
+    {
+      "symbol": "ncFdBuildWritePacket",
+      "elfAddress": "0xe0c8",
+      "sizeBytes": 260
+    },
+    {
+      "symbol": "ncFdBuildOldCommand",
+      "elfAddress": "0xe1cc",
+      "sizeBytes": 64
+    },
+    {
+      "symbol": "ncFdFwCondition",
+      "elfAddress": "0xe20c",
+      "sizeBytes": 248
+    },
+    {
+      "symbol": "ncFdFwSync",
+      "elfAddress": "0xe304",
+      "sizeBytes": 144
+    },
+    {
+      "symbol": "ncJbdBuildReadRequest",
+      "elfAddress": "0xe394",
+      "sizeBytes": 52
+    },
+    {
+      "symbol": "ncJbdParseBasicInfo",
+      "elfAddress": "0xe3c8",
+      "sizeBytes": 84
+    },
+    {
+      "symbol": "ncJbdParseCellVoltages",
+      "elfAddress": "0xe7dc",
+      "sizeBytes": 284
+    },
+    {
+      "symbol": "ncJbdBuildMosfetControl",
+      "elfAddress": "0xe8f8",
+      "sizeBytes": 104
+    },
+    {
+      "symbol": "ncBmsGetTelemetry",
+      "elfAddress": "0xe960",
+      "sizeBytes": 624
+    },
+    {
+      "symbol": "ncBmsGetCellVoltages",
+      "elfAddress": "0xebd0",
+      "sizeBytes": 204
+    },
+    {
+      "symbol": "ncBmsGetErrorMessage",
+      "elfAddress": "0xec9c",
+      "sizeBytes": 128
+    },
+    {
+      "symbol": "ncBmsGetStatus",
+      "elfAddress": "0xed1c",
+      "sizeBytes": 316
+    },
+    {
+      "symbol": "ncBmsGetTemperatures",
+      "elfAddress": "0xee58",
+      "sizeBytes": 216
+    },
+    {
+      "symbol": "ncFdBuildPasswordData",
+      "elfAddress": "0xef30",
+      "sizeBytes": 108
+    },
+    {
+      "symbol": "ncFdGetConfig",
+      "elfAddress": "0xef9c",
+      "sizeBytes": 64
+    },
+    {
+      "symbol": "ncFdGetErrorMessage",
+      "elfAddress": "0xefdc",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncFdGetModelType",
+      "elfAddress": "0xf058",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncFdGetProductCode",
+      "elfAddress": "0xf0d4",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncFdGetStoredPassword",
+      "elfAddress": "0xf150",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncFdSetProductInfo",
+      "elfAddress": "0xf1cc",
+      "sizeBytes": 152
+    },
+    {
+      "symbol": "ncFdGetRpmCurve",
+      "elfAddress": "0xf264",
+      "sizeBytes": 192
+    },
+    {
+      "symbol": "ncFdGetNRatio",
+      "elfAddress": "0xf324",
+      "sizeBytes": 208
+    },
+    {
+      "symbol": "ncFdGetPollRegisters",
+      "elfAddress": "0xf3f4",
+      "sizeBytes": 56
+    },
+    {
+      "symbol": "ncFdGetConfigRegisters",
+      "elfAddress": "0xf42c",
+      "sizeBytes": 152
+    },
+    {
+      "symbol": "ncFdGetRawConfigWords",
+      "elfAddress": "0xf4c4",
+      "sizeBytes": 568
+    },
+    {
+      "symbol": "ncFdGenerateDrmKey",
+      "elfAddress": "0xf6fc",
+      "sizeBytes": 168
+    },
+    {
+      "symbol": "ncFdGetDrmStatus",
+      "elfAddress": "0xff74",
+      "sizeBytes": 272
+    },
+    {
+      "symbol": "ncFdBuildRemoteDrive",
+      "elfAddress": "0x10084",
+      "sizeBytes": 328
+    },
+    {
+      "symbol": "ncFdGetProtocolSeen",
+      "elfAddress": "0x101cc",
+      "sizeBytes": 40
+    },
+    {
+      "symbol": "ncFdResetProtocolSeen",
+      "elfAddress": "0x101f4",
+      "sizeBytes": 32
+    },
+    {
+      "symbol": "ncAntBuildRequest",
+      "elfAddress": "0x10214",
+      "sizeBytes": 60
+    },
+    {
+      "symbol": "ncAntParseStatus",
+      "elfAddress": "0x10250",
+      "sizeBytes": 96
+    },
+    {
+      "symbol": "ncAntBuildAuthCommand",
+      "elfAddress": "0x10c88",
+      "sizeBytes": 264
+    },
+    {
+      "symbol": "ncAntBuildControlCommand",
+      "elfAddress": "0x10d90",
+      "sizeBytes": 136
+    },
+    {
+      "symbol": "ncJkBuildRequest",
+      "elfAddress": "0x10e18",
+      "sizeBytes": 136
+    },
+    {
+      "symbol": "ncJkBuildWriteCommand",
+      "elfAddress": "0x10ea0",
+      "sizeBytes": 156
+    },
+    {
+      "symbol": "ncJkParseDeviceInfo",
+      "elfAddress": "0x10f3c",
+      "sizeBytes": 100
+    },
+    {
+      "symbol": "ncJkParseCellInfo",
+      "elfAddress": "0x115b8",
+      "sizeBytes": 104
+    },
+    {
+      "symbol": "ncJkGetModelName",
+      "elfAddress": "0x1181c",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncJkGetHwVersion",
+      "elfAddress": "0x11898",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncJkGetSwVersion",
+      "elfAddress": "0x11914",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncJkGetProtocolVersion",
+      "elfAddress": "0x11990",
+      "sizeBytes": 40
+    },
+    {
+      "symbol": "ncVescBuildRequest",
+      "elfAddress": "0x119b8",
+      "sizeBytes": 56
+    },
+    {
+      "symbol": "ncVescHandleData",
+      "elfAddress": "0x119f0",
+      "sizeBytes": 980
+    },
+    {
+      "symbol": "ncVescGetTelemetry",
+      "elfAddress": "0x11f98",
+      "sizeBytes": 128
+    },
+    {
+      "symbol": "ncVescGetFaultString",
+      "elfAddress": "0x12018",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncVescGetHwName",
+      "elfAddress": "0x12094",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncVescGetStatus",
+      "elfAddress": "0x12110",
+      "sizeBytes": 76
+    },
+    {
+      "symbol": "ncVescBuildInt32Command",
+      "elfAddress": "0x1215c",
+      "sizeBytes": 156
+    },
+    {
+      "symbol": "ncVescBuildTempConfig",
+      "elfAddress": "0x121f8",
+      "sizeBytes": 28
+    },
+    {
+      "symbol": "ncVescGetCanDevices",
+      "elfAddress": "0x1269c",
+      "sizeBytes": 400
+    },
+    {
+      "symbol": "ncVescBuildCanForward",
+      "elfAddress": "0x1282c",
+      "sizeBytes": 252
+    },
+    {
+      "symbol": "ncVescHandleCanData",
+      "elfAddress": "0x12928",
+      "sizeBytes": 612
+    },
+    {
+      "symbol": "ncVescGetCanTelemetry",
+      "elfAddress": "0x12b8c",
+      "sizeBytes": 216
+    },
+    {
+      "symbol": "ncDalyBuildPollCommand",
+      "elfAddress": "0x12c64",
+      "sizeBytes": 24
+    },
+    {
+      "symbol": "ncDalyBuildMosCommand",
+      "elfAddress": "0x12c7c",
+      "sizeBytes": 140
+    },
+    {
+      "symbol": "ncDalyProcessData",
+      "elfAddress": "0x12d08",
+      "sizeBytes": 104
+    },
+    {
+      "symbol": "ncDalyGetProtocol",
+      "elfAddress": "0x12fe8",
+      "sizeBytes": 52
+    },
+    {
+      "symbol": "ncDalyBuildA5PollCommand",
+      "elfAddress": "0x1301c",
+      "sizeBytes": 180
+    },
+    {
+      "symbol": "ncDalyBuildA5MosCommand",
+      "elfAddress": "0x130d0",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "ncVotolBuildReadPage",
+      "elfAddress": "0x1314c",
+      "sizeBytes": 168
+    },
+    {
+      "symbol": "ncVotolBuildLdget",
+      "elfAddress": "0x131f4",
+      "sizeBytes": 204
+    },
+    {
+      "symbol": "ncVotolBuildShow",
+      "elfAddress": "0x132c0",
+      "sizeBytes": 188
+    },
+    {
+      "symbol": "ncVotolBuildHandshake",
+      "elfAddress": "0x1337c",
+      "sizeBytes": 248
+    },
+    {
+      "symbol": "ncVotolBuildWritePage",
+      "elfAddress": "0x13474",
+      "sizeBytes": 312
+    },
+    {
+      "symbol": "ncVotolBuildReset",
+      "elfAddress": "0x135ac",
+      "sizeBytes": 176
+    },
+    {
+      "symbol": "ncVotolBuildRemoteThrottle",
+      "elfAddress": "0x1365c",
+      "sizeBytes": 316
+    },
+    {
+      "symbol": "ncVotolGetPageRaw",
+      "elfAddress": "0x13798",
+      "sizeBytes": 96
+    },
+    {
+      "symbol": "ncVotolHandleData",
+      "elfAddress": "0x137f8",
+      "sizeBytes": 112
+    },
+    {
+      "symbol": "ncVotolGetTelemetry",
+      "elfAddress": "0x13d60",
+      "sizeBytes": 164
+    },
+    {
+      "symbol": "ncVotolGetStatus",
+      "elfAddress": "0x13e04",
+      "sizeBytes": 112
+    },
+    {
+      "symbol": "ncVotolGetParams",
+      "elfAddress": "0x13e74",
+      "sizeBytes": 596
+    },
+    {
+      "symbol": "ncEnerkeyBuildPollCommand",
+      "elfAddress": "0x140c8",
+      "sizeBytes": 164
+    },
+    {
+      "symbol": "ncEnerkeyProcessData",
+      "elfAddress": "0x1416c",
+      "sizeBytes": 220
+    },
+    {
+      "symbol": "ncEnerkeyGetHandshakeStep",
+      "elfAddress": "0x14248",
+      "sizeBytes": 40
+    },
+    {
+      "symbol": "ncSotionBuildTelemetryPoll",
+      "elfAddress": "0x14270",
+      "sizeBytes": 36
+    },
+    {
+      "symbol": "ncSotionBuildAuthRead",
+      "elfAddress": "0x14294",
+      "sizeBytes": 80
+    },
+    {
+      "symbol": "ncSotionBuildAuthWrite",
+      "elfAddress": "0x142e4",
+      "sizeBytes": 80
+    },
+    {
+      "symbol": "ncSotionBuildParamRead",
+      "elfAddress": "0x14334",
+      "sizeBytes": 36
+    },
+    {
+      "symbol": "ncSotionBuildParamWrite",
+      "elfAddress": "0x14358",
+      "sizeBytes": 304
+    },
+    {
+      "symbol": "ncSotionBuildFactoryReset",
+      "elfAddress": "0x14488",
+      "sizeBytes": 72
+    },
+    {
+      "symbol": "ncSotionBuildSelfLearnToggle",
+      "elfAddress": "0x144d0",
+      "sizeBytes": 52
+    },
+    {
+      "symbol": "ncSotionBuildDirectionToggle",
+      "elfAddress": "0x14504",
+      "sizeBytes": 52
+    },
+    {
+      "symbol": "ncSotionBuildSaveRestart",
+      "elfAddress": "0x14538",
+      "sizeBytes": 36
+    },
+    {
+      "symbol": "ncSotionHandleData",
+      "elfAddress": "0x1455c",
+      "sizeBytes": 112
+    },
+    {
+      "symbol": "ncSotionGetTelemetry",
+      "elfAddress": "0x148ac",
+      "sizeBytes": 100
+    },
+    {
+      "symbol": "ncSotionGetStatus",
+      "elfAddress": "0x14910",
+      "sizeBytes": 88
+    },
+    {
+      "symbol": "ncSotionGetParamRaw",
+      "elfAddress": "0x14968",
+      "sizeBytes": 124
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwCondition",
+      "elfAddress": "0x18a28",
+      "sizeBytes": 424,
+      "returnType": "byte[]",
+      "arguments": "byte[] bArr, int i",
+      "javaLine": 66
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwSync",
+      "elfAddress": "0x18bd0",
+      "sizeBytes": 224,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 68
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_createSession",
+      "elfAddress": "0x18cb0",
+      "sizeBytes": 76,
+      "returnType": "int",
+      "arguments": "int i",
+      "javaLine": 34
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_destroySession",
+      "elfAddress": "0x18cfc",
+      "sizeBytes": 60,
+      "returnType": "void",
+      "arguments": "int i",
+      "javaLine": 48
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdHandleNotification",
+      "elfAddress": "0x18d38",
+      "sizeBytes": 172,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 98
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildReadPacket",
+      "elfAddress": "0x18de4",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 60
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildWritePacket",
+      "elfAddress": "0x18e78",
+      "sizeBytes": 236,
+      "returnType": "byte[]",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 64
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildOldCommand",
+      "elfAddress": "0x18f64",
+      "sizeBytes": 164,
+      "returnType": "byte[]",
+      "arguments": "int i, int i2, int i3, int i4",
+      "javaLine": 56
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildPasswordData",
+      "elfAddress": "0x19008",
+      "sizeBytes": 196,
+      "returnType": "byte[]",
+      "arguments": "String str",
+      "javaLine": 58
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetTelemetry",
+      "elfAddress": "0x190cc",
+      "sizeBytes": 168,
+      "returnType": "float[]",
+      "arguments": "int i",
+      "javaLine": 96
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfig",
+      "elfAddress": "0x19174",
+      "sizeBytes": 1584,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 72
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetErrorMessage",
+      "elfAddress": "0x197a4",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 78
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetModelType",
+      "elfAddress": "0x1980c",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 80
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProductCode",
+      "elfAddress": "0x19874",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 86
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdSetProductInfo",
+      "elfAddress": "0x198dc",
+      "sizeBytes": 168,
+      "returnType": "void",
+      "arguments": "int i, String str, String str2",
+      "javaLine": 102
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetStoredPassword",
+      "elfAddress": "0x19984",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 94
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRpmCurve",
+      "elfAddress": "0x199ec",
+      "sizeBytes": 168,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 92
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetNRatio",
+      "elfAddress": "0x19a94",
+      "sizeBytes": 168,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 82
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetPollRegisters",
+      "elfAddress": "0x19b3c",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 84
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfigRegisters",
+      "elfAddress": "0x19bd4",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 74
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRawConfigWords",
+      "elfAddress": "0x19c6c",
+      "sizeBytes": 168,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 90
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGenerateDrmKey",
+      "elfAddress": "0x19d14",
+      "sizeBytes": 168,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 70
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetDrmStatus",
+      "elfAddress": "0x19dbc",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 76
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildRemoteDrive",
+      "elfAddress": "0x19e24",
+      "sizeBytes": 156,
+      "returnType": "byte[]",
+      "arguments": "int i, int i2, int i3",
+      "javaLine": 62
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProtocolSeen",
+      "elfAddress": "0x19ec0",
+      "sizeBytes": 8,
+      "returnType": "int",
+      "arguments": "int i",
+      "javaLine": 88
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdResetProtocolSeen",
+      "elfAddress": "0x19ec8",
+      "sizeBytes": 8,
+      "returnType": "void",
+      "arguments": "int i",
+      "javaLine": 100
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildReadRequest",
+      "elfAddress": "0x19ed0",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 106
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseBasicInfo",
+      "elfAddress": "0x19f64",
+      "sizeBytes": 320,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 108
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseCellVoltages",
+      "elfAddress": "0x1a0a4",
+      "sizeBytes": 320,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 110
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildMosfetControl",
+      "elfAddress": "0x1a1e4",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "boolean z, boolean z2",
+      "javaLine": 104
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildRequest",
+      "elfAddress": "0x1a27c",
+      "sizeBytes": 156,
+      "returnType": "byte[]",
+      "arguments": "boolean z",
+      "javaLine": 20
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antParseStatus",
+      "elfAddress": "0x1a318",
+      "sizeBytes": 340,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr, boolean z",
+      "javaLine": 22
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildAuthCommand",
+      "elfAddress": "0x1a46c",
+      "sizeBytes": 320,
+      "returnType": "byte[]",
+      "arguments": "String str",
+      "javaLine": 16
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildControlCommand",
+      "elfAddress": "0x1a5ac",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 18
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTelemetry",
+      "elfAddress": "0x1a640",
+      "sizeBytes": 168,
+      "returnType": "float[]",
+      "arguments": "int i",
+      "javaLine": 30
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetCellVoltages",
+      "elfAddress": "0x1a6e8",
+      "sizeBytes": 168,
+      "returnType": "float[]",
+      "arguments": "int i",
+      "javaLine": 24
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetErrorMessage",
+      "elfAddress": "0x1a790",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 26
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetStatus",
+      "elfAddress": "0x1a7f8",
+      "sizeBytes": 168,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 28
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTemperatures",
+      "elfAddress": "0x1a8a0",
+      "sizeBytes": 168,
+      "returnType": "float[]",
+      "arguments": "int i",
+      "javaLine": 32
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildRequest",
+      "elfAddress": "0x1a948",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 112
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildWriteCommand",
+      "elfAddress": "0x1a9e0",
+      "sizeBytes": 160,
+      "returnType": "byte[]",
+      "arguments": "int i, int i2, int i3",
+      "javaLine": 114
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseDeviceInfo",
+      "elfAddress": "0x1aa80",
+      "sizeBytes": 204,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 126
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseCellInfo",
+      "elfAddress": "0x1ab4c",
+      "sizeBytes": 204,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 124
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetModelName",
+      "elfAddress": "0x1ac18",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 118
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetHwVersion",
+      "elfAddress": "0x1ac80",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 116
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetSwVersion",
+      "elfAddress": "0x1ace8",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 122
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetProtocolVersion",
+      "elfAddress": "0x1ad50",
+      "sizeBytes": 8,
+      "returnType": "int",
+      "arguments": "int i",
+      "javaLine": 120
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildRequest",
+      "elfAddress": "0x1ad58",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 158
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleData",
+      "elfAddress": "0x1adf0",
+      "sizeBytes": 204,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 176
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetTelemetry",
+      "elfAddress": "0x1aebc",
+      "sizeBytes": 168,
+      "returnType": "float[]",
+      "arguments": "int i",
+      "javaLine": 172
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetFaultString",
+      "elfAddress": "0x1af64",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 166
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetHwName",
+      "elfAddress": "0x1afcc",
+      "sizeBytes": 104,
+      "returnType": "String",
+      "arguments": "int i",
+      "javaLine": 168
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetStatus",
+      "elfAddress": "0x1b034",
+      "sizeBytes": 168,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 170
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildInt32Command",
+      "elfAddress": "0x1b0dc",
+      "sizeBytes": 160,
+      "returnType": "byte[]",
+      "arguments": "int i, int i2",
+      "javaLine": 156
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildTempConfig",
+      "elfAddress": "0x1b17c",
+      "sizeBytes": 176,
+      "returnType": "byte[]",
+      "arguments": "float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, boolean z",
+      "javaLine": 160
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanDevices",
+      "elfAddress": "0x1b22c",
+      "sizeBytes": 168,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 162
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildCanForward",
+      "elfAddress": "0x1b2d4",
+      "sizeBytes": 236,
+      "returnType": "byte[]",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 154
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleCanData",
+      "elfAddress": "0x1b3c0",
+      "sizeBytes": 220,
+      "returnType": "boolean",
+      "arguments": "int i, int i2, byte[] bArr",
+      "javaLine": 174
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanTelemetry",
+      "elfAddress": "0x1b49c",
+      "sizeBytes": 176,
+      "returnType": "float[]",
+      "arguments": "int i, int i2",
+      "javaLine": 164
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildPollCommand",
+      "elfAddress": "0x1b54c",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 42
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildMosCommand",
+      "elfAddress": "0x1b5e0",
+      "sizeBytes": 172,
+      "returnType": "byte[]",
+      "arguments": "boolean z, boolean z2",
+      "javaLine": 40
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyProcessData",
+      "elfAddress": "0x1b68c",
+      "sizeBytes": 204,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 46
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyGetProtocol",
+      "elfAddress": "0x1b758",
+      "sizeBytes": 8,
+      "returnType": "int",
+      "arguments": "int i",
+      "javaLine": 44
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5PollCommand",
+      "elfAddress": "0x1b760",
+      "sizeBytes": 164,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 38
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5MosCommand",
+      "elfAddress": "0x1b804",
+      "sizeBytes": 172,
+      "returnType": "byte[]",
+      "arguments": "boolean z, boolean z2",
+      "javaLine": 36
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReadPage",
+      "elfAddress": "0x1b8b0",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 182
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildLdget",
+      "elfAddress": "0x1b948",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 180
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildShow",
+      "elfAddress": "0x1b9dc",
+      "sizeBytes": 160,
+      "returnType": "byte[]",
+      "arguments": "int i, int i2",
+      "javaLine": 188
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildHandshake",
+      "elfAddress": "0x1ba7c",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 178
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildWritePage",
+      "elfAddress": "0x1bb14",
+      "sizeBytes": 244,
+      "returnType": "byte[]",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 190
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReset",
+      "elfAddress": "0x1bc08",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 186
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildRemoteThrottle",
+      "elfAddress": "0x1bc9c",
+      "sizeBytes": 208,
+      "returnType": "byte[]",
+      "arguments": "int i, int i2, boolean z, boolean z2, boolean z3, int i3, int i4",
+      "javaLine": 184
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetPageRaw",
+      "elfAddress": "0x1bd6c",
+      "sizeBytes": 172,
+      "returnType": "byte[]",
+      "arguments": "int i, int i2",
+      "javaLine": 192
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolHandleData",
+      "elfAddress": "0x1be18",
+      "sizeBytes": 204,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 200
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetTelemetry",
+      "elfAddress": "0x1bee4",
+      "sizeBytes": 168,
+      "returnType": "float[]",
+      "arguments": "int i",
+      "javaLine": 198
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetStatus",
+      "elfAddress": "0x1bf8c",
+      "sizeBytes": 168,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 196
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetParams",
+      "elfAddress": "0x1c034",
+      "sizeBytes": 168,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 194
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyBuildPollCommand",
+      "elfAddress": "0x1c0dc",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 50
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyProcessData",
+      "elfAddress": "0x1c174",
+      "sizeBytes": 204,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 54
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyGetHandshakeStep",
+      "elfAddress": "0x1c240",
+      "sizeBytes": 8,
+      "returnType": "int",
+      "arguments": "int i",
+      "javaLine": 52
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildTelemetryPoll",
+      "elfAddress": "0x1c248",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 144
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthRead",
+      "elfAddress": "0x1c2dc",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 128
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthWrite",
+      "elfAddress": "0x1c374",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 130
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamRead",
+      "elfAddress": "0x1c40c",
+      "sizeBytes": 152,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 136
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamWrite",
+      "elfAddress": "0x1c4a4",
+      "sizeBytes": 248,
+      "returnType": "byte[]",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 138
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildFactoryReset",
+      "elfAddress": "0x1c59c",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 134
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSelfLearnToggle",
+      "elfAddress": "0x1c630",
+      "sizeBytes": 160,
+      "returnType": "byte[]",
+      "arguments": "boolean z",
+      "javaLine": 142
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildDirectionToggle",
+      "elfAddress": "0x1c6d0",
+      "sizeBytes": 160,
+      "returnType": "byte[]",
+      "arguments": "boolean z",
+      "javaLine": 132
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSaveRestart",
+      "elfAddress": "0x1c770",
+      "sizeBytes": 148,
+      "returnType": "byte[]",
+      "arguments": "",
+      "javaLine": 140
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionHandleData",
+      "elfAddress": "0x1c804",
+      "sizeBytes": 204,
+      "returnType": "boolean",
+      "arguments": "int i, byte[] bArr",
+      "javaLine": 152
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetTelemetry",
+      "elfAddress": "0x1c8d0",
+      "sizeBytes": 168,
+      "returnType": "float[]",
+      "arguments": "int i",
+      "javaLine": 150
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetStatus",
+      "elfAddress": "0x1c978",
+      "sizeBytes": 168,
+      "returnType": "int[]",
+      "arguments": "int i",
+      "javaLine": 148
+    },
+    {
+      "symbol": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetParamRaw",
+      "elfAddress": "0x1ca20",
+      "sizeBytes": 172,
+      "returnType": "byte[]",
+      "arguments": "int i",
+      "javaLine": 146
+    }
+  ]
+}

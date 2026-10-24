@@ -111,8 +111,10 @@
     "confidence": "medium",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1805-L1808",
-      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L30 (voltage: Float — the field name itself is the unit description, 'voltage' meaning volts by definition; kept at medium confidence on that basis, per fix round 1 finding 3's ruling)"
-    ]
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L30 (voltage: Float — the field name itself is the unit description, 'voltage' meaning volts by definition; kept at medium confidence on that basis, per fix round 1 finding 3's ruling)",
+      "worthless:native/export/00115744_FUN_00115744.c#L586-L592 (ELF helper 0x15744)"
+    ],
+    "notes": " Native review 2026-10-24: Native reads unsigned u16/10; official source and this entry use signed i16/10. This is a signedness conflict at raw values >=32768, retained explicitly rather than silently changing either claim."
   },
   {
     "frame": "0x81",
@@ -128,9 +130,10 @@
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1805-L1810",
-      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L17 (current: Float, exact field-name match — Worthless states no unit for this field; do not assume amps from the name alone)"
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L17 (current: Float, exact field-name match — Worthless states no unit for this field; do not assume amps from the name alone)",
+      "worthless:native/export/00115744_FUN_00115744.c#L586-L592 (ELF helper 0x15744)"
     ],
-    "notes": "Fix round 1, finding 3: downgraded from medium — 'current' is an exact field-name match but, unlike 'voltage'/'rpm', the bare word does not itself specify a unit (amps vs. milliamps vs. a raw ADC count are all equally consistent with the name), and Worthless's `Float` declaration states no unit either."
+    "notes": "Fix round 1, finding 3: downgraded from medium — 'current' is an exact field-name match but, unlike 'voltage'/'rpm', the bare word does not itself specify a unit (amps vs. milliamps vs. a raw ADC count are all equally consistent with the name), and Worthless's `Float` declaration states no unit either. Native review 2026-10-24: Native reads signed i16/4, agreeing with this entry; synthetic raw -100 yields -25 A."
   },
   {
     "frame": "0x81",
@@ -146,9 +149,10 @@
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/GraphPage.cs#L1812",
-      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L28 (throttleRaw: Int, exact field-name match — Worthless states no unit/scale; 'raw' confirms it's unscaled but not that the two apps' raw counts share the same ADC range/resolution)"
+      "worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java#L28 (throttleRaw: Int, exact field-name match — Worthless states no unit/scale; 'raw' confirms it's unscaled but not that the two apps' raw counts share the same ADC range/resolution)",
+      "worthless:native/export/00115744_FUN_00115744.c#L586-L592 (ELF helper 0x15744)"
     ],
-    "notes": "Fix round 1, finding 3: downgraded from medium — the name match is exact but doesn't establish a shared numeric unit, since 'raw counts' isn't itself a physical unit (unlike 'voltage'/'rpm') and could differ in scale between the two apps' ADC front-ends."
+    "notes": "Fix round 1, finding 3: downgraded from medium — the name match is exact but doesn't establish a shared numeric unit, since 'raw counts' isn't itself a physical unit (unlike 'voltage'/'rpm') and could differ in scale between the two apps' ADC front-ends. Native review 2026-10-24: Native retains an unsigned 16-bit word at the same payload offset, agreeing with this entry."
   },
   {
     "frame": "0x99",

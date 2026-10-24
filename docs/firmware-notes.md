@@ -1,6 +1,8 @@
 # Firmware download — findings from the official 288 app
 
 Static analysis only — no network request was made against any FarDriver server for this task.
+The 2026-10-24 [native follow-up](native-protocol.md) adds offline AArch64 execution
+of Worthless's conditioning and sync routines; it does not contact a server or controller.
 Cite format matches `docs/protocol.md`: `<app>:<path under reference/decompiled/><#Lline>`. The
 BLE-side bootloader/chunk-transfer protocol (what happens *after* the phone already has a
 firmware file on local storage) is documented in `docs/protocol.md` §7, not repeated here.
@@ -174,11 +176,12 @@ telemetry values at all and are not added anywhere.
   or backend encrypts, signs, or access-controls the firmware payload before it reaches the
   `/download` exchange described above; this task made no network request, per its scope, so
   this remains unverified either way.
-- **Worthless's `fdFwCondition`/`fdGenerateDrmKey`/`fdGetDrmStatus`**: all three are native-only
-  and either uncalled (`fdGenerateDrmKey`, `fdGetDrmStatus`) or called with an opaque effect
-  (`fdFwCondition`) from Java. Disassembling `libfd_protocol.so` (explicitly out of scope for
-  this and prior tasks) would be required to say anything definite about what, if anything, they
-  encrypt or condition.
+- **Worthless native conditioning: resolved in the 2026-10-24 follow-up.**
+  `fdFwCondition` copies the image and optionally XORs the first 202 words of pages 5–103
+  using a deterministic per-page/word state sequence. The exact transformation and four
+  sync packets were recovered and emulated; see [native-protocol.md](native-protocol.md).
+  `fdGenerateDrmKey`/`fdGetDrmStatus` were statically inventoried as session/product-state
+  surfaces; controller acceptance and authorization semantics remain unverified.
 - **GDriver was not checked** for a firmware download source — per this task's brief, GDriver
   recon was scoped to "only if the other two [official app, Worthless] leave the download source
   unknown," and the official app's MQTT-based mechanism above is fully identified, so this

@@ -1,11 +1,31 @@
 from pathlib import Path
 
 from gen_decompile_index import (
+    call_arguments,
+    scan_all,
+    scan_surface,
     parse_java_byte_array,
     scan_gdriver_file,
     scan_official_file,
     scan_worthless_file,
 )
+
+
+def test_multiline_write_keeps_address_and_marks_dynamic_payload(tmp_path):
+    path = tmp_path / "reference/decompiled/official/src/MotorNet6/MotorNet6/Page.cs"
+    path.parent.mkdir(parents=True)
+    path.write_text("private void Tune() {\nWriteAddr(new byte[8] {\n0, 0, 0, 0, cfg, (byte)(value >> 8), 0, 0\n}, 38, 2);\n}\n")
+    records = scan_all(tmp_path)["official"]
+    assert len(records) == 1
+    assert records[0]["address"] == 38
+    assert records[0]["payload"]["bytes"] == []
+    assert records[0]["source"]["line"] == 2
+    assert call_arguments("F(new byte[] {1, 2}, (byte)(x + 1), 2)", 1) == ["new byte[] {1, 2}", "(byte)(x + 1)", "2"]
+
+
+def test_bilingual_dialog_does_not_duplicate_evidence_id():
+    records = scan_surface(Path("Page.cs"), 'var r = cn ? ConfirmAsync("a") : ConfirmAsync("b");', "official")
+    assert len(records) == 1
 
 
 def test_parse_java_byte_array_handles_signed_bytes_and_casts():

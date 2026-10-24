@@ -11,6 +11,66 @@
     "confidence": "mechanical"
   },
   {
+    "id": "worthless.C0205fk.native_call.166.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/C0205fk.java",
+      "line": 166
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.C0205fk.native_call.209.fdGetConfig",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetConfig",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/C0205fk.java",
+      "line": 209
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.C0205fk.native_call.210.fdGetModelType",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetModelType",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/C0205fk.java",
+      "line": 210
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.C0205fk.native_call.211.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/C0205fk.java",
+      "line": 211
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.C0864xc.native_call.79.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/C0864xc.java",
+      "line": 79
+    },
+    "confidence": "mechanical"
+  },
+  {
     "id": "worthless.NativeProtocol.fdBuildOldCommand.56",
     "app": "worthless",
     "kind": "native_api",
@@ -299,6 +359,594 @@
     "confidence": "mechanical"
   },
   {
+    "id": "worthless.cw0.native_call.2430.fdGetModelType",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetModelType",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/cw0.java",
+      "line": 2430
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.cw0.native_call.2437.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/cw0.java",
+      "line": 2437
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.g01.native_call.36.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/g01.java",
+      "line": 36
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.g11.native_call.145.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/g11.java",
+      "line": 145
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.g11.native_call.14506.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "m2878Q",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/g11.java",
+      "line": 14506
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.g11.native_call.15241.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "m2878Q",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/g11.java",
+      "line": 15241
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.g11.native_call.19966.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "m2878Q",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/g11.java",
+      "line": 19966
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.g11.native_call.9523.fdBuildRemoteDrive",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildRemoteDrive",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/g11.java",
+      "line": 9523
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.hw2.native_call.77.fdSetProductInfo",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdSetProductInfo",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/hw2.java",
+      "line": 77
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.hw2.native_call.85.fdSetProductInfo",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdSetProductInfo",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/hw2.java",
+      "line": 85
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1479.fdBuildPasswordData",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildPasswordData",
+    "symbol": "mo4468A0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1479
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1481.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "mo4468A0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1481
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1525.fdGetRawConfigWords",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetRawConfigWords",
+    "symbol": "mo4469C",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1525
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1530.fdBuildOldCommand",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildOldCommand",
+    "symbol": "mo4470D",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1530
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1718.fdHandleNotification",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdHandleNotification",
+    "symbol": "mo4471G0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1718
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1973.fdGetTelemetry",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetTelemetry",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1973
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1980.fdGetConfig",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetConfig",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1980
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1983.fdGetRpmCurve",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetRpmCurve",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1983
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.1984.fdGetNRatio",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetNRatio",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 1984
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2010.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2010
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2011.fdGetModelType",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetModelType",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2011
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2015.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2015
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2027.fdGetErrorMessage",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetErrorMessage",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2027
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2032.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2032
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2036.fdGetConfig",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetConfig",
+    "symbol": "mo4474L0",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2036
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2274.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "mo4476X",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2274
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2283.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "mo4477Y",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2283
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2316.fdGetConfig",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetConfig",
+    "symbol": "mo4477Y",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2316
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2815.fdGetErrorMessage",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetErrorMessage",
+    "symbol": "mo4489y",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2815
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ll0.native_call.2831.fdGetConfig",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetConfig",
+    "symbol": "mo4490z",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ll0.java",
+      "line": 2831
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ly0.native_call.35.fdGetRpmCurve",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetRpmCurve",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ly0.java",
+      "line": 35
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ly0.native_call.46.fdGetNRatio",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetNRatio",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ly0.java",
+      "line": 46
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ly0.native_call.63.fdGetNRatio",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetNRatio",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ly0.java",
+      "line": 63
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ly0.native_call.74.fdGetRpmCurve",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetRpmCurve",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ly0.java",
+      "line": 74
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.mw0.native_call.34.fdGetStoredPassword",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetStoredPassword",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/mw0.java",
+      "line": 34
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.mw0.native_call.50.fdGetStoredPassword",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetStoredPassword",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/mw0.java",
+      "line": 50
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.122.fdBuildPasswordData",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildPasswordData",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 122
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.122.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 122
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.138.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 138
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.160.fdBuildPasswordData",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildPasswordData",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 160
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.160.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 160
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.176.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 176
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.200.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 200
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.220.fdBuildPasswordData",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildPasswordData",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 220
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.220.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 220
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.243.fdBuildPasswordData",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildPasswordData",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 243
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.243.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 243
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.nk0.native_call.259.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/nk0.java",
+      "line": 259
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.ob0.native_call.44.fdBuildRemoteDrive",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildRemoteDrive",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/ob0.java",
+      "line": 44
+    },
+    "confidence": "mechanical"
+  },
+  {
     "id": "worthless.w31.fdBuildWritePacket.777",
     "app": "worthless",
     "kind": "write_call",
@@ -313,6 +961,54 @@
         -120,
         "(byte) i"
       ]
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.w31.native_call.466.fdFwCondition",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdFwCondition",
+    "symbol": "m8144q",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/w31.java",
+      "line": 466
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.w31.native_call.777.fdBuildWritePacket",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdBuildWritePacket",
+    "symbol": "m8144q",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/w31.java",
+      "line": 777
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.z01.native_call.76.fdGetModelType",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetModelType",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/z01.java",
+      "line": 76
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.z01.native_call.77.fdGetProductCode",
+    "app": "worthless",
+    "kind": "native_call",
+    "operation": "fdGetProductCode",
+    "symbol": "<module>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/z01.java",
+      "line": 77
     },
     "confidence": "mechanical"
   }

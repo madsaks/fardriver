@@ -1,5 +1,258 @@
 [
   {
+    "id": "gdriver.command_kind.client_authorization.1362997",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "client_authorization",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362997
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.client_authorization.1363000",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "client_authorization",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1363000
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.client_authorization.1678437",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "client_authorization",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678437
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.link_ready.1363003",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "link_ready",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1363003
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_address.1361169",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_address",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1361169
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_address.1362992",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_address",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362992
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_address.1620452",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_address",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1620452
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_address.1678316",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_address",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678316
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_address.1678427",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_address",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678427
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_flash.1361190",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_flash",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1361190
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_flash.1362938",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_flash",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362938
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_flash.1678313",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_flash",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678313
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.read_flash.1678416",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "read_flash",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678416
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.restore_defaults.1361195",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "restore_defaults",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1361195
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.restore_defaults.1362986",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "restore_defaults",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362986
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.restore_defaults.1678310",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "restore_defaults",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678310
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.restore_defaults.1678405",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "restore_defaults",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678405
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.rs232.1362931",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "rs232",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362931
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.save_parameters.1361200",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "save_parameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1361200
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.save_parameters.1362989",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "save_parameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362989
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.save_parameters.1678302",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "save_parameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678302
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.save_parameters.1678391",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "save_parameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1678391
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_kind.write_address.1362975",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "write_address",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362975
+    },
+    "confidence": "mechanical"
+  },
+  {
     "id": "gdriver.command_parser.auto_learn_exit",
     "app": "gdriver",
     "kind": "command_parser",
@@ -32,6 +285,2063 @@
         136,
         2
       ]
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.AdminControllerCommandModal.1677360",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "AdminControllerCommandModal",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1677360
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverAuthorizationBackpressureModal.1169898",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverAuthorizationBackpressureModal",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1169898
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverAuthorizationModal.1169357",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverAuthorizationModal",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1169357
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverAuthorizationProvider.1170005",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverAuthorizationProvider",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1170005
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverAuthorizationRecoveryModal.1169719",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverAuthorizationRecoveryModal",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1169719
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverFactoryResetConfirmationDialog.1554982",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverFactoryResetConfirmationDialog",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1554982
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverFactoryResetConfirmationModal.1555267",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverFactoryResetConfirmationModal",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1555267
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverParameterReference.1437817",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverParameterReference",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1437817
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverParameterSharing.1391134",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverParameterSharing",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1391134
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverPinChooser.1165051",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverPinChooser",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1165051
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverPolePairsChooser.1165750",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverPolePairsChooser",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1165750
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverProfileSwitcher.1331874",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverProfileSwitcher",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1331874
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverProfiles.1440436",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverProfiles",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1440436
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverRestorePageContent.1555888",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverRestorePageContent",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1555888
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverRestoreScreen.1553280",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverRestoreScreen",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1553280
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.FarDriverWheelSetup.1166204",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "FarDriverWheelSetup",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1166204
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.GekooFirmwarePage.1434968",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "GekooFirmwarePage",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1434968
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.SupportControllerCommandRequestCard.1612902",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "SupportControllerCommandRequestCard",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1612902
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.SupportControllerReadRunner.1707030",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "SupportControllerReadRunner",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1707030
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.assertFarDriverParameterWritable.1181697",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "assertFarDriverParameterWritable",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1181697
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.assertFreshFarDriverPersistenceAuthorization.786834",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "assertFreshFarDriverPersistenceAuthorization",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786834
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildFarDriverHeb.894458",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildFarDriverHeb",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894458
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildFarDriverHebControllerMetadata.885961",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildFarDriverHebControllerMetadata",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 885961
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildFarDriverHebImportFrame.894951",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildFarDriverHebImportFrame",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894951
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildFarDriverHebRestoreTransport.895075",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildFarDriverHebRestoreTransport",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 895075
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildFarDriverParameterExportRows.1560116",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildFarDriverParameterExportRows",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1560116
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildFarDriverProfileParameters.1181817",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildFarDriverProfileParameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1181817
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildFarDriverRollbackParameters.1182106",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildFarDriverRollbackParameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1182106
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.buildPublicFarDriverParameterSnapshot.716497",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "buildPublicFarDriverParameterSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 716497
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.canDeleteFarDriverHebArchiveEntry.883096",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "canDeleteFarDriverHebArchiveEntry",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 883096
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.captureFarDriverRollbackSnapshot.1181977",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "captureFarDriverRollbackSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1181977
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.classifyFarDriverParameterRelationship.1439826",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "classifyFarDriverParameterRelationship",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1439826
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.completeFarDriverHebParameters.786983",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "completeFarDriverHebParameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786983
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.createFarDriverAuthorizationState.1174011",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "createFarDriverAuthorizationState",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1174011
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.createFarDriverDoubleSessionAuthorizationCommand.1360604",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "createFarDriverDoubleSessionAuthorizationCommand",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1360604
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.createFarDriverParameters.816707",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "createFarDriverParameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 816707
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.createFarDriverPassOkDiagnosticObserver.823741",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "createFarDriverPassOkDiagnosticObserver",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 823741
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.createFarDriverProfileId.671072",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "createFarDriverProfileId",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671072
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.createFarDriverRecoverySuccessObserver.825130",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "createFarDriverRecoverySuccessObserver",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 825130
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.decideFarDriverHebAutomaticCapture.895258",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "decideFarDriverHebAutomaticCapture",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 895258
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.decodeFarDriverPinSelection.673325",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "decodeFarDriverPinSelection",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 673325
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.decodeFarDriverSignedByte.673305",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "decodeFarDriverSignedByte",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 673305
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.decodeKnownFarDriverSupportReadParameters.1361742",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "decodeKnownFarDriverSupportReadParameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1361742
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.decodedFarDriverParameters.1619683",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "decodedFarDriverParameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1619683
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.deleteFarDriverHebManualBackup.885017",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "deleteFarDriverHebManualBackup",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 885017
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.deriveFarDriverAuthorizationCapabilities.1173592",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "deriveFarDriverAuthorizationCapabilities",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1173592
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.describeFarDriverPairingProgress.875604",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "describeFarDriverPairingProgress",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 875604
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.downloadFarDriverHeb.1559969",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "downloadFarDriverHeb",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1559969
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.executeSupportControllerRead.1620641",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "executeSupportControllerRead",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1620641
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverFaultNumber.1283174",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverFaultNumber",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1283174
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverFlashAddressForParameterId.1621109",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverFlashAddressForParameterId",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1621109
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverFullBatteryReference.1162615",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverFullBatteryReference",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1162615
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebCompactWordAddresses.894304",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebCompactWordAddresses",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894304
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebCrc16.894858",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebCrc16",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894858
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebCrcInitialForHardware.894118",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebCrcInitialForHardware",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894118
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebDifferenceCount.894152",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebDifferenceCount",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894152
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebMissingFlashWordAddresses.894415",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebMissingFlashWordAddresses",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894415
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebParameterSnapshotSha256.883279",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebParameterSnapshotSha256",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 883279
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebRestoreOptionsForHardware.894261",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebRestoreOptionsForHardware",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894261
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverHebSha256.883621",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverHebSha256",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 883621
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverIntentIsCurrent.795377",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverIntentIsCurrent",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 795377
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverMappedFlashPageForAddress.1361615",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverMappedFlashPageForAddress",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1361615
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverMotorIsMoving.1186249",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverMotorIsMoving",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1186249
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverParameterCacheChangeKey.832532",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverParameterCacheChangeKey",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 832532
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverParameterCacheObservationKey.832599",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverParameterCacheObservationKey",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 832599
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverParameterCacheSignature.832504",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverParameterCacheSignature",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 832504
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverParameterSectionLayout.1162532",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverParameterSectionLayout",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1162532
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverParameterTelemetryIsEqual.1186255",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverParameterTelemetryIsEqual",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1186255
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverProfileTelemetryIsEqual.1186624",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverProfileTelemetryIsEqual",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1186624
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverProtocolData.1619657",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverProtocolData",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1619657
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverSecurityScreenTelemetryIsEqual.1444469",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverSecurityScreenTelemetryIsEqual",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1444469
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverSecurityTelemetryIsEqual.1186695",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverSecurityTelemetryIsEqual",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1186695
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverSecurityTelemetryIsFresh.1186252",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverSecurityTelemetryIsFresh",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1186252
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverSnapshot.867330",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 867330
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverStateFromTelemetry.1331820",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverStateFromTelemetry",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1331820
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.farDriverStateFromTelemetry.1697861",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "farDriverStateFromTelemetry",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1697861
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.fardriverCurveParameterDisplayRpm.672477",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "fardriverCurveParameterDisplayRpm",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 672477
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.fardriverCurveReferenceRpmToMechanicalRpm.672403",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "fardriverCurveReferenceRpmToMechanicalRpm",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 672403
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.fardriverMaximumWritableDisplayRpm.673392",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "fardriverMaximumWritableDisplayRpm",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 673392
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.fardriverRawSpeedToDisplayRpm.673342",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "fardriverRawSpeedToDisplayRpm",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 673342
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.filterFarDriverParameterReference.1439748",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "filterFarDriverParameterReference",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1439748
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.findFarDriverTirePreset.1167150",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "findFarDriverTirePreset",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1167150
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.firmwareMarker.1616987",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "firmwareMarker",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1616987
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.firmwareVersion.1616990",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "firmwareVersion",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1616990
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.formatFarDriverMorseCode.1187403",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "formatFarDriverMorseCode",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187403
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.formatFarDriverNumericValue.1187107",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "formatFarDriverNumericValue",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187107
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.formatFarDriverTireSize.1167135",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "formatFarDriverTireSize",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1167135
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.freshFarDriverProtocolData.786796",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "freshFarDriverProtocolData",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786796
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.getFarDriverControllerWriteDisclaimerAcceptanceKey.1168610",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "getFarDriverControllerWriteDisclaimerAcceptanceKey",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1168610
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.getFarDriverHebControllerIdentity.787070",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "getFarDriverHebControllerIdentity",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 787070
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.getUrlCacheBreaker.51001",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "getUrlCacheBreaker",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 51001
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.hasAcceptedFarDriverControllerWriteDisclaimer.1168745",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "hasAcceptedFarDriverControllerWriteDisclaimer",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1168745
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.hasCompleteFarDriverHebParameters.786950",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "hasCompleteFarDriverHebParameters",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786950
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.importHeb.1557084",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "importHeb",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1557084
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.interpretFarDriverCommandFrame.1362781",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "interpretFarDriverCommandFrame",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362781
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.interpretSupportControllerReadWord.1361665",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "interpretSupportControllerReadWord",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1361665
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isExplicitFarDriverName.667877",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isExplicitFarDriverName",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 667877
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverAuthorizationBackpressureError.878827",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverAuthorizationBackpressureError",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 878827
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverAuthorizationTransientAdmissionError.878949",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverAuthorizationTransientAdmissionError",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 878949
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverAutoLearnActive.1191831",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverAutoLearnActive",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1191831
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverAutoLearnStateObservation.1336712",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverAutoLearnStateObservation",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1336712
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverControllerCurrentLimitParameter.1181700",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverControllerCurrentLimitParameter",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1181700
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverMobileCredential.1173349",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverMobileCredential",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1173349
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverNumericCredential.1173334",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverNumericCredential",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1173334
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverParameterId.671039",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverParameterId",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671039
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverParameterSupportedByFrameGeneration.1174505",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverParameterSupportedByFrameGeneration",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1174505
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverParameterValueObservation.1336985",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverParameterValueObservation",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1336985
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverParameterWritable.1181688",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverParameterWritable",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1181688
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverPassAuthorized.878753",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverPassAuthorized",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 878753
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverPersistAuthorizationError.879070",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverPersistAuthorizationError",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 879070
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverReadySnapshot.825070",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverReadySnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 825070
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isFarDriverStrongCredential.1173402",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isFarDriverStrongCredential",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1173402
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isGekooParameterFirmwareSupported.676445",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isGekooParameterFirmwareSupported",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 676445
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isProviderOwnedFarDriverPairingConnectionFailure.875795",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isProviderOwnedFarDriverPairingConnectionFailure",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 875795
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isSupportControllerReadRequest.1360745",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isSupportControllerReadRequest",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1360745
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isTargetedFarDriverProbeBinding.720307",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isTargetedFarDriverProbeBinding",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 720307
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isValidFarDriverConnection.1186965",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isValidFarDriverConnection",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1186965
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.isValidFarDriverCredential.1173449",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "isValidFarDriverCredential",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1173449
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.listFarDriverHebArchive.884878",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "listFarDriverHebArchive",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 884878
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.listFarDriverHebArchivePage.884548",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "listFarDriverHebArchivePage",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 884548
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.loadCachedFarDriverParameterSnapshot.833444",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "loadCachedFarDriverParameterSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 833444
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.maintainFarDriverSessionAuthorization.879209",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "maintainFarDriverSessionAuthorization",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 879209
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.materializeFarDriver.689414",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "materializeFarDriver",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 689414
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.mergeCachedFarDriverParameterSnapshot.833016",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "mergeCachedFarDriverParameterSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 833016
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizeActiveFarDriverProfileId.671866",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizeActiveFarDriverProfileId",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671866
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizeAdminSupportControllerPreview.1628057",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizeAdminSupportControllerPreview",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1628057
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizeFarDriverPassOk.878714",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizeFarDriverPassOk",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 878714
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizeFarDriverProfile.671638",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizeFarDriverProfile",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671638
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizeFarDriverProfiles.671778",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizeFarDriverProfiles",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671778
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizeFarDriverRollbackSnapshot.671919",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizeFarDriverRollbackSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671919
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizeSupportControllerCommandResult.1363008",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizeSupportControllerCommandResult",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1363008
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.normalizedFarDriverFirmware.867327",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "normalizedFarDriverFirmware",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 867327
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.parseFarDriverHeb.894727",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "parseFarDriverHeb",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 894727
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.parseFarDriverMorseCodeInput.1187449",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "parseFarDriverMorseCodeInput",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187449
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.parseFarDriverTireGeometry.1166974",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "parseFarDriverTireGeometry",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1166974
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.parseFarDriverWheelSetup.1167075",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "parseFarDriverWheelSetup",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1167075
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.performFirmwareUpdate.1429516",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "performFirmwareUpdate",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1429516
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.pickFarDriverHeb.1559623",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "pickFarDriverHeb",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1559623
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.publicFarDriverParameterSignature.716648",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "publicFarDriverParameterSignature",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 716648
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.readFarDriverFlashWord.673261",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "readFarDriverFlashWord",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 673261
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.readFarDriverHebArchiveBytes.885773",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "readFarDriverHebArchiveBytes",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 885773
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.readFreshFarDriverParameterSnapshot.1620360",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "readFreshFarDriverParameterSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1620360
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.recordFarDriverFactoryResetConfirmation.1555482",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "recordFarDriverFactoryResetConfirmation",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1555482
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.recordFarDriverHebCapture.885328",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "recordFarDriverHebCapture",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 885328
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.reduceFarDriverAuthorization.1174042",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "reduceFarDriverAuthorization",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1174042
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.reportControllerCommandResult.1706373",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "reportControllerCommandResult",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1706373
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.requestFirmwareUpdate.1431641",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "requestFirmwareUpdate",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1431641
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.resolveFarDriverCacheIdentity.811869",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "resolveFarDriverCacheIdentity",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 811869
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.resolveFarDriverControllerCurrentMaximum.1181725",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "resolveFarDriverControllerCurrentMaximum",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1181725
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.resolveFarDriverFaultGuidance.1077724",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "resolveFarDriverFaultGuidance",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1077724
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.resolveFarDriverParameterDisplayRange.1187246",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "resolveFarDriverParameterDisplayRange",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187246
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.resolveFarDriverSecurityScreenState.1447170",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "resolveFarDriverSecurityScreenState",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1447170
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.resolveFarDriverSpeedDisplayBounds.673422",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "resolveFarDriverSpeedDisplayBounds",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 673422
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.resolveFarDriverStartupIdentity.721398",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "resolveFarDriverStartupIdentity",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 721398
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.sanitizeFarDriverConfiguration.860592",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "sanitizeFarDriverConfiguration",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 860592
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.sanitizeFarDriverMorseCodeInput.1187436",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "sanitizeFarDriverMorseCodeInput",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187436
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.sanitizePublicFarDriverParameterSnapshot.716566",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "sanitizePublicFarDriverParameterSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 716566
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.saveCachedFarDriverParameterSnapshot.833589",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "saveCachedFarDriverParameterSnapshot",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 833589
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.saveFarDriverBackupFile.1559797",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "saveFarDriverBackupFile",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1559797
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.saveFarDriverControllerWriteDisclaimerAcceptance.1169004",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "saveFarDriverControllerWriteDisclaimerAcceptance",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1169004
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.selectFarDriverAuthorizationDecision.1174167",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "selectFarDriverAuthorizationDecision",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1174167
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.selectFarDriverReconnectTransport.723035",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "selectFarDriverReconnectTransport",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 723035
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.selectRequiredFarDriverPairingRequirements.875579",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "selectRequiredFarDriverPairingRequirements",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 875579
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.setUrlCacheBreaker.50994",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "setUrlCacheBreaker",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 50994
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.shouldAutomaticallyRunSupportControllerRead.1360777",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "shouldAutomaticallyRunSupportControllerRead",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1360777
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.shouldReportDeferredFarDriverPairingFailure.875878",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "shouldReportDeferredFarDriverPairingFailure",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 875878
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.shouldReportFarDriverPairingConnectionFailure.875906",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "shouldReportFarDriverPairingConnectionFailure",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 875906
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.subscribeToFarDriverPassOkDiagnostics.822450",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "subscribeToFarDriverPassOkDiagnostics",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 822450
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.subscribeToFarDriverRecoverySuccessObservations.824785",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "subscribeToFarDriverRecoverySuccessObservations",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 824785
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.toFarDriverParameterControllerValue.1187202",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "toFarDriverParameterControllerValue",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187202
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.toFarDriverParameterDisplayValue.1187167",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "toFarDriverParameterDisplayValue",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187167
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.useFarDriverAuthorization.1173094",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "useFarDriverAuthorization",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1173094
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.useFarDriverAutoLearnExit.1336031",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "useFarDriverAutoLearnExit",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1336031
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.usesFarDriverBinarySequenceInput.1187396",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "usesFarDriverBinarySequenceInput",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187396
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.usesPositiveFarDriverParameterDisplay.1187159",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "usesPositiveFarDriverParameterDisplay",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1187159
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.validateFarDriverProfileDraft.671231",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "validateFarDriverProfileDraft",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671231
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.validateFarDriverProfileParameterValue.671126",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "validateFarDriverProfileParameterValue",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 671126
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.validateImportedFarDriverHeb.1559588",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "validateImportedFarDriverHeb",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1559588
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverAutoLearnState.1336819",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverAutoLearnState",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1336819
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverConfigurationDump.786939",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverConfigurationDump",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786939
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverFlashPage.786942",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverFlashPage",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786942
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverParameterReadback.786605",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverParameterReadback",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786605
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverParameterValue.1337046",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverParameterValue",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1337046
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverPassOk.786372",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverPassOk",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786372
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverReportedIdentity.785787",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverReportedIdentity",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 785787
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.waitForFarDriverWritableAccess.786170",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "waitForFarDriverWritableAccess",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 786170
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.function.withFarDriverControllerWriteDisclaimerDeadline.1168319",
+    "app": "gdriver",
+    "kind": "function",
+    "symbol": "withFarDriverControllerWriteDisclaimerDeadline",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1168319
     },
     "confidence": "mechanical"
   }

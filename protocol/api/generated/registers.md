@@ -1,0 +1,2139 @@
+# Register reference
+
+Generated from `protocol/registers.json`. Confidence describes the recorded interpretation; app limits do not establish safe vehicle limits. Cross-app differences remain in the notes and source claims.
+
+## 0x06: custom_output_bit_pattern
+
+**Custom output bit pattern / anti-theft pulse type** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Low byte holds rcv_Arg2 plus (bits1-2) the anti-theft pulse type (0=off,1-3=pulse styles); high byte is a 7-bit custom on/off pattern entered as a string of 1s/0s in the UI, used to drive an output (labelled 'Morse Code' in the app). GDriver independently describes this same high-byte field as a switch sequence that lets the rider clear or flip the controller's configured speed limit, and is explicit that this bit pattern has nothing to do with any of the app's other secrets — not the mobile-access password, not the long write-lock password, and not the separate Flash-Save PIN — though which controller profile treats the top bit and any special zero pattern as meaningful is left unresolved (effect unverified).
+
+自定义输出模式 / 防盗脉冲:0-无效,1-防盗脉冲1类型,2-防盗脉冲2类型,3-防盗脉冲3类型 | Worthless: morseCode int field + fd_morse_code="Morse Code (0-127)" corroborates the high-byte 7-bit pattern (0-127) exactly; the low-byte anti-theft pulse type sub-field is not independently named in Worthless, so the register as a whole stays low (compound bitfield, address not verifiable).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3475`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4459`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8916`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L919`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L153`
+- `worthless:strings/values.json#fd_morse_code`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x07: speed_loop_pi_gain
+
+**Speed loop KP/KI gain pair** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 1 to 128. Group: motor.
+
+Low byte is the proportional gain (SpeedKP) and high byte the integral gain (SpeedKI) of the closed-loop speed regulator; tunes how aggressively motor RPM tracks the commanded speed. GDriver corroborates the KP/KI split for controller profiles that use this stored speed-regulation loop, though it notes some firmware variants skip the stored loop altogether — either hard-coding a fixed response or computing one from elsewhere instead. Where the loop is active, too little gain leaves speed error lingering, while too much brings on hunting, surging, or outright instability (effect unverified — loop is only active on some control paths).
+
+SpeedKP/SpeedKI | SpeedKP / SpeedKI: label: SpeedKP / SpeedKI (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7823`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7873`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x08: throttle_voltage_range
+
+**Throttle low/high voltage threshold** — u16; scale 0.05; unit V; confidence **low**.
+
+Access: rw. App range: 0 to 5. Group: throttle.
+
+Low byte is the throttle signal voltage treated as zero throttle (0-2V), high byte the voltage treated as full throttle (2.5-5V); values outside the configured window are clamped. GDriver's own parameter registry independently confirms this exact address for both endpoints ('throttleLowVoltage'/'throttleHighVoltage'), and adds that a too-high low-point risks either an unsafe idle command or false throttle-loss detection, so both endpoints should be measured and calibrated together with margin for temperature and manufacturing drift.
+
+ThrottleLow/ThrottleHigh | ThrottleLow=油门低阈值(ProControlPage.cs:2156), ThrottleHigh=油门高阈值(ProControlPage.cs:2157)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7560`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7616`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673110`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x09: tcs_and_startup_config
+
+**Traction control enable / startup field-weakening word (FAIF)** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: protection.
+
+Bit 5 of the high byte enables Traction Control (TCS) per TCS_Clicked, toggled together with addr190/addr200; the same 16-bit word is also written wholesale by the Pro-mode FAIF field. GDriver independently treats FAIF as a combined register: one speed-change threshold bundled with several unrelated protection/control flags — among them something tied to sudden motor-RPM swings and Hall-sensor status — rather than a single traction-control strength dial, and warns that writing a partial value can silently flip a bit that has nothing to do with the value being tuned. This corroborates the official app's own wholesale-write behaviour, though the individual bit layout remains unconfirmed (effect unverified).
+
+TCS开启/关闭; FAIF | Worthless has a distinct `faif` int field confirming FAIF is a real firmware quantity, not a UI-only label; the TCS-enable sub-bit is not independently named in Worthless (fieldWeakening/cruiseEnable are separate, unrelated booleans).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3982`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6298`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L916`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L92`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x0A: curve_response_time
+
+**Acceleration/deceleration curve response time** — u16; scale 1; unit ms; confidence **low**.
+
+Access: rw. App range: 10 to 2002. Group: motor.
+
+Time constant for the throttle/torque ramp curve; larger values make acceleration and deceleration smoother (exact scale approximate, see CurveTime_TextChanged's num=val/2-1 transform). GDriver corroborates the millisecond framing but clarifies the controller actually counts a configured number of internal update calls between curve steps rather than running a free timer, so a bigger setting spaces the curve's steps further apart in real time; that mechanism is consistent with why this entry's displayed milliseconds are only approximate on some controllers (effect unverified).
+
+CurveTime | CurveTime=曲线采样(ProControlPage.cs:2117) | Worthless: curveTime int field + "Curve Time" label confirm name/semantics; no explicit range/scale recoverable statically (native).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9571`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L79`
+- `worthless:strings/values.json#fd_curve_time`
+- `worthless:strings/values.json#log_viewer_setting_curve_time`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x0B: direction_brake_park_config
+
+**Direction, brake response, park, NTC/PTC, anti-theft, phase-exchange config bits** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Packed configuration word written by many separate UI controls, each preserving the other bits: bit7=motor rotation direction, bits5-6=park mode (0=reverse-park,1=switch-park,2=disabled,3=slow-descent park), bits0-4=brake response mode, high-byte bits4-7(low nibble of low byte per NTC_PTC)=temperature sensor type, high-byte bit3=PC13/response mode, high-byte bit4=current anti-theft enable, low-byte bit7=phase exchange, high-byte bits0-2=slow-descent (steep hill) level (effect unverified). Worthless models direction, parkConfig, phaseExchange and brakeConfig as four separate top-level fields, corroborating that this really is a multi-purpose packed word matching the official bit breakdown; Worthless separately documents that two of the brake-response sub-field's values, 5 and 6, select distinct brake modes that turn on analog brake-lever input with an adjustable regen depth (one plain, one combined with park), refining but not fully resolving the bits0-4 brake-mode enum. GDriver's own parameter registry independently confirms this exact address for three of these packed sub-fields — 'motorDirection', 'phaseExchange', and 'temperatureSensorType' — matching the direction, phase-exchange and NTC/PTC bits above, and adds that flipping motor-direction is not guaranteed to be the same operation as physically swapping a pair of phase leads, while phase-exchange instead swaps which current sensor and output channel line up with each phase in software, without by itself reversing motor rotation or fixing every possible Hall/phase mismatch. GDriver also independently describes (by name match only, address unconfirmed) matching park-mode, brake-input, PC13, current-anti-theft, and slow-down-Park parameters consistent with this word's remaining sub-fields, including that PC13's role (drive-cutoff/cruise-on-ground-or-disconnect vs. a Normal/Race response-profile selector) is itself controller-design-dependent.
+
+方向/驻坡/刹车/NTC_PTC/PC13/电流防盗/交换相线/陡坡缓降 combined register | Worthless: direction/parkConfig/phaseExchange/brakeConfig as separate fields + fd_brake_mode_hint enum values 5/6 (name+semantics match; full bit map and address not independently verifiable).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2378`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3420`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5008`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5041`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8787`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8821`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8855`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8888`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9610`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11746`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L930`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L931`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L83`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L171`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L178`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L50`
+- `worthless:strings/values.json#fd_brake_mode_hint`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672842`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x0C: phase_offset
+
+**Motor phase/encoder angle offset** — u16; scale 0.1; unit deg; confidence **low**.
+
+Access: rw. App range: 0 to 3600. Group: motor.
+
+Electrical angle offset applied between the encoder/Hall reading and the motor's true rotor position, used to correct phase alignment; no min/max clamp observed in the UI. GDriver's own parameter registry independently confirms this exact address, describing the stored value as a self-learned electrical-angle figure that keeps the rotor-position reading lined up with what the controller commands for phase current — get it wrong and the symptoms run from weak torque and rough or noisy running to high current, bad commutation, or outright motor faults, so it should only be set by running self-learning or by copying a value already proven correct for that specific motor/wiring combination (effect unverified).
+
+PhaseOffset | PhaseOffset=相移(ProControlPage.cs:2084) | Worthless: phaseOffset Float field + "Phase Offset" label confirm name/semantics.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5078`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L179`
+- `worthless:strings/values.json#fd_phase_offset`
+- `worthless:strings/values.json#log_viewer_setting_phase_offset`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672902`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x0D: zero_throttle_adc_coeff
+
+**Zero-position ADC calibration coefficient** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 768 to 1024. Group: throttle.
+
+The official app labels this field 'ZeroBattCoeff' (0电量系数, "zero battery-level coefficient") with a stored range of 768-1024, which earlier led this entry to guess the literal name was a misnomer for a throttle zero-point ADC calibration (grouped alongside addr8's throttle-voltage register). GDriver's own parameter registry directly contradicts that guess: it independently maps a same-address, same-range field ('zeroBatteryCoeff', minimum 768, maximum 1024) to this exact register and describes it at length as the lower endpoint of the controller's normalized battery-gauge (state-of-charge) calculation — calibrated from known battery voltages, distinct from throttle calibration (addr8's separate throttleLowVoltage/throttleHighVoltage fields), and explicitly warned not to be confused with the BMS or the controller's own low-voltage cutoff (addr31). Because this is a structural address-and-range match from an independent third app rather than just prose corroboration, the literal 'battery' name is very likely correct and this entry's earlier throttle-ADC theory is very likely wrong — confidence is nonetheless held at 'low' per this task's rule against raising confidence from GDriver evidence alone; see docs/decompile-notes.md for the full writeup.
+
+ZeroBattCoeff (label likely a misnomer for throttle ADC zero point) | ZeroBattCoeff=0电量系数(ProControlPage.cs:2119)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8605`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672904`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x0E: full_throttle_adc_coeff
+
+**Full-position ADC calibration coefficient** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 1024 to 1536. Group: throttle.
+
+The official app labels this field 'FullBattCoeff' (满电量系数, "full battery-level coefficient") with a stored range of 1024-1536, which earlier led this entry to guess it was a throttle full-scale ADC calibration paired with addr13. GDriver's own parameter registry directly contradicts that guess: it independently maps a same-address field ('fullBatteryCoeff') to this exact register and describes it as the point at which the controller's own gauge calls the battery full. Depending on how braking is configured, regenerative current can start to taper off somewhere past ~95% charge, and the voltage number shown here is only a rough stand-in for 'pack is full' — riders should not treat it as a hard cutoff that regen respects. As with addr13, this is a structural address match from an independent third app, so the literal 'battery' name is very likely correct and this entry's earlier throttle-ADC theory is very likely wrong — confidence is nonetheless held at 'low' per this task's rule against raising confidence from GDriver evidence alone; see docs/decompile-notes.md for the full writeup.
+
+FullBattCoeff (label likely a misnomer for throttle ADC full-scale point) | FullBattCoeff=满电量系数(ProControlPage.cs:2120)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8556`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672906`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x0F: mid_speed_current_loop_gain
+
+**Mid-speed current-loop KI/KP gain pair** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 1 to 16. Group: motor.
+
+Low byte (MidKI) and high byte (labelled StartKI in one handler) tune the current-loop controller used around mid motor speed; the decompiled UI/variable names are inconsistent about which half is which. Worthless models midKI and startKI as distinct fields, and its auto-tune feature ("Resistance Scan") writes the same computed gain into all three of the Start/Mid/Max KI slots and derives each stage's proportional gain as ten times that stage's integral gain, corroborating that Start/Mid/Max-staged current-loop KI/KP gains are a real firmware concept. GDriver corroborates that MidKI and StartKI are both real, independent points on a Start/Mid/Max integral-gain schedule (not just a naming inconsistency) — too much gain causes roughness or instability, too little feels weak or slow — though it does not resolve which byte holds which value (effect unverified).
+
+MidKI/StartKI | label: MidKI / StartKI (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7974`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8153`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L145`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L220`
+- `worthless:strings/values.json#log_viewer_setting_mid_ki`
+- `worthless:strings/values.json#log_viewer_setting_start_ki`
+- `worthless:strings/values.json#fd_resistance_scan_warning`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x10: max_speed_current_loop_gain
+
+**Max-speed / startup current-loop KI/KC gain pair** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 1 to 24. Group: motor.
+
+Low byte (MaxKI, range 1-24) and high byte (StartKC, range 1-16) tune the current-loop controller; the decompiled UI/variable names are inconsistent about which is which. Worthless models maxKI and startKC as two distinct fields, consistent with (but not resolving) the official code's own inconsistent cross-wiring of these two labels. GDriver treats MaxKI as the upper point of the same Start/Mid/Max integral-gain schedule, and describes the paired StartKC-labelled field as a 'stored starting KC' value that some controllers ignore entirely or derive from Starting KI instead — meaning a change to that half of this register may produce no observable effect on those controllers (effect unverified).
+
+MaxKI/StartKC | label: MaxKI / StartKC (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7924`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8108`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L138`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L219`
+- `worthless:strings/values.json#log_viewer_setting_max_ki`
+- `worthless:strings/values.json#log_viewer_setting_start_kc`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x11: mid_max_current_loop_kc_gain
+
+**Mid/Max KC current-loop gain pair** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 1 to 16. Group: motor.
+
+Two related current-loop gain coefficients (MaxKC low byte, MidKC high byte per one handler, swapped in the other) packed into one register. Worthless: maxKC/midKC fields + "Max KC"/"Mid KC" labels confirm name/semantics. GDriver describes both as 'stored KC' fields that are not dependable independent adjustments: on supported control paths the controller may ignore the write outright, or instead compute the paired proportional term from its matching KI register, so on those controllers a change to either half of this KC pair can go entirely unnoticed by the rider — the precise byte order and which controllers actually use these values as written remain unverified.
+
+MaxKC/MidKC | label: MaxKC / MidKC (no localized string in .cs) | Worthless: maxKC/midKC fields + "Max KC"/"Mid KC" labels confirm name/semantics.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8022`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8065`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L137`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L144`
+- `worthless:strings/values.json#log_viewer_setting_max_kc`
+- `worthless:strings/values.json#log_viewer_setting_mid_kc`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x12: d_axis_inductance
+
+**D-axis inductance (LD)** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 10 to 20000. Group: motor.
+
+Motor's d-axis winding inductance parameter used by the FOC current controller; units are not confirmed from the decompiled UI. GDriver independently reports that, despite the 'LD' name matching d-axis inductance, on at least one FarDriver controller design the accepted value is instead clamped into a 20-to-90-degree cap applied to the commanded current-vector angle, not consumed as a literal inductance figure, and other controller designs are said to handle the same field yet another way — so this field's true physical meaning is not safely assumed to be a plain inductance on every controller (name match only, address unconfirmed; effect unverified).
+
+LD | label: LD (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6340`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x13: alarm_delay
+
+**Fault alarm delay** — u16; scale 1; unit ms; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: protection.
+
+Delay before the controller reports a detected fault condition, used to filter transient glitches (effect unverified).
+
+AlarmDelay | AlarmDelay=告警延时(ProControlPage.cs:1755)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9651`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L33`
+- `worthless:strings/values.json#fd_alarm_delay`
+
+## 0x14: pole_pairs
+
+**Motor pole pairs** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 2 to 48. Group: motor.
+
+Number of magnetic pole pairs in the motor; used to convert between electrical and mechanical RPM. GDriver's own parameter registry independently confirms this exact address and role, converting electrical rotation to calculated mechanical RPM (enter a bigger count and the same electrical signal computes out to a slower calculated RPM); it also independently notes that the pole-pair count only relabels the RPM axis GDriver displays for the drive-current/regen curves (addr136-155), leaving their stored breakpoints, commutation, current, and torque untouched.
+
+PolePairs | PolePairs=极对数(PolePairsDisplay label, ProControlPage.cs:1561)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4971`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L182`
+- `worthless:strings/values.json#fd_pole_pairs`
+- `worthless:strings/values.json#log_viewer_setting_pole_pairs`
+- `worthless:strings/values.json#log_viewer_snapshot_pole_pairs`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672838`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x15: max_speed_high_gear
+
+**Maximum motor speed (high gear)** — u16; scale 1; unit rpm; confidence **low**.
+
+Access: rw. App range: 0 to 12000. Group: motor.
+
+Electrical RPM ceiling the controller enforces in high gear / full-speed mode. GDriver's own parameter registry independently confirms this exact address and role as an RPM ceiling (not a guaranteed road speed), and adds that on some control paths the controller also uses this high-gear value when deriving linked Mid/Low-gear and Reverse-speed behaviour internally, so the four gear-speed registers (addr21/40-42) should be treated as a coordinated set rather than four independent caps.
+
+MaxSpeed / DHSpeed | DHSpeed=高速档速度(ParaPage.cs:6523 label), MaxSpeed=最大转速(ProControlPage.cs:1682)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3016`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4665`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L951`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L142`
+- `worthless:strings/values.json#fd_gear_speed`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672874`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x16: rated_power
+
+**Motor rated power** — u16; scale 1; unit W; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Nameplate rated power of the motor, used by the controller for power-limiting calculations. GDriver's own parameter registry independently confirms this exact address and role as a stored nameplate value only — it explicitly states this field is not an output-power limit for the controller: dialing it up leaves torque, top speed, and both current ceilings (line and phase) exactly where they were.
+
+RatedPower | RatedPower=额定功率(ProControlPage.cs:1563 label / 3563)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4609`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L954`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L186`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672850`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x17: rated_voltage
+
+**Battery rated voltage** — u16; scale 0.1; unit V; confidence **low**.
+
+Access: rw. App range: 0 to 6553.5. Group: battery.
+
+Nominal pack voltage class (e.g. 48V/60V/72V) the controller is configured for; affects protection thresholds and internal scaling. GDriver's own parameter registry independently confirms this exact address and clarifies it is active calibration rather than a passive label — the controller uses it to normalize low-voltage protection (addr31) and other derived battery-state values (addr13/14, addr159), so an incorrect class can shift protection or gauge thresholds to the wrong real-world voltage.
+
+RatedVoltage / 额定电压
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2416`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4560`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L953`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L188`
+- `worthless:strings/values.json#rated_voltage`
+- `worthless:strings/values.json#log_viewer_setting_rated_voltage`
+- `worthless:strings/values.json#log_viewer_snapshot_rated_voltage`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672846`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x18: rated_speed
+
+**Motor rated speed** — u16; scale 1; unit rpm; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Nameplate rated rotational speed of the motor, used as a reference point for the power/torque curves. GDriver's own parameter registry independently confirms this exact address and adds that the stored value contributes to a voltage-coupled quantity the controller uses when shaping its high-speed drive-current curve during startup (see addr136-145) — it is not equivalent to the High-gear speed limit (addr21) and should not be inflated simply to chase a higher top speed.
+
+RatedSpeed | RatedSpeed=额定转速(ProControlPage.cs:1681)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4510`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L972`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672852`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x19: max_line_current
+
+**Maximum battery (line) current** — u16; scale 0.25; unit A; confidence **low**.
+
+Access: rw. App range: 0 to 16383. Group: limits.
+
+Peak current the controller draws from the battery side, independent of motor phase current; protects the pack and wiring. Worthless names this field maxLineCurrent (Float) and labels it "Max Line Current" / "Hardware max current ceiling." — confirms name and role as a fixed hardware ceiling (as opposed to the separate Custom-override register, addr 38), but the explicit ×4-storage scale note in Worthless is documented only for the Custom-override fields (see addr 38/39), so it isn't independently applied here. GDriver's own parameter registry independently confirms this exact address and role as the high-gear line-current request that the low/mid-gear percentages (addr50) are based on, and adds that it is a requested ceiling only — measured battery current can remain below the entered value once phase current, battery sag, BMS limits, temperature, and protections are applied.
+
+MaxLineCurr | DH=高速档力度(ParaPage.cs:6283 label), MaxLineCurr=最大线电流(ProControlPage.cs:2137) Native review 2026-10-24: Native decoder logical page 24 confirms unsigned raw/4 A; synthetic raw 400 gives 100 A after the separate Java fixed-point conversion. Confidence retained pending hardware validation.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2786`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5128`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L974`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L140`
+- `worthless:strings/values.json#max_line_curr`
+- `worthless:strings/values.json#fd_hw_max_current_desc`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672854`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `worthless:native/export/00115744_FUN_00115744.c#L90-L109 (ELF helper 0x15744; Ghidra 11.0.3)`
+
+## 0x1A: motor_and_gear_config_word
+
+**Weak-field strength, speed-pulse count, follow/ECO/gear mode config** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Packed word: low-byte bits4-5=field-weakening strength (fast/middle/slow), low-byte bits0-1=follow-throttle mode, low-byte bits2-3=ECO throttle response curve (linear/sport/eco), high-byte bits0-4=speed-sensor pulse count (1-31), high-byte bits5-7=gear default mode; several separate UI controls all write this one register. GDriver's own parameter registry maps a 'speedPulses' output-configuration field to this same address, describing it as a value that is added into an internal pulse-output configuration rather than linearly multiplying the displayed speed — consistent with this being the high-byte speed-sensor-pulse-count sub-field, though GDriver does not expose the rest of this word's packing (effect unverified).
+
+弱磁特性/速度脉冲/跟随/油门响应/档位方式
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2745`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8382`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8719`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9005`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9038`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9403`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L975`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L976`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672914`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x1B: q_axis_inductance
+
+**Q-axis inductance (LQ)** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 10 to 20000. Group: motor.
+
+Motor's q-axis winding inductance parameter used by the FOC current controller; units are not confirmed. GDriver independently reports that, despite the 'LQ' name matching q-axis inductance, at least one FarDriver controller design builds a pair of switching thresholds — one above, one below — that track a live motor state from this field, instead of consuming it as a bare physical inductance figure; so, as with addr18/LD, this field's true physical meaning may not match its name on every controller (name match only, address unconfirmed; effect unverified).
+
+LQ | label: LQ (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6382`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x1C: battery_rated_capacity
+
+**Battery rated capacity** — u16; scale 1; unit Ah; confidence **low**.
+
+Access: rw. App range: 20 to 250. Group: battery.
+
+Nameplate amp-hour capacity of the battery pack, used for state-of-charge estimation. GDriver's own parameter registry independently confirms this exact address and role, and explicitly notes the stored value is for identification/reporting only — it does not change the controller's current limits, unlock additional energy, override the BMS, or feed the controller's own battery-percentage (SOC) gauge calculation (addr13/14).
+
+BattRatedCap1 | BattRatedCap1=电池容量(ProControlPage.cs:2143)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9516`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L43`
+- `worthless:strings/values.json#batt_capacity`
+- `worthless:strings/values.json#fd_battery_capacity`
+- `worthless:strings/values.json#log_viewer_setting_battery_capacity`
+- `worthless:strings/values.json#log_viewer_snapshot_battery_cap`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672894`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x1D: motor_internal_resistance
+
+**Motor phase internal resistance** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Stator winding resistance value used by the controller's motor model / FOC estimator; units are not confirmed. GDriver's own parameter registry independently confirms this exact address and adds an important caveat: the same 16 bits double up as selector bits for current-loop response, riding alongside the resistance calibration — so this register is not safely read as a single milliohm figure — writing the whole 16 bits at once can shift current-loop response as an unintended side effect (effect unverified).
+
+IntRes | IntRes=电池内阻(ProControlPage.cs:1699 label -- Chinese label calls it 'battery' resistance despite being read alongside motor params)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4716`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L110`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672896`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x1E: forward_reverse_ratio
+
+**Forward/reverse power ratio** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Percentage limit applied to output power/torque when the motor runs in reverse, relative to forward, per the official 'FwReRatio' label (后退齿比, literally "reverse gear ratio"). GDriver instead describes a matching field as a ratio applied to a speed-derived quantity (not a power/torque limit), with one control path treating a raw value of 64 as full scale internally, and explicitly states it is a different thing from both the Reverse-current ratio (addr201) and the Reverse-speed ceiling (addr41) — a materially different framing from this entry's original power/torque-percentage guess. Both readings remain unverified against a live controller (name match only, address unconfirmed); treat the power/torque-percentage framing with reduced confidence pending resolution.
+
+FwReRatio | FwReRatio=后退齿比(ProControlPage.cs:1756)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9694`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L98`
+- `worthless:strings/values.json#log_viewer_setting_fw_ratio`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x1F: low_voltage_protect_threshold
+
+**Low battery voltage protection threshold** — u16; scale 0.1; unit V; confidence **low**.
+
+Access: rw. App range: 0 to 6553.5. Group: protection.
+
+Pack voltage below which the controller cuts or limits power to protect the battery from over-discharge. GDriver's own parameter registry independently confirms this exact address and adds that the stored figure gets recomputed alongside Rated voltage (addr23) whenever that changes; it stops short of pinning down, for every controller, exactly how many amps get shed or whether drive gets cut once the normalized threshold is crossed, so this entry avoids claiming one single trip voltage applies everywhere.
+
+LowVolProtect | LowVolProtect=欠压保护(ProControlPage.cs:3609)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7669`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672890`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x21: output_relay_and_feature_bits
+
+**Output relay / drive-mode feature enable bitfield** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+16-bit register where bits 0-10, 14 and 15 each toggle one single-bit output-relay or drive-mode feature (cruise, EABS, seat switch, auto-park, anti-theft, etc.) -- nearly every checkbox on the Para/Pro config pages targets one bit of this same word. ProControlPage.cs's RelayDelay_TextChanged is the one exception: instead of read-modify-writing a single bit like the other 21 handlers, it overwrites the *entire* 16-bit register (bits 0-15) with a raw numeric delay value, so this register also doubles as a plain relay-delay-time value in whatever mode that handler is used from; bit 15 (above) is a separate single-bit flag that is presumed to select the units (ms vs 1s) that value is interpreted in, but the two were not reconciled further. Worthless models autoBackP, gearRemember and assistRoll as separate booleans, consistent with the official bit-level breakdown of this packed relay/feature word; the remaining bits and the register's address are not independently verifiable. GDriver's parameter set independently corroborates the one-bit-per-feature framing with a long list of matching enable flags (cruiseEnabled, eabsEnabled, seatEnabled, autoBackProtectionEnabled, gearMemoryEnabled, reverseEnabled, overSpeedAlarmEnabled, pushAssistEnabled, forceTheftEnabled, parkDisableBrakeEnabled, among others), and notably includes a 'relayDelayOneSecondEnabled' flag whose name directly matches this entry's own speculation that bit 15 selects whether the RelayDelay_TextChanged raw value is interpreted in milliseconds or one-second units — though GDriver does not confirm the bit position or this register's address (effect unverified).
+
+| Value / bit | Meaning |
+| --- | --- |
+| 0 | BC/brake-light relay enable |
+| 1 | seat-switch enable |
+| 2 | P-gear relay enable |
+| 3 | auto-back-P (auto park on reverse) enable |
+| 4 | cruise control (XH) enable |
+| 5 | EABS electronic-brake enable |
+| 6 | freewheel/walk (Tuixing) mode enable |
+| 7 | forced anti-theft enable |
+| 8 | over-speed alarm enable |
+| 9 | park-disables-brake enable |
+| 10 | remember last gear enable |
+| 14 | reverse/back enable |
+| 15 | relay-delay units selector (0=ms, 1=1s) -- single-bit flag |
+
+
+位0=坐桶/刹车灯(BC), 位1=坐桶开关(Seat), 位2=P档继电器(PGear), 位3=自动驻坡(AutoBackP), 位4=巡航(XH/Cruise), 位5=电子刹车(EABS), 位6=推行(Tuixing/freewheel), 位7=强制防盗, 位8=超速报警, 位9=驻坡禁刹车, 位10=记忆档位, 位14=后退使能, 位15=继电器延时单位(ms/1s选择, 单个bit). RelayDelay_TextChanged (bits 0-15, a raw delay value overwriting the whole register) is a separate, non-bitfield use of this same address -- 继电器延时(raw value, not a bit).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3176`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3204`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3232`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3260`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3288`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3344`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3372`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3400`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9822`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9864`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9906`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9948`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9990`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10032`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10074`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10116`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10158`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10200`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10242`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10284`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10326`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10372`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L989`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L40`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L104`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L39`
+- `worthless:strings/values.json#auto_back_p`
+- `worthless:strings/values.json#gear_remember`
+- `worthless:strings/values.json#assist_roll`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x22: save_timestamp
+
+**Save-config timestamp (write-only command)** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 281474976710655. Group: misc.
+
+6-byte year/month/day/hour/minute/second value written just before the save command (addr160 sub-command 4); records when parameters were last saved rather than a tunable setting.
+
+保存时间戳
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3730`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9301`
+
+## 0x26: custom_max_line_current
+
+**Custom maximum line current (secondary limit)** — u16; scale 0.25; unit A; confidence **medium**.
+
+Access: rw. App range: 0 to 16383. Group: limits.
+
+The Boost mode's secondary battery-current (line-current) ceiling — a second, user-adjustable limit distinct from the primary MaxLineCurr register (addr25) that only takes effect while the assigned Boost input is active, providing a line-current ceiling that sits on top of, or beside, the normal High-gear setting. GDriver's own parameter registry independently confirms this exact address and role (id 'customMaxLineCurrent'), replacing this entry's earlier 'likely a generic customer cap' guess with a specific Boost-path function; the ×4-scale note from Worthless (see notes) still applies.
+
+CustomMaxLineCurr | CustomMaxLineCurr=Boost线电流(ProControlPage.cs:2139) | CONFIRMED by Worthless: customMaxLineCurrent (Float, amps) + fd_override_current_desc="Override max current limits (stored as value×4 internally)" — ×4 storage matches official's scale=0.25 A exactly (same unit A, same width, compatible scale). Address agreement is NOT claimed (native-only). Native review 2026-10-24: Native decoder logical page 36 confirms raw/4 A for nonzero values; it preserves the previous decoded value for zero input. Confidence retained pending hardware validation.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5228`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1018`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L80 (customMaxLineCurrent, name+unit+range)`
+- `worthless:strings/values.json#fd_override_current_desc (name+unit+range)`
+- `worthless:strings/values.json#custom_line_curr`
+- `worthless:strings/values.json#section_custom_current`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672858`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `worthless:native/export/00115744_FUN_00115744.c#L132-L138 (ELF helper 0x15744; Ghidra 11.0.3)`
+
+## 0x27: custom_max_phase_current
+
+**Custom maximum phase current (secondary limit)** — u16; scale 0.25; unit A; confidence **medium**.
+
+Access: rw. App range: 0 to 16383. Group: limits.
+
+The Boost mode's secondary motor phase-current ceiling — a second, user-adjustable limit distinct from the primary MaxPhaseCurr register (addr45) that only takes effect while the assigned Boost input is active. GDriver's own parameter registry independently confirms this exact address and role (id 'customMaxPhaseCurrent'), replacing this entry's earlier generic-cap framing with a specific Boost-path function; the ×4-scale note from Worthless (see notes) still applies.
+
+CustomMaxPhaseCurr | CustomMaxPhaseCurr=Boost相电流(ProControlPage.cs:2140) | CONFIRMED by Worthless: customMaxPhaseCurrent (Float, amps) + fd_override_current_desc="Override max current limits (stored as value×4 internally)" — ×4 storage matches official's scale=0.25 A exactly (same unit A, same width, compatible scale). Address agreement is NOT claimed (native-only). Native review 2026-10-24: Native decoder logical page 36 confirms raw/4 A for nonzero values; it preserves the previous decoded value for zero input. Confidence retained pending hardware validation.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5274`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1019`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L81 (customMaxPhaseCurrent, name+unit+range)`
+- `worthless:strings/values.json#fd_override_current_desc (name+unit+range)`
+- `worthless:strings/values.json#custom_phase_curr`
+- `worthless:strings/values.json#section_custom_current`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672860`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `worthless:native/export/00115744_FUN_00115744.c#L139-L143 (ELF helper 0x15744; Ghidra 11.0.3)`
+
+## 0x28: low_speed_gear_limit
+
+**Low-gear speed limit** — u16; scale 1; unit rpm; confidence **low**.
+
+Access: rw. App range: 0 to 12000. Group: limits.
+
+Electrical RPM ceiling enforced when the vehicle is in low gear. GDriver's own parameter registry independently confirms this exact address and role, and adds that the controller combines this value with Reverse speed (addr41) and High-gear speed (addr21) in its internal gear-speed scaling, so the gear-speed registers are a linked set rather than fully independent caps.
+
+LowSpeed | DL=低速档速度(ParaPage.cs:6683 label), LowSpeed=低速转速(ProControlPage.cs:1691)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3127`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4832`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1020`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L127`
+- `worthless:strings/values.json#fd_gear_speed`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672878`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x29: back_gear_speed_limit
+
+**Reverse-gear speed limit** — u16; scale 1; unit rpm; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: limits.
+
+Electrical RPM ceiling enforced when the vehicle is driving in reverse. GDriver's own parameter registry independently confirms this exact address, and reports that on at least one control path this same value also feeds into how the controller works out its Mid- and Low-gear speeds internally — the lower-gear figure comes from (this value / High-gear speed, addr21) — so changing the reverse-speed limit alone can shift forward low/mid-gear behaviour on those controllers, not just reverse (effect unverified against a live device).
+
+BackSpeed | BackSpeed=后退转速(ProControlPage.cs:1711)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4931`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L41`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672880`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x2A: mid_speed_gear_limit
+
+**Mid-gear speed limit** — u16; scale 1; unit rpm; confidence **low**.
+
+Access: rw. App range: 0 to 12000. Group: limits.
+
+Electrical RPM ceiling enforced when the vehicle is in middle gear. GDriver's own parameter registry independently confirms this exact address and role, and places it in the same linked gear-speed set as Low, High, and Reverse speed (addr21/40/41) rather than as a fully independent cap.
+
+MidSpeed | DM=中速档速度(ParaPage.cs:6603 label), MidSpeed=中速转速(ProControlPage.cs:1703)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3072`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9365`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1030`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L147`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672876`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x2B: max_deceleration
+
+**Maximum deceleration rate** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 4 to 224. Group: limits.
+
+Steepest allowed deceleration ramp the controller applies, e.g. releasing the throttle or braking; units/scale not confirmed. GDriver's own parameter registry independently confirms this exact address and role: a bigger number generally pulls drive power down faster once the rider lifts off the throttle, though the felt result can still shift with motor RPM and whichever response mode is active, and this register does not itself set the regenerative-braking current (see addr48/49) (effect unverified — exact units/scale).
+
+Max_Dec | Max_Dec=减速灵敏度(ProControlPage.cs:2145)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11950`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L136`
+- `worthless:strings/values.json#deceleration`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672886`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x2C: free_throttle_deadband
+
+**Free/neutral throttle deadband** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 192. Group: throttle.
+
+Deadband applied around the throttle's released position to prevent creeping from a non-zero idle signal, per the official 'FreeThrottle'/电刹油门 ("electric-brake throttle") label. GDriver's own parameter registry independently confirms this exact address, but describes the field itself quite differently: an advanced value that governs how the controller hands off from free-coast (throttle released, no braking) into electronic braking once the throttle is let go; the number passes through several gated and scaled paths on its way there, so bigger or smaller settings do not translate into a simple stronger-or-weaker deadband effect — a materially different framing from this entry's original deadband guess. Both readings remain unverified against a live controller; treat the deadband description with reduced confidence pending resolution.
+
+FreeThrottle | FreeThrottle=电刹油门(ProControlPage.cs:2118)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10927`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L96`
+- `worthless:strings/values.json#free_throttle`
+- `worthless:strings/values.json#fd_free_throttle`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672888`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x2D: max_phase_current
+
+**Maximum motor phase current** — u16; scale 0.25; unit A; confidence **low**.
+
+Access: rw. App range: 0 to 16383. Group: limits.
+
+Peak current the controller drives through the motor windings; the primary torque/power limiting parameter. GDriver's own parameter registry independently confirms this exact address and role as the high-gear phase-current request underlying the low/mid-gear percentages (addr51) and the motor-current curve (addr136-155), and stresses it is a requested ceiling rather than a guaranteed telemetry value.
+
+MaxPhaseCurr | DH=高速档力度(ParaPage.cs:6283 label), MaxPhaseCurr=最大相电流(ProControlPage.cs:2138) Native review 2026-10-24: Native decoder logical page 42 confirms unsigned raw/4 A for nonzero values. Confidence retained pending hardware validation.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2808`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5178`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1031`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L141`
+- `worthless:strings/values.json#max_phase_curr`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672856`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `worthless:native/export/00115744_FUN_00115744.c#L149-L157 (ELF helper 0x15744; Ghidra 11.0.3)`
+
+## 0x2E: speed_sensor_analog_scale
+
+**Analog speedometer / speed-sensor scale value** — u16; scale 1; unit rpm; confidence **low**.
+
+Access: rw. App range: 500 to 32767. Group: display.
+
+Reference RPM value used to scale the analog speedometer output or an analog speed-limit input, depending on mode. GDriver's own parameter registry independently confirms this exact address and role as an analog-speed-output calibration for compatible instruments, and clarifies it only changes the reported/displayed value — not actual motor RPM, road speed, or any of the controller's own speed limits — and should be adjusted only against GPS or another independent speed reference.
+
+SpeedAnalog | SpeedAnalog=模拟速度表系数(ProControlPage.cs:2150)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8683`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672920`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x2F: max_acceleration
+
+**Maximum acceleration rate** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 2 to 224. Group: limits.
+
+Steepest allowed acceleration ramp when the throttle is applied; units/scale not confirmed. GDriver's own parameter registry independently confirms this exact address and role, and clarifies that it changes how quickly the controller ramps toward a larger drive-power request rather than raising the line- or phase-current ceilings themselves (addr25/45) (effect unverified — exact units/scale).
+
+Max_Acc | Max_Acc=加速灵敏度(ProControlPage.cs:2144)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8507`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672884`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x30: regen_stop_back_current
+
+**Regen / stop-back current base level (energy feedback strength)** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: regen.
+
+Base coefficient for the selected regenerative-braking strength preset (Energy Feedback selector); also directly editable as StopBackCurr, described elsewhere as an anti-rollback current value. GDriver's own parameter registry independently confirms this exact address and role as a scaling factor applied to the controller's normal signed regenerative back-current request for a given brake command, consistent with this entry's anti-rollback/regen-strength framing.
+
+能量回馈强度 / StopBackCurr
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2707`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5320`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1053`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L222`
+- `worthless:strings/values.json#stop_back_curr`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672870`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x31: regen_stop_back_current_secondary
+
+**Regen / stop-back current secondary level** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: regen.
+
+Second coefficient accompanying addr48 for the selected regenerative-braking strength preset; also user-editable directly as MaxBackCurr. GDriver's own parameter registry independently confirms this exact address and role as the strongest/maximum regenerative-braking current request, and stresses it is only a requested ceiling: the actual amount of charge current returned to the pack, or the braking torque felt, is not guaranteed, since the regen curve (addr146-155), brake input, motor speed, battery state, BMS acceptance, and protections can all still cut it down.
+
+MaxBackCurr | EnergyBack=能量回馈强度(ParaPage.cs:6183 label), MaxBackCurr=最大回馈电流(ProControlPage.cs:2142)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2726`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5371`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1044`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L135`
+- `worthless:strings/values.json#max_back_curr`
+- `worthless:strings/values.json#log_viewer_setting_max_regen_current`
+- `worthless:strings/values.json#log_viewer_setting_regen_current`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672872`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x32: low_mid_speed_line_current_pct
+
+**Low/mid-gear line current percentage pair** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Line-current limit for low gear (low byte) and mid gear (high byte), each entered as a percentage and scaled by 128/100 before storage. GDriver's own parameter registry independently confirms this exact address for both the low-gear and mid-gear line-current-ratio sub-fields, and clarifies that 100% requests the same ceiling as High-gear line current (addr25) rather than an absolute amp value.
+
+LowSpeedLineCurr/MidSpeedLineCurr | DM=中速档力度(ParaPage.cs:6363 label), DL=低速档力度(ParaPage.cs:6443 label), LowSpeedLineCurr=低速线电流/MidSpeedLineCurr=中速线电流(ProControlPage.cs:2080-2081)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2864`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2940`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7365`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7413`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1056`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1057`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672862`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x33: low_mid_speed_phase_current_pct
+
+**Low/mid-gear phase current percentage pair** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Phase-current limit for low gear (low byte) and mid gear (high byte), each entered as a percentage and scaled by 128/100 before storage. GDriver's own parameter registry independently confirms this exact address for both the low-gear and mid-gear phase-current-ratio sub-fields, and clarifies that 100% only requests the High-gear phase-current ceiling (addr45) — it does not guarantee that current is actually reached — the motor-current curve, available battery power, how fast the motor is turning, and any active protection can all still hold the real figure down.
+
+LowSpeedPhaseCurr/MidSpeedPhaseCurr | DM=中速档力度(ParaPage.cs:6363 label), DL=低速档力度(ParaPage.cs:6443 label), LowSpeedPhaseCurr=低速相电流/MidSpeedPhaseCurr=中速相电流(ProControlPage.cs:2082-2083)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2885`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2961`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7461`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7509`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1058`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1059`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672866`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x34: stall_block_time
+
+**Motor stall/blocked-rotor detection time** — u16; scale 1; unit ms; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: protection.
+
+Time the controller waits with no rotation detected before declaring a stall/blocked-rotor fault. GDriver's own parameter registry independently confirms this exact address (id 'blockTimeSeconds') and gives its unit as whole seconds on the controllers it supports — but adds a caveat that the number the rider enters becomes an internal firing threshold whose real trip delay is shaped by the controller's own control-loop behaviour, and that a handful of controller profiles simply hold the value in memory without acting on it at all (effect unverified — exact seconds-per-count scale).
+
+BlockTime | BlockTime=堵转时间(ProControlPage.cs:1735)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10628`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L45`
+- `worthless:strings/values.json#fd_block_time`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672898`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x35: speed_pulse_output_count
+
+**Speedometer pulse output divider/count** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: display.
+
+Number of pulses per revolution (or similar divider) the controller outputs to drive an external pulse speedometer. GDriver's own parameter registry independently confirms this exact address and role, and clarifies the value linearly scales the published speed-pulse signal for a compatible display, leaving the bike's true motor RPM and road speed unaffected — and, notably, that this particular pulse calculation skips the Pole-pairs value (addr20) entirely, unlike the analog-speed scaling at addr46.
+
+SpdPulseNum | SpdPulseNum=速度脉冲基数(ProControlPage.cs:1736)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10502`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L206`
+- `worthless:strings/values.json#fd_speed_pulse_num`
+- `worthless:strings/values.json#fd_speed_pulses`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672900`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x66: motor_temp_coeff_2
+
+**Secondary motor temperature sensor coefficient** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: protection.
+
+Calibration coefficient for a second motor-temperature sense channel, used by the FOC over-temperature protection (effect unverified).
+
+TempCoeff2 | TempCoeff2=温度系数(ProControlPage.cs:3675)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13342`
+
+## 0x69: boost_cruise_sidestand_park_pins
+
+**Boost/Cruise/Side-stand/Park-pause input pin assignment** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Four 4-bit nibbles pick which physical controller pin (or none) is wired to the Boost, Cruise (XH), Side-stand (BC) and Pause/Park (P) input functions. GDriver carries a dedicated pin-shift lookup table (separate from its flat id/address list, which shows 0 for these same parameter ids) that independently pins down this exact address across all four nibbles and in the same order: boostPin at shift 12, cruisePin at shift 8, sideStandPin at shift 4, pausePin at shift 0 — all under address 105.
+
+| Value / bit | Meaning |
+| --- | --- |
+| 0 | not connected (NC) |
+| 1 | PIN2 |
+| 2 | PIN3 |
+| 3 | PIN5 |
+| 4 | PIN8 |
+| 5 | PIN9 |
+| 6 | PIN14 |
+| 7 | PIN15 |
+| 8 | PIN17 |
+| 9 | PIN18 |
+| 10 | PIN24 |
+| 11 | PD1 |
+| 12 | PB4 |
+| 13 | invalid/disabled |
+
+
+Boost/巡航/边撑/P档 Pin
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11450`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11480`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11510`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11540`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1079`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673123`
+
+## 0x6A: forward_reverse_speed_pins
+
+**Forward/Reverse/High-speed/Low-speed input pin assignment** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Four 4-bit nibbles pick which physical controller pin drives the Forward (FW), Reverse (RE), High-speed (SDH) and Low-speed (SDL) gear-select inputs. GDriver's same dedicated pin-shift lookup table (see addr105) independently pins down this exact address across all four nibbles and in the same order: forwardPin at shift 12, reversePin at shift 8, highSpeedPin at shift 4, lowSpeedPin at shift 0 — all under address 106.
+
+| Value / bit | Meaning |
+| --- | --- |
+| 0 | not connected (NC) |
+| 1 | PIN2 |
+| 2 | PIN3 |
+| 3 | PIN5 |
+| 4 | PIN8 |
+| 5 | PIN9 |
+| 6 | PIN14 |
+| 7 | PIN15 |
+| 8 | PIN17 |
+| 9 | PIN18 |
+| 10 | PIN24 |
+| 11 | PD1 |
+| 12 | PB4 |
+| 13 | invalid/disabled |
+
+
+前进/后退/高速/低速 Pin
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11570`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11600`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11630`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11660`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1080`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673123`
+
+## 0x6B: charge_antitheft_seat_voltsel_pins
+
+**Charge/Anti-theft/Seat/Voltage-select input pin assignment** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Four 4-bit nibbles pick which physical controller pin drives the Charge (CHG), Anti-theft (FD), Seat-switch and Voltage-select inputs. GDriver's same dedicated pin-shift lookup table (see addr105) independently pins down this exact address across all four nibbles and in the same order: chargePin at shift 12, antiTheftPin at shift 8, seatPin at shift 4, switchVoltagePin at shift 0 — all under address 107.
+
+| Value / bit | Meaning |
+| --- | --- |
+| 0 | not connected (NC) |
+| 1 | PIN2 |
+| 2 | PIN3 |
+| 3 | PIN5 |
+| 4 | PIN8 |
+| 5 | PIN9 |
+| 6 | PIN14 |
+| 7 | PIN15 |
+| 8 | PIN17 |
+| 9 | PIN18 |
+| 10 | PIN24 |
+| 11 | PD1 |
+| 12 | PB4 |
+| 13 | invalid/disabled |
+
+
+充电/防盗/坐桶/选择电压 Pin
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11776`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11806`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11836`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11866`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1081`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673123`
+
+## 0x6C: pro_limit_speed
+
+**Pro-mode speed limit (LmtSpeed)** — u16; scale 1; unit rpm; confidence **low**.
+
+Access: rw. App range: 128 to 12000. Group: limits.
+
+An additional configurable RPM ceiling exposed only on the Pro control page, separate from the per-gear speed limits. GDriver's own parameter registry independently confirms this exact address and role as a conditional speed-limiter target: it takes over from whichever gear-speed target is currently in effect, but only for as long as its own enable flag is set and its assigned switch input is asserted at the same time. The motor ramps toward it in bounded steps rather than jumping instantly, and the stored High/Mid/Low/Reverse gear-speed registers themselves are left untouched.
+
+LmtSpeed | LmtSpeed=限速转速(ProControlPage.cs:1692)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4776`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672882`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x7C: weak_field_and_misc_config_word
+
+**Weak-field response, MOE, zero-speed-switch, quick-release and speedometer-mode config word** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Packed word combining several Pro-mode toggles: MOE enable, 0-speed switch valid/invalid, a 3-bit weak-field response time, a 3-bit quick-throttle-release response, speedometer output mode (pulse/analog/isolated), and a deep-weak-field special mode bit; each toggle preserves the other bits via cached rconfig_word0/1 values. GDriver's own parameter registry maps a 'speedometerMode' field to this same address, and independently confirms it shares one packed word with a handful of unrelated bits — field-weakening, protection, reverse, and throttle-release settings among them — that any write to this register has to leave untouched, corroborating this entry's existing packed-word description without resolving the individual bit layout (effect unverified).
+
+MOE/0速切换/弱磁响应/回油门/快速后退/速度表方式/深度弱磁
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8304`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8350`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8423`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8463`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8977`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9454`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13300`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672916`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x84: motor_temp_protect_restore
+
+**Motor over-temperature protect/restore thresholds** — u16; scale 1; unit C; confidence **low**.
+
+Access: rw. App range: 80 to 180. Group: protection.
+
+Temperature at which the controller begins limiting power (low byte, 100-180C) and the temperature it must cool back below before restoring full power (high byte, 80-160C). GDriver's own parameter registry independently confirms this same address for both the protect and restore thresholds, and clarifies the protect value is the upper end of the protection response (not a target operating temperature) while the restore value is an absolute recovery point (not a number of degrees of cooling), with the gap between them existing specifically to prevent power from cycling on and off near a single temperature.
+
+MotorTempProtect/MotorTempRestore | MotorTempProtect=电机温度保护(ProControlPage.cs:3753), MotorTempRestore=电机温度恢复(ProControlPage.cs:3754)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7726`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7778`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L157`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L158`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673114`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x86: can_node_config
+
+**CAN bus node/address configuration** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 255. Group: misc.
+
+CAN bus node id or address byte used when the controller communicates over CAN (effect unverified).
+
+CANConfig | CANConfig=CAN通信(ProControlPage.cs:1564/3747) | Worthless has a `canConfig` int field (name match) and a "CAN Baud" label (fd_can_baud) that may or may not be the same sub-value as this register's CAN node/address byte; not treated as a confirmed match (tentative, name-only).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13995`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L54`
+
+## 0x88: power_ratio_curve_500rpm
+
+**Power/torque ratio curve point(s) at 500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Percentage of max current/torque allowed at 500 rpm; both bytes are set to the same value at this end point of a 10-point power-limiting curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).
+
+Ratio500 | label: Ratio500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5419`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x89: power_ratio_curve_1000_1500rpm
+
+**Power/torque ratio curve point(s) at 1000/1500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 1000 rpm, high byte = ratio at 1500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio1000/Ratio1500 | label: Ratio1000 / Ratio1500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5466`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x8A: power_ratio_curve_2000_2500rpm
+
+**Power/torque ratio curve point(s) at 2000/2500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 2000 rpm, high byte = ratio at 2500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio2000/Ratio2500 | label: Ratio2000 / Ratio2500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5562`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x8B: power_ratio_curve_3000_3500rpm
+
+**Power/torque ratio curve point(s) at 3000/3500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 3000 rpm, high byte = ratio at 3500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio3000/Ratio3500 | label: Ratio3000 / Ratio3500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5662`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x8C: power_ratio_curve_4000_4500rpm
+
+**Power/torque ratio curve point(s) at 4000/4500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 4000 rpm, high byte = ratio at 4500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio4000/Ratio4500 | label: Ratio4000 / Ratio4500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5762`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x8D: power_ratio_curve_5000_5500rpm
+
+**Power/torque ratio curve point(s) at 5000/5500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 5000 rpm, high byte = ratio at 5500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio5000/Ratio5500 | label: Ratio5000 / Ratio5500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5862`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x8E: power_ratio_curve_6000_6500rpm
+
+**Power/torque ratio curve point(s) at 6000/6500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 6000 rpm, high byte = ratio at 6500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio6000/Ratio6500 | label: Ratio6000 / Ratio6500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L5962`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x8F: power_ratio_curve_7000_7500rpm
+
+**Power/torque ratio curve point(s) at 7000/7500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 7000 rpm, high byte = ratio at 7500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio7000/Ratio7500 | label: Ratio7000 / Ratio7500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6062`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x90: power_ratio_curve_8000_8500rpm
+
+**Power/torque ratio curve point(s) at 8000/8500rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Low byte = ratio at 8000 rpm, high byte = ratio at 8500 rpm; two points of the power-limiting curve (percent of max current/torque) vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+Ratio8000/Ratio8500 | label: Ratio8000 / Ratio8500 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6157`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x91: power_ratio_curve_9000rpm
+
+**Power/torque ratio curve point(s) at 9000rpm** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 100. Group: limits.
+
+Percentage of max current/torque allowed at 9000 rpm; both bytes are set to the same value at this end point of a 10-point power-limiting curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).
+
+Ratio9000 | label: Ratio9000 (no localized string in .cs) | Worthless models the power/rpm curve as a single `rpmCurve: List<Integer>` field (name/shape match to the 10-register Ratio500..Ratio9000 curve); exact element count/scale/address not independently verifiable (native).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6251`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L196`
+- `worthless:strings/values.json#speed_ratio_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673181`
+
+## 0x92: regen_ratio_curve_500rpm
+
+**Regen ratio curve point(s) at 500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Regenerative-braking current/torque ratio at 500 rpm, stored as a negative percentage; end point of a 10-point regen curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).
+
+NRatio500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6431`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x93: regen_ratio_curve_1000_1500rpm
+
+**Regen ratio curve point(s) at 1000/1500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 1000 rpm, high byte = regen ratio at 1500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio1000/NRatio1500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio1000 / NRatio1500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6485`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x94: regen_ratio_curve_2000_2500rpm
+
+**Regen ratio curve point(s) at 2000/2500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 2000 rpm, high byte = regen ratio at 2500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio2000/NRatio2500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio2000 / NRatio2500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6593`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x95: regen_ratio_curve_3000_3500rpm
+
+**Regen ratio curve point(s) at 3000/3500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 3000 rpm, high byte = regen ratio at 3500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio3000/NRatio3500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio3000 / NRatio3500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6701`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x96: regen_ratio_curve_4000_4500rpm
+
+**Regen ratio curve point(s) at 4000/4500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 4000 rpm, high byte = regen ratio at 4500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio4000/NRatio4500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio4000 / NRatio4500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6807`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x97: regen_ratio_curve_5000_5500rpm
+
+**Regen ratio curve point(s) at 5000/5500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 5000 rpm, high byte = regen ratio at 5500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio5000/NRatio5500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio5000 / NRatio5500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L6909`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x98: regen_ratio_curve_6000_6500rpm
+
+**Regen ratio curve point(s) at 6000/6500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 6000 rpm, high byte = regen ratio at 6500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio6000/NRatio6500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio6000 / NRatio6500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7011`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x99: regen_ratio_curve_7000_7500rpm
+
+**Regen ratio curve point(s) at 7000/7500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 7000 rpm, high byte = regen ratio at 7500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio7000/NRatio7500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio7000 / NRatio7500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7113`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x9A: regen_ratio_curve_8000_8500rpm
+
+**Regen ratio curve point(s) at 8000/8500rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Low byte = regen ratio at 8000 rpm, high byte = regen ratio at 8500 rpm, each stored as a negative percentage; two points of the regenerative-braking curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above.
+
+NRatio8000/NRatio8500 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio8000 / NRatio8500 (no localized string in .cs) Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7215`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x9B: regen_ratio_curve_9000rpm
+
+**Regen ratio curve point(s) at 9000rpm** — i8; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: -100 to 0. Group: regen.
+
+Regenerative-braking current/torque ratio at 9000 rpm, stored as a negative percentage; end point of a 10-point regen curve vs. motor speed. GDriver independently confirms these as points on a blended power/regen-vs-speed curve where the controller interpolates between neighbouring points and a 100% entry (or its negative counterpart for the regen tables) is nothing more than the top of the programmed curve at that one point, not a promised amp or torque figure — actual current is further capped by the active ride profile, line/phase limits, battery voltage, back-EMF, temperature, and protection states, and the RPM axis itself is a relabelling driven by the pole-pair count (addr20) rather than a fixed physical speed scale. GDriver's flat id/address list shows 0 for every powerRatio*/regenRatio* id, but a separate, dedicated per-breakpoint lookup table elsewhere in the same file independently pins each one to its real register address here — confirming this address specifically, not just the general curve behaviour above. GDriver additionally notes this first/last breakpoint also governs the curve region beyond it (below 500rpm / above 9000rpm).
+
+NRatio9000 -- packed as two's-complement single bytes: `(byte)num` where num is forced negative (`if (num > 0) num = -num;`) before the cast, so each byte independently holds a signed i8 value, not one 16-bit signed word. | label: NRatio9000 (no localized string in .cs) | Worthless models the regen curve as a single `nRatioCurve: List<Integer>` field (name/shape match to the 10-register NRatio500..NRatio9000 curve); exact element count/scale/address not independently verifiable (native). Native review 2026-10-24: Worthless curve getters preserve bytes and ll0.java:1983-2003 presents them unsigned (b & 255); GDriver decodeFarDriverSignedByte at decompiled.js:673305-673324 sign-extends. Preserve this signed register claim separately from the unsigned transport/API view.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7317`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L159`
+- `worthless:strings/values.json#energy_regen_curve`
+- `worthless:strings/values.json#regen_curve`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673219`
+
+## 0x9C: empty_low_speed_and_relay_config
+
+**Empty/idle speed level, analog gain (AN), max output setting (LM) and relay-output invert bits** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Packed word: low-byte bits6-7 = idle/empty-speed level (0-3), low-byte bits0-4 = an analog gain setting (AN, 0-31), high-byte bits0-6 = an output limit setting (LM, 5-83), high-byte bit5 = relay output polarity/invert (RelayOut) (effect unverified).
+
+EmptySpeed/AN/LM/RelayOut | EmptySpeed=空转(ProControlPage.cs:1758), RelayOut=继电器输出(ProControlPage.cs:1757); label: AN / LM (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4879`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8203`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8253`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9780`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L86`
+
+## 0x9E: battery_stage1_current
+
+**Two-stage discharge: stage-1 current threshold** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: battery.
+
+Current threshold for the first stage of a two-stage battery discharge-limiting scheme. GDriver independently describes a same-named 'Stage1Curr'-matching field ('stage1Current') as shaping reduced-current operation in a low-battery mode, clamped by the controller during startup and, on at least one design, weighed against the main line-current register — though its exact unit is called out as varying by controller rather than being one fixed amp or percentage figure (name match only, address unconfirmed; effect unverified).
+
+Stage1Curr | Stage1Curr=龟速限流系数(ProControlPage.cs:1725)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12081`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L216`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0x9F: voltage_select_ratio
+
+**Battery voltage-class auto-select ratio** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 64 to 250. Group: battery.
+
+Ratio used to automatically detect/select the connected battery's voltage class from a measured voltage. GDriver independently describes a matching 'VolSelectRatio'-named field ('voltageSelectionRatio') as rescaling normalized pack voltage before the addr13/addr14 empty/full-battery-gauge calculation on controllers that use it that way, while on other controllers the field is apparently just sanity-checked and saved, with no such runtime role (name match only, address unconfirmed; effect unverified).
+
+VolSelectRatio | VolSelectRatio=电压选择系数(ProControlPage.cs:1726)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9737`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L234`
+- `worthless:strings/values.json#fd_vol_select_ratio`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xA0: system_command
+
+**System command (save/reset/restore-preset)** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Write-only command register: byte4 (low byte) is always 0x88 (136), byte5 (high byte) selects the action — 4=save current parameters, 5 or 15=reset controller (varies by firmware version), 8=restore factory defaults, 9-14=apply named presets (PIN10/PIN11 key function, auto-learn, back-throttle EABS, non-EABS/freewheel, XM).
+
+恢复方式/复位/保存: byte4固定0x88, byte5为子命令 | OBSERVATION (not used for confidence, per task instruction not to claim address agreement): Worthless's Java code contains a literal call `NativeProtocol.INSTANCE.fdBuildWritePacket(160, new byte[]{-120, (byte) i})` (jadx/sources/p000a/w31.java, reset/flash-save routine) — -120 as a signed byte is 0x88, and the call site's own logic picks the second byte (i) as 5, 15 or 16 depending on model/firmware family. This is consistent with, but per task scope not used to confirm, the official documentation of addr 160 as byte4=0x88 fixed + byte5=sub-command.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3502`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3734`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9114`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L9305`
+
+## 0xB4: one_comm_sec_pair_0_1
+
+**One-wire comm protocol timing/section values 0-1** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Two adjacent bytes of an 8-entry 'section' timing table (SEC0-SEC7) used to configure the single-wire (one-wire) dashboard communication protocol; exact units/meaning unconfirmed. GDriver independently describes SEC0 as starting an eight-byte sequence for a one-wire rolling/encrypted-frame profile — byte 0 = 0 selects fixed/non-rolling behaviour, a nonzero value begins progression through SEC0-SEC7, and 255 is a special all-zero rolling case — while SEC1 is simply the next byte in that same matched sequence, protocol data rather than a rider password or performance value (effect unverified).
+
+SEC0/SEC1 | label: SEC0 / SEC1 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12668`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12711`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L166`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xB5: one_comm_sec_pair_2_3
+
+**One-wire comm protocol timing/section values 2-3** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Two adjacent bytes of the SEC0-SEC7 one-wire dashboard protocol timing table. GDriver describes SEC2 and SEC3 as two more slots in that same eight-byte one-wire rolling/encrypted-frame sequence, read and used to branch the controller's side of the paired-device handshake — not a display or motor setting in their own right (effect unverified).
+
+SEC2/SEC3 | label: SEC2 / SEC3 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12754`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12797`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L166`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xB6: one_comm_sec_pair_4_5
+
+**One-wire comm protocol timing/section values 4-5** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Two adjacent bytes of the SEC0-SEC7 one-wire dashboard protocol timing table. GDriver describes SEC4 and SEC5 as further bytes in the same eight-byte sequence, each explicitly said not to be an independent current, torque, speed, or security-strength control (effect unverified).
+
+SEC4/SEC5 | label: SEC4 / SEC5 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12840`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12883`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L166`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xB7: one_comm_sec_pair_6_7
+
+**One-wire comm protocol timing/section values 6-7** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Two adjacent bytes of the SEC0-SEC7 one-wire dashboard protocol timing table. GDriver adds a specific, concrete function for this pair beyond generic sequence data: SEC6 doubles as a bundled-profile-loading mode selector on supported controllers — raw value 2 loads the bundled profile selected by SEC7 during Save and startup, raw value 0 skips profile loading — while SEC7 selects which bundled profile number is loaded; loading a profile this way can push out a whole bundle of settings at once — which feature toggles are on, how inputs are assigned, switch behaviour, and other one-wire configuration — rather than changing just one thing (effect unverified).
+
+SEC6/SEC7 | label: SEC6 / SEC7 (no localized string in .cs) | Worthless models this as a single `oneCommSec: IntArray` field whose Kotlin default is `IntArray(8)` — matching the 8 SEC0..SEC7 values spread across these 4 registers (2 per register) exactly in count; scale/address not independently verifiable (native).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12926`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12969`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L166`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xB8: one_comm_gear_position_nibbles
+
+**One-wire comm gear/output position nibbles (P/BC/Handlebar/FD)** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Four 4-bit nibbles (0-15) encoding the reported dashboard position/index for P-gear, side-stand (BC), handlebar and anti-theft (FD) states over the one-wire dashboard protocol. GDriver's parameter set independently matches this exact packing with four position fields sharing one word — a Park-status position, a side-stand-indicator position (confusingly named 'oneWireBrakePosition' in GDriver, values above 7 hiding the indicator), a throttle-active/working indicator position ('oneWireHandlebarPosition', despite the name), and an anti-theft-status position — confirming all four are purely display-status placements, not inputs or controls — and every one of the four positions has to line up with what the paired display expects, or the wrong status ends up shown (effect unverified).
+
+Ppos/BCPos/HBarPos/FDPos | Ppos=P位置/BCPos=边撑位置/HBarPos=转把位置/FDPos=防盗位置(ProControlPage.cs:1718-1721)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13006`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13043`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13080`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13117`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xBA: one_comm_pulse_config
+
+**One-wire comm pulse count / square-wave high time** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Low byte = pulse count/divider (Pulse), high byte = square-wave high time (SQH) for the one-wire dashboard signal, per the official 'Pulse'/'SQH' labels. GDriver instead treats this pair as two generic auxiliary data bytes (A and B) in the one-wire protocol with a documented default of 0, and it is explicit that neither byte is the wheel-speed pulse count, nor either of the communication timing figures (the pulse's width or its period) — a conflicting reading from this entry's original 'pulse/square-wave' framing. Both readings remain unverified; treat the specific byte roles with reduced confidence pending resolution.
+
+Pulse/SQH | label: Pulse / SQH (no localized string in .cs) | Worthless has a `pulseFD` int field, a tentative name match to this register's "Pulse" sub-field only (SQH sub-field not independently named).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12453`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12496`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L184`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xBB: one_comm_line_current_coeff
+
+**One-wire comm line-current display coefficient** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: display.
+
+Scaling coefficient applied to the line-current value reported over the one-wire dashboard protocol. GDriver confirms a matching 'OneLineCurrCoeff'-named field ('oneWireCurrentCoefficient') calibrates only the current figure shown over one-wire communication — it leaves the controller's real line- and phase-current ceilings untouched and can't put any extra power into the motor (name match only, address unconfirmed).
+
+OneLineCurrCoeff | OneLineCurrCoeff=电流系数(ProControlPage.cs:1722)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13160`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L167`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xBC: can_speed_and_park_delay_config
+
+**CAN bus speed, back-to-park delay and seat delay config** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Packed word: bits0-2 select CAN bus baud rate (250k/500k/1M), bits0-4 select a back-to-park delay time from a preset table (3s up to 300s or unlimited), bits5-7 select a seat-switch delay (1-7 units). GDriver's own parameter registry independently describes a matching CAN-baud-rate selector ('canBaud') with the exact same three options (250, 500, 1000 kbit/s), additionally noting the controller encodes them internally as raw values 8, 4, and 2 respectively — useful corroboration for this sub-field, though GDriver does not confirm this exact address or the back-to-park-delay/seat-delay sub-fields packed alongside it here.
+
+CAN速度/回P档延时/SeatDelay
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12311`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12333`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12366`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1222`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xBD: battery_stage2_soc
+
+**Two-stage discharge: stage-2 SOC threshold** — u16; scale 1; unit %; confidence **low**.
+
+Access: rw. App range: 0 to 255. Group: battery.
+
+State-of-charge threshold for the second stage of a two-stage battery discharge-limiting scheme; paired with Stage1Curr/addr158, per the register's naming and position — however, both the official app's own 'Stage2Soc' Chinese label (弱磁电流系数, "weak-field current coefficient") and GDriver's matching 'stage2Soc' parameter independently agree this is actually a field-weakening current coefficient, not a battery SOC threshold, despite the SOC-suggesting variable name shared by both apps. Treat the 'stage-2 SOC' framing as likely wrong; field-weakening coefficient is the better-supported reading (still low confidence — no address or scale confirmed by GDriver, and this task's rule bars raising confidence from GDriver help text alone).
+
+Stage2Soc | Stage2Soc=弱磁电流系数(ProControlPage.cs:1727 -- Chinese label describes it as a weak-field current coefficient, not obviously an SOC threshold; flagged as a possible label/behavior mismatch)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12123`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L218`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xBE: undervoltage_mode_and_tcs_and_ecoacc
+
+**Under-voltage protection mode, current-limit way, TCS mode and ECO-acceleration level** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: protection.
+
+Packed word: low byte (0-12) selects the low-voltage protection style (fixed voltage drop, SOC percentage, or SOP value); high-byte low nibble is a current-limit-way selector (CurrLimitWay); high-byte high nibble selects the Traction Control (TCS) road-surface mode or the ECO acceleration level (1-8), depending on which UI control last wrote it. GDriver independently describes a matching 'CurrLimitWay'-named field ('currentLimitMethod') as a low-battery control-profile selector offering 13 numbered options, none of whose individual behaviour has been documented across the controller lineup, and confirms it leaves the ordinary maximum-current figure untouched on its own — consistent with this entry's high-byte-low-nibble CurrLimitWay sub-field (name match only, address unconfirmed).
+
+欠压方式/TCS/经济加速/CurrLimitWay
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2449`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3974`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8754`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13258`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1254`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1255`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xBF: boost_time
+
+**Boost (overload) duration timer** — u16; scale 0.002; unit s; confidence **low**.
+
+Access: rw. App range: 0 to 131.07. Group: limits.
+
+How long the controller allows a temporary current/power boost above the normal limit before reverting. GDriver independently describes a matching 'BstTime'-named field ('boostTime') as how long Boost stays on once a valid request comes in, with whole seconds as the unit on the controllers it supports, and stresses the value only governs that timing — the extra current/power comes from addr38/39 instead (name match only, address unconfirmed; effect unverified — exact seconds-per-count scale).
+
+BstTime | BstTime=Boost时间(ProControlPage.cs:1729)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10840`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L52`
+- `worthless:strings/values.json#boost_time`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC0: boost_release_time
+
+**Boost release/cooldown timer** — u16; scale 0.002; unit s; confidence **low**.
+
+Access: rw. App range: 0 to 131.07. Group: limits.
+
+Cooldown period required after a boost event before another boost can be triggered. GDriver independently describes a matching 'BstRelease'-named field ('boostReleaseTime') as the Boost release/re-entry delay, again given in whole seconds on the controllers that support it, which the firmware tracks as its own internal countdown while it exits the boosted state and works back toward being armed for the next trigger (name match only, address unconfirmed; effect unverified — exact seconds-per-count scale).
+
+BstRelease | BstRelease=Boost释放(ProControlPage.cs:1730)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10883`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L51`
+- `worthless:strings/values.json#boost_release`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC1: park_engage_time
+
+**Park-mode engage timer** — u16; scale 0.002; unit s; confidence **low**.
+
+Access: rw. App range: 0 to 131.07. Group: brake.
+
+Time the vehicle must be stationary before the park/anti-rollback function engages. GDriver independently describes a matching 'ParkTime'-named field ('parkTime') as the intended Park-control duration in seconds, which the firmware turns into a down-counter; once that counter runs out it is allowed to push the state machine toward Park or controlled-descent — but only once several other things it also depends on line up — the active mode, current speed, brake state, and switch position among them — so simply raising this value does not by itself lengthen how long the bike must sit still (name match only, address unconfirmed; effect unverified — exact seconds-per-count scale).
+
+ParkTime | ParkTime=驻车时间(ProControlPage.cs:1731)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10797`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L173`
+- `worthless:strings/values.json#fd_park_time`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC2: inverse_time_protect
+
+**Inverse-time (I2t style) overload protection timer** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: protection.
+
+Time constant for an inverse-time overload curve, where higher overcurrent trips faster, per the official 'InverseTime' label (反向时间, literally "reverse time"). GDriver instead describes a matching field ('inverseTime') as one shared reverse/Park/controlled-descent response value that can shift both a state-transition threshold and a separate command ceiling at once, and is explicit that it does not behave like a plain timer — a substantially different reading from the inverse-time-overcurrent-protection framing above, and closer to the literal Chinese label's 'reverse' meaning. Both readings remain unverified against a live controller (name match only, address unconfirmed); treat the overload-curve framing with reduced confidence pending resolution.
+
+InverseTime | InverseTime=反向时间(ProControlPage.cs:1732)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10670`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L111`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC3: torque_coeff
+
+**Torque calculation coefficient** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 500 to 32767. Group: motor.
+
+Scaling coefficient the controller uses to convert current/FOC quantities into a torque command or display value. GDriver confirms a matching 'TorqueCoeff'-named field ('torqueCoefficient') calibrates this same calculated torque-related signal, and clarifies the firmware uses this coefficient as a divisor against the derived magnitude — so a bigger setting here actually pulls the reported/calibrated torque figure down for the same underlying current, rather than raising the motor's real torque ceiling (name match only, address unconfirmed; effect unverified — exact scale).
+
+TorqueCoeff | TorqueCoeff=扭矩系数(ProControlPage.cs:1728)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12165`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L232`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC4: throttle_learn_low_adc
+
+**Throttle auto-learn: low (released) ADC value** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 10000 to 28000. Group: throttle.
+
+Raw ADC value captured during throttle auto-learn for the released position, per the official 'LearnVol' label. GDriver independently describes a matching 'learnVoltageLow'-named field as bundled into the same packed word as one further, otherwise-unrelated flag that feeds Rated-voltage (addr23) normalization — so a blind whole-register overwrite risks flipping that unconnected flag right along with the learned ADC endpoint (name match only, address unconfirmed; effect unverified).
+
+LearnVol | LearnVol=自学习电压低(ProControlPage.cs:1738)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11304`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L120`
+- `worthless:strings/values.json#fd_learn_vol_low`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC5: throttle_learn_high_adc
+
+**Throttle auto-learn: high (full) ADC value** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 10000 to 28000. Group: throttle.
+
+Raw ADC value captured during throttle auto-learn for the fully-open position, per the official 'LearnVoh' label. GDriver independently describes a matching 'learnVoltageHigh'-named field as bundled into the same packed word as several other, otherwise-unrelated control bits — covering motor-response hysteresis, a speed-limit override, how acceleration and deceleration are policed, plus a secondary path for the current-vector angle — so a blind whole-register overwrite risks disturbing a lot more than just this learned ADC endpoint (name match only, address unconfirmed; effect unverified).
+
+LearnVoh | LearnVoh=自学习电压高(ProControlPage.cs:1739)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11346`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L119`
+- `worthless:strings/values.json#fd_learn_voh_high`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC6: park_speed_diff_threshold
+
+**Park-mode speed-differential threshold** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: brake.
+
+Speed difference threshold used to decide when the park/anti-rollback control should intervene, per the official 'ParkDiff' label (缓降转速, "slow-descent speed"). GDriver independently describes a matching 'parkRpmDifference' field as the controlled-descent Park speed threshold, used by the controller alongside several nearby internal thresholds while changing states on the Park or slow-descent path — but cautions that nobody has confirmed the raw number equals actual motor RPM on every controller variant, and it is emphatically not one of the everyday riding speed caps (name match only, address unconfirmed; effect unverified).
+
+ParkDiff | ParkDiff=缓降转速(ProControlPage.cs:1733)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10712`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L172`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC7: isin_start_angle
+
+**Sensorless/Isin startup angle parameter** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: motor.
+
+Startup parameter related to initial rotor-angle estimation (Isin) used before the motor is spinning fast enough for normal FOC (effect unverified).
+
+IsinStart | IsinStart=启动Is(ProControlPage.cs:1737)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10544`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L112`
+
+## 0xC8: throttle_insert_config
+
+**Throttle-follow insert / TCS threshold configuration word** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: throttle.
+
+Configuration word for the throttle-follow feature; bit5 is toggled together with addr9 when the TCS mode is changed, full field layout otherwise unconfirmed. GDriver independently confirms a matching 'ThrottleInsert'-named field ('throttleInsert') is a combined threshold — not a dial for either throttle response or traction-control strength on its own — and adds that the comparison the controller runs against it treats the field as signed when deriving an internal status/operating state — so a very large raw entry can flip sign and be read completely differently instead of just pushing the threshold further out (name match only, address unconfirmed; effect unverified).
+
+ThrottleInsert | ThrottleInsert=油门插拔(ProControlPage.cs:1761)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3978`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10418`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1265`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xC9: follow_speed_and_current_ratio
+
+**Throttle-follow exit speed and regen current ratio** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: regen.
+
+Low byte = speed at which throttle-follow/cruise disengages (FollowSpeed), high byte = a regen current ratio applied on release (ReCurrRatio, 32-255). GDriver independently confirms both sub-fields by name — 'followSpeed' as the RPM threshold for leaving low-speed creep (not the bike's normal speed limit), and 'reverseCurrentRatio' as a multiplier applied to the reverse current command, where the controller treats a raw count of 128 as its 100%/full-scale reference point — which is consistent with this entry's 32-255 range sitting below and around that same 128-based reference (name match only, address unconfirmed).
+
+FollowSpeed/ReCurrRatio | FollowSpeed=跟随转速(ProControlPage.cs:1762), ReCurrRatio=后退电流比(ProControlPage.cs:1763) | Worthless: reCurrRatio (name match to ReCurrRatio) and a separate exitFollowSpeed field (tentative match to FollowSpeed, not certain given official's own note that FollowSpeed's exact sub-field is unclear).
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10586`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11052`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L191`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L91`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xCA: angle_learn_and_speed_limit_sel
+
+**Angle-learn state, speed-limit-pin and repair-pin selection** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Low byte = angle-learn status/result byte; high byte packs the speed-limit input pin selection (low nibble) and one-key-repair input pin selection (high nibble). Worthless models angleLearn and spdLmtSel as two separate fields, corroborating the official note that this register packs angle-learn and speed-limit-source selection together. GDriver's dedicated pin-shift lookup table (the same table confirming addr105-107) independently pins down this exact address and even the same high-byte placement: speedLimitPin sits at address 202, shift 0, tagged byte 'high', and repairPin sits at address 202, shift 4, also tagged byte 'high' — matching this entry's high-byte low-nibble/high-nibble split exactly, and giving 'repairPin' as GDriver's own name for the one-key-repair selector.
+
+anglelearn/限速Pin/一键修复Pin
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3424`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11689`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11718`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1274`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1275`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L37`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L205`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L673123`
+
+## 0xCB: sp_mode_and_misc_flags
+
+**High/low-speed switch mode, temp-70 level, long-back, no-CAN timeout, throttle-lost alarm** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Low byte = no-CAN-signal timeout (in 10s units); high byte bits0-3 = high/low speed switch mode (SPModeConfig, 0-15), bits4-5 = a 'Temp70' threshold level, bit6 = long-press-for-reverse enable, bit7 = throttle-lost alarm enable. Worthless models spMode, temp70, longBack, throttleLostAlarm and noCanCnt as five separate fields, strongly corroborating the official description of this register as a packed word of high/low-speed mode, "temp 70", long-press-reverse, no-CAN-timeout and throttle-lost-alarm bits. GDriver's 'temperature70' parameter independently confirms this same five-way packing, naming the very same cluster of neighbours this word shares storage with — the CAN-timeout timer, the speed-mode selector, reverse-input debouncing, and throttle-loss protection — sitting alongside its own two-bit thermal/auxiliary-I/O role; but GDriver's separate 'canDetectCount' parameter describes the no-CAN-timeout steps as 500ms per count for selectors 0-5 and 2ms per count above that, conflicting with this entry's '10s units' framing for the low byte. Treat the '10s units' claim with reduced confidence pending resolution; the packed five-field structure itself is now well corroborated.
+
+高低速/温度70/长按后退/无CAN超时/油门丢失告警
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3306`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8938`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11888`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11910`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12212`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12244`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1277`
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L1278`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L204`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L224`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L126`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L229`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L160`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xCC: throttle_learn_and_low_cap_limit
+
+**Throttle auto-learn trigger and low-capacity speed limit** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: throttle.
+
+Low byte = throttle auto-learn trigger/state (LearnThrottle), high byte = speed cap percentage applied when battery capacity is low (LowCapLimit, 0-80%). GDriver independently confirms both sub-fields by name: 'learnThrottle' as the fixed motor-drive command used during motor self-learning (explicitly not a throttle endpoint or riding limit), and 'lowCapacityLimit' as the lower battery-capacity breakpoint below which the low-charge limiting strategy applies its strongest reduction — implemented by reducing the active max line-current request (addr25) rather than a hard RPM cap, which refines this entry's 'speed cap percentage' framing toward a current-based limit (name match only, address unconfirmed).
+
+LearnThrottle/LowCapLimit | LearnThrottle=自学习油门(ProControlPage.cs:1740), LowCapLimit=限速极限电量(ProControlPage.cs:1741)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11262`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11388`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L118`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L213`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xCD: mid_speed_cap_and_limit_by_cap
+
+**Mid-speed capacity-based speed cap** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 255. Group: limits.
+
+Low byte = a speed cap value applied based on battery capacity (MiSpeedCap); high byte preserves a related SpeedLimitByCap value read back from the controller. GDriver independently confirms a matching 'midSpeedCapacity' field as the battery-capacity breakpoint at and above which the low-charge limiting strategy (addr158/addr204/addr206) has fully faded out and full availability returns — implemented, like addr204, via the maximum line-current request rather than a direct RPM cap (name match only, address unconfirmed; effect unverified).
+
+MiSpeedCap | MiSpeedCap=限速起始电量(MidSpeedCap label, ProControlPage.cs:1742)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11997`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L148`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L212`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xCE: park_coeff_batsel_capcoeff
+
+**Park coefficient, battery-signal type and min-speed-cap coefficient** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: battery.
+
+Low byte = a minimum-speed capacity coefficient (0-255); high-byte low nibble = park coefficient (0-15); high-byte high nibble = battery signal/chemistry type selector (one-wire/serial/CAN/lithium/lead-acid/LFP). Worthless models parkCoeff, batSel and minSpeedCapCoeff as three separate fields, corroborating the official description of this register as a packed park-coefficient / battery-signal-select / min-speed-cap-coefficient word. GDriver's parameter set independently matches all three sub-fields again: 'parkCoefficient' (Slow-down Park correction strength — larger values multiply the descent correction more strongly, on a non-linear scale on some controllers), 'batterySignal' (the battery communication source/chemistry profile selector), and 'midSpeedCapacityCoefficient' (the strongest low-charge current-limiting coefficient, applied at and below the addr205/addr204 capacity breakpoints) — a third independent name-match corroboration of this register's three-way packing, on top of the existing Worthless match.
+
+| Value / bit | Meaning |
+| --- | --- |
+| 0 | one-wire (单线通) |
+| 1 | serial (串口) |
+| 2 | CAN |
+| 3 | lithium |
+| 4 | lead-acid |
+| 5 | LFP (lithium iron phosphate) |
+
+
+驻坡系数/电池信号/MidSpeedCapCoeff
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10754`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12039`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12272`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L170`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L42`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L151`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xCF: regen_acceleration_ratio
+
+**Re-acceleration ratio after regen** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: regen.
+
+Coefficient shaping how quickly torque resumes when the throttle is reapplied after a regenerative-braking event, per this entry's key name — though the official app's own field is labelled 'ReAcc' / 后退加速 ("reverse acceleration"), and GDriver independently matches a 'reverseAcceleration' parameter describing it as a reverse-mode acceleration-time setting that caps the acceleration step while a reverse-related operating mode is active — it shapes the ramp-up of the reverse command itself, leaving the Reverse-speed limit and current ceiling elsewhere (addr41/201) untouched — a materially different reading (reverse-drive acceleration, not post-regen throttle reapplication) from this entry's original 'regen acceleration ratio' framing. Treat the regen-specific framing with reduced confidence; 'reverse acceleration' is the better-supported reading (name match only, address unconfirmed).
+
+ReAcc | ReAcc=后退加速(ProControlPage.cs:1754)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10460`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L190`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xD0: one_comm_data_bytes
+
+**One-wire comm protocol data bytes 0/1** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Two raw data bytes (DATA0 low byte, DATA1 high byte) sent as part of the one-wire dashboard protocol frame; exact meaning unconfirmed. GDriver independently confirms both sub-fields by name: 'oneWireData0' as a device code the controller uses to identify/compare against the matched display or peripheral on receive, and 'oneWireData1' as a data-mode selector — zero picks rolling/encrypted data, anything else picks fixed data — while noting that some firmware gives the raw values 254 and 255 their own extra handling on the receive side (name match only, address unconfirmed).
+
+DATA0/DATA1 | label: DATA0 / DATA1 (no localized string in .cs)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12582`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12625`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xD1: position_sensor_type
+
+**Rotor position sensor type** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 19. Group: motor.
+
+Selects which type of rotor position sensor (Hall, incremental encoder, absolute encoder, resolver) the controller expects. GDriver independently describes a matching 'anglePosition' parameter for this same concept, additionally distinguishing 120-degree and 60-degree Hall-sensor profiles among the available options, and stresses that getting this wrong for the installed sensor tends to show up as one of: the motor refusing to start, spinning backwards, launching roughly, feeling weak, drawing too much current, or tripping a fault outright (name match only, address unconfirmed).
+
+| Value / bit | Meaning |
+| --- | --- |
+| 0 | 120-degree Hall |
+| 1 | encoder |
+| 2 | encoder 4096 |
+| 3 | encoder 8192 |
+| 4 | encoder (4) |
+| 5 | encoder (5) |
+| 6 | encoder (6) |
+| 7 | encoder (7) |
+| 8 | encoder (8) |
+| 9 | encoder (9) |
+| 10 | encoder (10) |
+| 11 | encoder (11) |
+| 12 | encoder (12) |
+| 13 | absolute encoder L |
+| 14 | absolute encoder H |
+| 15 | resolver encoder |
+| 16 | 60-degree Hall |
+| 17 | encoder B |
+| 18 | encoder 4096 B |
+| 19 | encoder 8192 B |
+
+
+位置传感器
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11420`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xD2: wheel_radius_and_ratio
+
+**Wheel radius and drivetrain gear/pulley ratio** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: display.
+
+Low byte = drivetrain gear/pulley ratio (WheelRatio), high byte = wheel radius (WheelRadius); both feed the speed-display and speed-limit calculations. Worthless has separate aspectRatio and rimSize int fields; aspectRatio is a strong name match to the low-byte WheelRatio (轮胎扁平率 = tyre aspect ratio), while rimSize is a plausible but not certain match to the high-byte WheelRadius (tyre-sizing convention typically pairs rim diameter with aspect ratio and width, rather than a raw radius). GDriver's own parameter registry independently confirms this exact address for two distinct sub-fields — 'aspectRatio' (tyre sidewall ratio) and 'rimDiameter' — strongly corroborating this entry's existing guess that the low byte is the tyre aspect ratio (matching WheelRatio/轮胎扁平率) and clarifying that the high byte, despite being labelled 'WheelRadius' in the official app, is actually the rim diameter in inches rather than a literal radius.
+
+WheelRadius/WheelRatio | WheelRadius=轮胎R(ProControlPage.cs:1903), WheelRatio=轮胎扁平率(ProControlPage.cs:1724)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11136`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11220`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L38`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L195`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672910`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xD3: wheel_width
+
+**Wheel/tyre width** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: display.
+
+Tyre width value, used together with WheelRadius/WheelRatio for speed-display calculations (effect unverified).
+
+WheelWidth | WheelWidth=轮胎宽度(ProControlPage.cs:1723)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11178`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L231`
+
+## 0xD4: rate_ratio
+
+**Speed/rate display calibration ratio** — u16; scale 0.001; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65.535. Group: display.
+
+Fine calibration multiplier for the speed or rate display, entered as a decimal and stored scaled by 1000. GDriver's own parameter registry independently confirms this exact address (id 'gearRatio') and the ×1000 storage scale, describing it as the drivetrain reduction ratio used together with wheel size and pole pairs for speed/distance calibration — it does not change the bike's physical sprockets or mechanical torque multiplication.
+
+RateRatio | RateRatio=传动速比(ProControlPage.cs:1902) | Worthless has a `gearRatio: Float` field — same physical quantity (a decimal drivetrain ratio) as this register's scale=0.001-quantized value, but no explicit numeric range is recoverable statically, so kept low.
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11094`
+- `worthless:jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java#L103`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L672908`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xD5: pulse_timing_and_comm_byte_config
+
+**One-wire comm idle/stop pulse timing and data-byte selectors** — bitfield; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Packed word: bits0-1 = idle pulse step (0.5/0.9/1.5/1.9ms), bits2-3 = stop pulse width (24/55/124/216ms), bits4-7 = which data byte is reported (Byte89Sel), high byte = ESQH square-wave-high time. GDriver's own parameter registry independently confirms both timing enumerations verbatim: 'oneWireIdle' lists the same four idle-pulse steps (0.5, 0.9, 1.5, 1.9 ms) and 'oneWireStop' the same four stop-pulse-width options (24, 55, 124, 216 ms) — strong corroboration of this register's bits0-3 packing, though GDriver does not address the Byte89Sel/ESQH high-byte fields (name match only, address unconfirmed).
+
+Idle/Stop/ESQH/Byte89Sel | Idle=步长(ProControlPage.cs:2668), Stop=停止间隔周期(ProControlPage.cs:2725), ESQH=特殊帧(ProControlPage.cs:1717), Byte89Sel=字节选项(ProControlPage.cs:2721)
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12392`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12414`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12539`
+- `official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L13185`
+- `gdriver:reference/decompiled/gdriver/decompiled.js#L552755`
+
+## 0xEE: pin_function_learn_result
+
+**Auto-learned input pin function result** — u16; scale 1; unit raw; confidence **low**.
+
+Access: rw. App range: 0 to 65535. Group: misc.
+
+Write-only register used by the pin-function auto-detection wizard: low byte identifies which logical function is being assigned (P/BC/high-speed/low-speed/XH/seat/reset), high byte is the detected physical pin index found by watching for a state change.
+
+识别功能脚
+
+Sources:
+
+- `official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3937`

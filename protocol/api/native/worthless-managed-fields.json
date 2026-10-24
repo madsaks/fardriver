@@ -1,0 +1,3472 @@
+[
+  {
+    "model": "FardriverConfig",
+    "field": "alarmDelay",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 33
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "f22477an",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 36
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "angleLearn",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 37
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "aspectRatio",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 38
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "assistRoll",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 39
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "autoBackP",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 40
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "backSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 41
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "batSel",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 42
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "battRatedCap",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 43
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "batteryVoltage",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 44
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "blockTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 45
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "bmqHall",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 46
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "boostMaxLine",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 47
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "boostMaxPhase",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 48
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "brakeActive",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 49
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "brakeConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 50
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "bstRelease",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 51
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "bstTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 52
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "bstXhBcP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 53
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "canConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 54
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg06Arg2",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 55
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg11h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 56
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg156h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 57
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg156l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 58
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg190h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 59
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg190l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 60
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg26Received",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 61
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg26h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 62
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg26l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 63
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg50h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 64
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg50l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 65
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg51h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 66
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cfg51l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 67
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "chgFdSeatVol",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 68
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "configWord0",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 69
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "configWord1",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 70
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "controllerDay",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 71
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "controllerHour",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 72
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "controllerMinute",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 73
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "controllerMonth",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 74
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "controllerTimeValid",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 75
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "controllerYear",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 76
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "cruiseEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 77
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "currFD",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 78
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "curveTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 79
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "customMaxLineCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 80
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "customMaxPhaseCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 81
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "dataVoltage4",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 82
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "direction",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 83
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "distanceKm",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 84
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "ecoConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 85
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "emptyRun",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 86
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "enMaxLineCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 87
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "enMaxPhaseCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 88
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "errorFlags1",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 89
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "errorFlags2",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 90
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "exitFollowSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 91
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "faif",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 92
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "fastRE",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 93
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "fieldWeakening",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 94
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "followConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 95
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "freeThrottle",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 96
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "fullBattCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 97
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "fwReRatio",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 98
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "fwReSdhSdl",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 99
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "gPara0",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 100
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "gearCfg",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 101
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "gearMode",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 102
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "gearRatio",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 103
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "gearRemember",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 104
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "globalState1",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 105
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "globalState2",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 106
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "hasError",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 107
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "highVolProtect",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 108
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "highVolRestore",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 109
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "intRes",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 110
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "inverseTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 111
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "isInStart",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 112
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "kzqVersion0",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 113
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "kzqVersion1",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 114
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "f22478ld",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 117
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "learnThrottle",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 118
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "learnVoh",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 119
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "learnVol",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 120
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "lineCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 121
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "f22479lm",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 124
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "lmtSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 125
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "longBack",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 126
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "lowSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 127
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "lowSpeedLinePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 128
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "lowSpeedPhasePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 129
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "lowVolProtect",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 130
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "lowVolRestoreRaw",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 131
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "f22480lq",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 134
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxBackCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 135
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxDec",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 136
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxKC",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 137
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 138
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxKP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 139
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxLineCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 140
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxPhaseCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 141
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 142
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "maxSpeedCfg",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 143
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "midKC",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 144
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "midKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 145
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "midKP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 146
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "midSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 147
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "midSpeedCap",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 148
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "midSpeedLinePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 149
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "midSpeedPhasePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 150
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "minSpeedCapCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 151
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "moe",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 152
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "morseCode",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 153
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "mosTempProtect",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 154
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "mosTempRestore",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 155
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "motorDia",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 156
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "motorTempProtect",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 157
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "motorTempRestore",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 158
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "nRatioCurve",
+    "managedType": "List<Integer>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 159
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "noCanCnt",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 160
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "ntcType",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 161
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "oneCommCfg",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 162
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "oneCommHead",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 163
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "oneCommPS",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 164
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "oneCommPos",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 165
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "oneCommSec",
+    "managedType": "int[]",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 166
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "oneLineCurrCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 167
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "pGearEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 168
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "paraIndex",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 169
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "parkCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 170
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "parkConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 171
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "parkDiff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 172
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "parkTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 173
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "passOk",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 174
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "pc13Config",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 175
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "phaseACoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 176
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "phaseCCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 177
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "phaseExchange",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 178
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "phaseOffset",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 179
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "pinState0",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 180
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "pinState1",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 181
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "polePairs",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 182
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "protocol485",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 183
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "pulseFD",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 184
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "quickDown",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 185
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "ratedPower",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 186
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "ratedSpeedErpm",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 187
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "ratedVoltage",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 188
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "rcvThrottleInsert",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 189
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "reAcc",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 190
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "reCurrRatio",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 191
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "relayDelay",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 192
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "reverseEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 193
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "reversing",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 194
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "rimSize",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 195
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "rpmCurve",
+    "managedType": "List<Integer>",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 196
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "runtimeHours",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 197
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "rxdSel",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 198
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "saveNum",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 199
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "seatEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 200
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "sideStandEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 201
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "slowDown",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 202
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "softVer",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 203
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "spMode",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 204
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "spdLmtSel",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 205
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "spdPulseNum",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 206
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "specialCode",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 207
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "specialWeak",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 208
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "speedAnalog",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 209
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "speedKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 210
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "speedKP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 211
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "speedLimitByCap",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 212
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "speedLowCap",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 213
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "speedMeter",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 214
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "speedPulse",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 215
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "stage1Curr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 216
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "stage1Soc",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 217
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "stage2Soc",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 218
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "startKC",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 219
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "startKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 220
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "startKP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 221
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "stopBackCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 222
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "taRlB9D0SP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 223
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "temp70",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 224
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "tempCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 225
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "throttleAccStep",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 226
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "throttleDecStep",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 227
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "throttleHighV",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 228
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "throttleLostAlarm",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 229
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "throttleLowV",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 230
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "tireWidth",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 231
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "torqueCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 232
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "volCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 233
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "volSelectRatio",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 234
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "weakA",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 235
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "weakResponse",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 236
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "weakTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 237
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "xsControl",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 238
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverConfig",
+    "field": "zeroBattCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverConfig.java",
+      "line": 239
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "ctrlTemp",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 16
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "current",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 17
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "gear",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 18
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "modulation",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 19
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "motorTemp",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 20
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "phaseA",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 21
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "phaseC",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 22
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "power",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 23
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "rpm",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 24
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "soc",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 25
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "speed",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 26
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "throttle",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 27
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "throttleRaw",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 28
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "throttleVoltage",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 29
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FardriverTelemetry",
+    "field": "voltage",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FardriverTelemetry.java",
+      "line": 30
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "alarmDelay",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 21
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "f22481an",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 24
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "angleLearn",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 25
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "aspectRatio",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 26
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "assistRoll",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 27
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "autoBackP",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 28
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "backSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 29
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "batSel",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 30
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "battRatedCap",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 31
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "blockTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 32
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "boostMaxLine",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 33
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "boostMaxPhase",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 34
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "brakeConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 35
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "bstRelease",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 36
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "bstTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 37
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "bstXhBcP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 38
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "canConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 39
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg190h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 40
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg190l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 41
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg26h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 42
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg26l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 43
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg50h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 44
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg50l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 45
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg51h",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 46
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cfg51l",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 47
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "chgFdSeatVol",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 48
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "configWord0",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 49
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "configWord1",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 50
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "cruiseEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 51
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "curveTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 52
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "customMaxLineCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 53
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "customMaxPhaseCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 54
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "description",
+    "managedType": "String",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 55
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "direction",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 56
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "ecoConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 57
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "enMaxLineCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 58
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "enMaxPhaseCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 59
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "exitFollowSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 60
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "followConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 61
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "freeThrottle",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 62
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "fullBattCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 63
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "fwReRatio",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 64
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "fwReSdhSdl",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 65
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "gPara0",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 66
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "gearCfg",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 67
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "gearRatio",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 68
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "gearRemember",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 69
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "highVolProtect",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 70
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "highVolRestore",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 71
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "intRes",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 72
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "inverseTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 73
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "f22482ld",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 76
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "learnVoh",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 77
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "learnVol",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 78
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "lineCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 79
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "f22483lm",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 82
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "lmtSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 83
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "lowSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 84
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "lowSpeedLinePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 85
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "lowSpeedPhasePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 86
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "lowVolProtect",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 87
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "f22484lq",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 90
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxBackCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 91
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxDec",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 92
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxKC",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 93
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 94
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxLineCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 95
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxPhaseCurrent",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 96
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 97
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "maxSpeedCfg",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 98
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "midKC",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 99
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "midKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 100
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "midSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 101
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "midSpeedLinePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 102
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "midSpeedPhasePct",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 103
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "moe",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 104
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "morseCode",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 105
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "mosTempProtect",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 106
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "mosTempRestore",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 107
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "motorDia",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 108
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "motorTempProtect",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 109
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "motorTempRestore",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 110
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "nRatio",
+    "managedType": "int[]",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 111
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "name",
+    "managedType": "String",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 112
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "ntcType",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 113
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "pGearEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 114
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "parkConfig",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 115
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "parkDiff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 116
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "parkTime",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 117
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "pc13Config",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 118
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "phaseACoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 119
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "phaseCCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 120
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "phaseOffset",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 121
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "polePairs",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 122
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "protocol485",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 123
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "quickDown",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 124
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "ratedPower",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 125
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "ratedSpeed",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 126
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "ratedVoltage",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 127
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "rcvThrottleInsert",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 128
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "reCurrRatio",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 129
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "relayDelay",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 130
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "reverseEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 131
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "rimSize",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 132
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "rpmPowerCurve",
+    "managedType": "int[]",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 133
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "savedFrom",
+    "managedType": "String",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 134
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "seatEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 135
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "sideStandEnable",
+    "managedType": "boolean",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 136
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "spMode",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 137
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "spdLmtSel",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 138
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "spdPulseNum",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 139
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "speedAnalog",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 140
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "speedKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 141
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "speedKP",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 142
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "speedMeter",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 143
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "speedPulse",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 144
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "stage1Soc",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 145
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "stage2Soc",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 146
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "startKC",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 147
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "startKI",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 148
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "stopBackCurr",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 149
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "tempCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 150
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "throttleAccStep",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 151
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "throttleDecStep",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 152
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "throttleHighV",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 153
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "throttleLowV",
+    "managedType": "float",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 154
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "timestamp",
+    "managedType": "String",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 155
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "tireWidth",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 156
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "torqueCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 157
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "volCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 158
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "weakA",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 159
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "weakResponse",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 160
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "model": "FdPreset",
+    "field": "zeroBattCoeff",
+    "managedType": "int",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/data/FdPreset.java",
+      "line": 161
+    },
+    "confidence": "mechanical"
+  }
+]

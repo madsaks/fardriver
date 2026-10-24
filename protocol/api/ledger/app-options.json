@@ -1,1 +1,279 @@
-[]
+[
+  {
+    "id": "fardriver.option.auto_learn_start",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Auto-learn start",
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "gdriver.command_parser.auto_learn_start",
+      "official.GraphPage.ButtonAutoLearn_Clicked.4304"
+    ],
+    "operation": "WriteAddr",
+    "notes": "GDriver classifies address 160 value 0x0288 as auto_learn_start. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.auto_learn_exit",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Auto-learn exit",
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "gdriver.command_parser.auto_learn_exit",
+      "official.GraphPage.ButtonAutoLearn_Clicked.4295"
+    ],
+    "operation": "WriteAddr",
+    "notes": "GDriver classifies address 160 value 0x0388 as auto_learn_exit. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.restore_autolearn_defaults",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Restore auto-learn default config",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ProControlPage.OnButtonResetClicked.9138",
+      "official.ParaPage.OnButtonResetClicked.3526"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Preset/config restore, not the same as live auto-learn start. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.save_parameters",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Save parameters",
+    "safety": "guarded_write",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.ButtonSaveName_Clicked.3734"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.restore_product_defaults",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Restore product defaults",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3502"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.restore_pin10_config",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Restore PIN10 key configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3510"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.restore_pin11_config",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Restore PIN11 key configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3518"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.restore_backthrottle_eabs",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Restore back-throttle EABS configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3534"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.restore_non_eabs",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Restore non-EABS configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3542"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.restore_xm",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Restore XM configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3550"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.reset_controller",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Reset controller",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3565"
+    ],
+    "operation": "WriteAddr",
+    "notes": "Second payload byte is 15 for hardware letters I/J/K/U/V/W, otherwise 5; first byte 136. Preserve the conditional; nearby-assignment index hints alone are insufficient. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.non_following",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Enter non-following status",
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.GraphPage.ButtonTestAngle_Clicked.4247"
+    ],
+    "operation": "WriteAddr",
+    "notes": "GraphPage case Y label explicitly requests non-following status. Do not infer a generic angle-test meaning from the enclosing handler name. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.curve_gather",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Start curve gathering",
+    "safety": "unknown_danger",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.CurvePage.OnButtonGatherClicked.814"
+    ],
+    "operation": "WriteAddr",
+    "notes": " This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.heb_request",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Request full HEB parameter stream",
+    "safety": "safe_read",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ConnectPage.legacy_call.3759.SendRs232Data",
+      "worthless.native.ncFdBuildOldCommand",
+      "gdriver.command_kind.read_flash.1362938"
+    ],
+    "operation": "SendRs232Data(19,7,10,56)",
+    "notes": "Query request; completion must be observed separately. This row maps a reviewed action, not every UI control."
+  },
+  {
+    "id": "fardriver.option.official_heb_export",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Export controller parameters as HEB",
+    "safety": "passive_observe",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ConnectPage.OnExportClicked.5873"
+    ],
+    "operation": "OnExportClicked",
+    "notes": "Requires the official new-data completion condition; packs main and extended words. Hidden repeated-cancel path starts a separate legacy diagnostic read and is not ordinary export."
+  },
+  {
+    "id": "fardriver.option.official_heb_import",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Import parameter file to controller",
+    "safety": "bulk_restore",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ConnectPage.ui_option.5999.ConfirmAsync"
+    ],
+    "operation": "OnImportClicked",
+    "notes": "ConnectPage.cs:5967-6003 checks binding/new-version and sets CopyNewData/NewCnt after confirmation. This is a device write flow, unlike the web app JSON import."
+  },
+  {
+    "id": "fardriver.option.gdriver_heb_restore",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Prepare hardware-specific GDriver HEB restore",
+    "safety": "bulk_restore",
+    "confidence": "medium",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "gdriver.function.buildFarDriverHebRestoreTransport.895075",
+      "gdriver.function.farDriverHebRestoreOptionsForHardware.894261"
+    ],
+    "operation": "buildFarDriverHebRestoreTransport",
+    "notes": "Hardware G selects a distinct CRC seed, compact subtype, and configuration-frame inclusion. Semantic record remains medium because some helper bodies are absent from the unsupported Hermes decompile."
+  },
+  {
+    "id": "fardriver.option.native_poll_pages",
+    "type": "app_option",
+    "protocolFamily": "fardriver",
+    "name": "Select native polling pages",
+    "safety": "passive_observe",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdGetPollRegisters",
+      "worthless.native.ncFdGetConfigRegisters"
+    ],
+    "operation": "page_lists",
+    "notes": "Returns 13 poll pages and 27 config pages; lists are logical addresses, not RX index bytes."
+  }
+]

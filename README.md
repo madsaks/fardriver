@@ -102,7 +102,9 @@ uv run --project tools/registers tools/registers/gen_api_docs.py
 
 The research uses the official 南京远驱 288 app, Worthless Controls 5.1.16, and GDriver 3.4.0. The decompile script expects their source APK/XAPK files in `reference/apps/` and writes extracted output to `reference/decompiled/`.
 
-Documentation is substantial but incomplete. The current metadata contains 110 registers (108 low-confidence, two medium-confidence) and 18 telemetry fields (15 low-confidence, three medium-confidence). Worthless Controls' native `libfd_protocol.so` was excluded from disassembly, leaving parts of its wire protocol unverified. The curated API ledger currently covers three commands, two file formats, one transport, and two safety rules; its app-options list is empty. Passing validators confirms metadata structure and source references, not complete APK coverage or hardware correctness.
+The reference now includes [native protocol analysis](docs/native-protocol.md), an [API agreement/conflict report](docs/api-agreements.md), and a [coverage report](docs/coverage.md). Worthless Controls' AArch64 `libfd_protocol.so` has been decompiled locally; the published catalog contains 186 native exports and the verification results come from offline execution of the actual binary. The register metadata retains its individual confidence levels and unresolved conflicts. Passing validators or matching app implementations does not establish hardware compatibility.
+
+Two confirmed compatibility differences matter: Worthless's five-byte native register reads differ from this repo's constructed six-byte read helper, and its HEB export does not reproduce the official compact main-word layout or extended block. See the agreement report before treating app APIs or backup files as interchangeable.
 
 **These binaries and extracted sources are local references, not tracked repository contents.** A GitHub clone includes the protocol metadata, evidence indexes, and documentation, but does not include the apps or decompiled files. References in the docs may therefore point to files absent from a fresh clone.
 
@@ -113,6 +115,9 @@ If you have the reference packages, inspect [`tools/decompile.sh`](tools/decompi
 - [BLE protocol and frame formats](docs/protocol.md)
 - [Register and telemetry validation checklist](docs/validation.md)
 - [Generated API reference](protocol/api/generated/README.md)
+- [Native protocol decompilation and reproduction steps](docs/native-protocol.md)
+- [Cross-app agreements and conflicts](docs/api-agreements.md)
+- [Coverage and verification limits](docs/coverage.md)
 - [Decompilation findings and source evidence](docs/decompile-notes.md)
 - [Firmware findings](docs/firmware-notes.md)
 - [Protocol and web app design](docs/superpowers/specs/2026-09-21-fardriver-protocol-and-web-app-design.md)

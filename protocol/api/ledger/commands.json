@@ -7,12 +7,18 @@
     "transport": "ble",
     "operation": "WriteAddr",
     "address": 160,
-    "payload": [136, 2],
+    "payload": [
+      136,
+      2
+    ],
     "safety": "motion_or_autolearn",
     "confidence": "high",
     "implementationStatus": "do_not_implement",
     "webAppPolicy": "display_only",
-    "evidence": ["gdriver.command_parser.auto_learn_start"],
+    "evidence": [
+      "gdriver.command_parser.auto_learn_start",
+      "official.GraphPage.ButtonAutoLearn_Clicked.4304"
+    ],
     "notes": "GDriver classifies address 160 value 0x0288 as auto_learn_start."
   },
   {
@@ -23,12 +29,18 @@
     "transport": "ble",
     "operation": "WriteAddr",
     "address": 160,
-    "payload": [136, 3],
+    "payload": [
+      136,
+      3
+    ],
     "safety": "motion_or_autolearn",
     "confidence": "high",
     "implementationStatus": "do_not_implement",
     "webAppPolicy": "display_only",
-    "evidence": ["gdriver.command_parser.auto_learn_exit"],
+    "evidence": [
+      "gdriver.command_parser.auto_learn_exit",
+      "official.GraphPage.ButtonAutoLearn_Clicked.4295"
+    ],
     "notes": "GDriver classifies address 160 value 0x0388 as auto_learn_exit."
   },
   {
@@ -39,7 +51,10 @@
     "transport": "ble",
     "operation": "WriteAddr",
     "address": 160,
-    "payload": [136, 11],
+    "payload": [
+      136,
+      11
+    ],
     "safety": "destructive_config",
     "confidence": "high",
     "implementationStatus": "documented",
@@ -49,5 +64,327 @@
       "official.ParaPage.OnButtonResetClicked.3526"
     ],
     "notes": "Preset/config restore, not the same as live auto-learn start."
+  },
+  {
+    "id": "fardriver.command.save_parameters",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Save parameters",
+    "safety": "guarded_write",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.ButtonSaveName_Clicked.3734"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      4
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action."
+  },
+  {
+    "id": "fardriver.command.restore_product_defaults",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Restore product defaults",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3502"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      8
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action."
+  },
+  {
+    "id": "fardriver.command.restore_pin10_config",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Restore PIN10 key configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3510"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      9
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action."
+  },
+  {
+    "id": "fardriver.command.restore_pin11_config",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Restore PIN11 key configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3518"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      10
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action."
+  },
+  {
+    "id": "fardriver.command.restore_backthrottle_eabs",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Restore back-throttle EABS configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3534"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      12
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action."
+  },
+  {
+    "id": "fardriver.command.restore_non_eabs",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Restore non-EABS configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3542"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      13
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action."
+  },
+  {
+    "id": "fardriver.command.restore_xm",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Restore XM configuration",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3550"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      14
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Source-backed command meaning; documentation does not enable a controller action."
+  },
+  {
+    "id": "fardriver.command.reset_controller",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Reset controller",
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ParaPage.OnButtonResetClicked.3565"
+    ],
+    "address": 160,
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "Second payload byte is 15 for hardware letters I/J/K/U/V/W, otherwise 5; first byte 136. Preserve the conditional; nearby-assignment index hints alone are insufficient."
+  },
+  {
+    "id": "fardriver.command.non_following",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Enter non-following status",
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.GraphPage.ButtonTestAngle_Clicked.4247"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      1
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "notes": "GraphPage case Y label explicitly requests non-following status. Do not infer a generic angle-test meaning from the enclosing handler name."
+  },
+  {
+    "id": "fardriver.command.curve_gather",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Start curve gathering",
+    "safety": "unknown_danger",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.CurvePage.OnButtonGatherClicked.814"
+    ],
+    "address": 160,
+    "payload": [
+      136,
+      6
+    ],
+    "transport": "ble",
+    "operation": "WriteAddr"
+  },
+  {
+    "id": "fardriver.command.native_read",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Native five-byte register read",
+    "safety": "safe_read",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdBuildReadPacket"
+    ],
+    "transport": "ble",
+    "operation": "ncFdBuildReadPacket",
+    "notes": "addr addr 80 followed by FarDriver CRC. Differs from the repository constructed AA C4 read; all 256 address values emulated."
+  },
+  {
+    "id": "fardriver.command.native_write",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Native register-write packet builder",
+    "safety": "guarded_write",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdBuildWritePacket",
+      "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildWritePacket"
+    ],
+    "transport": "ble",
+    "operation": "ncFdBuildWritePacket",
+    "notes": "Payload capped to 14 bytes; output length payload+6. Agrees with ordinary official writes, not the official bulk-transfer size domain."
+  },
+  {
+    "id": "fardriver.command.heb_request",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Request full HEB parameter stream",
+    "safety": "safe_read",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ConnectPage.legacy_call.3759.SendRs232Data",
+      "worthless.native.ncFdBuildOldCommand",
+      "gdriver.command_kind.read_flash.1362938"
+    ],
+    "transport": "ble",
+    "operation": "SendRs232Data(19,7,10,56)",
+    "notes": "Query request; completion must be observed separately."
+  },
+  {
+    "id": "fardriver.command.remote_drive",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Native remote-drive packet builder",
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdBuildRemoteDrive"
+    ],
+    "transport": "ble",
+    "operation": "ncFdBuildRemoteDrive",
+    "notes": "17-byte AA FC packet; repeated first argument, two little-endian 16-bit arguments, seven zeros, CRC. Argument physical semantics remain unverified. Offline synthetic execution only."
+  },
+  {
+    "id": "fardriver.command.firmware_condition",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Condition firmware image",
+    "safety": "firmware_update",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdFwCondition",
+      "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwCondition"
+    ],
+    "transport": "local",
+    "operation": "ncFdFwCondition",
+    "notes": "Reversible enabled XOR over pages 5-103, first 202 words per page; not evidence of authenticity or signing. Exact algorithm in docs/native-protocol.md."
+  },
+  {
+    "id": "fardriver.command.firmware_sync",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Build firmware synchronization packet",
+    "safety": "firmware_update",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdFwSync",
+      "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwSync"
+    ],
+    "transport": "ble",
+    "operation": "ncFdFwSync",
+    "notes": "Four 8-byte variants; invalid unsigned index falls back to zero. Offline emulator verified; no flash operation performed."
+  },
+  {
+    "id": "fardriver.command.password_data",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Build password register data",
+    "safety": "auth_security",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "worthless.native.ncFdBuildPasswordData"
+    ],
+    "transport": "local",
+    "operation": "ncFdBuildPasswordData",
+    "notes": "14-byte payload; leading B0+original byte length, at most 13 modified UTF-8 bytes, zero padding. Distinct from client authorization."
   }
 ]

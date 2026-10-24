@@ -1,0 +1,2289 @@
+[
+  {
+    "id": "worthless.native.ncCreateSession",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncCreateSession",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010bc48_ncCreateSession.c",
+      "line": 1
+    },
+    "elfAddress": "0xbc48",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncDestroySession",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncDestroySession",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ccfc_ncDestroySession.c",
+      "line": 1
+    },
+    "elfAddress": "0xccfc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdHandleNotification",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdHandleNotification",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010dca0_ncFdHandleNotification.c",
+      "line": 1
+    },
+    "elfAddress": "0xdca0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e010_ncFdGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0xe010",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdBuildReadPacket",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdBuildReadPacket",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e05c_ncFdBuildReadPacket.c",
+      "line": 1
+    },
+    "elfAddress": "0xe05c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdBuildWritePacket",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdBuildWritePacket",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e0c8_ncFdBuildWritePacket.c",
+      "line": 1
+    },
+    "elfAddress": "0xe0c8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdBuildOldCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdBuildOldCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e1cc_ncFdBuildOldCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0xe1cc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdFwCondition",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdFwCondition",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e20c_ncFdFwCondition.c",
+      "line": 1
+    },
+    "elfAddress": "0xe20c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdFwSync",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdFwSync",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e304_ncFdFwSync.c",
+      "line": 1
+    },
+    "elfAddress": "0xe304",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJbdBuildReadRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJbdBuildReadRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e394_ncJbdBuildReadRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0xe394",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJbdParseBasicInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJbdParseBasicInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e3c8_ncJbdParseBasicInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0xe3c8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJbdParseCellVoltages",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJbdParseCellVoltages",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e7dc_ncJbdParseCellVoltages.c",
+      "line": 1
+    },
+    "elfAddress": "0xe7dc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJbdBuildMosfetControl",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJbdBuildMosfetControl",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e8f8_ncJbdBuildMosfetControl.c",
+      "line": 1
+    },
+    "elfAddress": "0xe8f8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncBmsGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncBmsGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010e960_ncBmsGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0xe960",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncBmsGetCellVoltages",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncBmsGetCellVoltages",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ebd0_ncBmsGetCellVoltages.c",
+      "line": 1
+    },
+    "elfAddress": "0xebd0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncBmsGetErrorMessage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncBmsGetErrorMessage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ec9c_ncBmsGetErrorMessage.c",
+      "line": 1
+    },
+    "elfAddress": "0xec9c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncBmsGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncBmsGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ed1c_ncBmsGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0xed1c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncBmsGetTemperatures",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncBmsGetTemperatures",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ee58_ncBmsGetTemperatures.c",
+      "line": 1
+    },
+    "elfAddress": "0xee58",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdBuildPasswordData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdBuildPasswordData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ef30_ncFdBuildPasswordData.c",
+      "line": 1
+    },
+    "elfAddress": "0xef30",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetConfig",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetConfig",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ef9c_ncFdGetConfig.c",
+      "line": 1
+    },
+    "elfAddress": "0xef9c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetErrorMessage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetErrorMessage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010efdc_ncFdGetErrorMessage.c",
+      "line": 1
+    },
+    "elfAddress": "0xefdc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetModelType",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetModelType",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f058_ncFdGetModelType.c",
+      "line": 1
+    },
+    "elfAddress": "0xf058",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetProductCode",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetProductCode",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f0d4_ncFdGetProductCode.c",
+      "line": 1
+    },
+    "elfAddress": "0xf0d4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetStoredPassword",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetStoredPassword",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f150_ncFdGetStoredPassword.c",
+      "line": 1
+    },
+    "elfAddress": "0xf150",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdSetProductInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdSetProductInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f1cc_ncFdSetProductInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0xf1cc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetRpmCurve",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetRpmCurve",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f264_ncFdGetRpmCurve.c",
+      "line": 1
+    },
+    "elfAddress": "0xf264",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetNRatio",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetNRatio",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f324_ncFdGetNRatio.c",
+      "line": 1
+    },
+    "elfAddress": "0xf324",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetPollRegisters",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetPollRegisters",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f3f4_ncFdGetPollRegisters.c",
+      "line": 1
+    },
+    "elfAddress": "0xf3f4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetConfigRegisters",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetConfigRegisters",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f42c_ncFdGetConfigRegisters.c",
+      "line": 1
+    },
+    "elfAddress": "0xf42c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetRawConfigWords",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetRawConfigWords",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f4c4_ncFdGetRawConfigWords.c",
+      "line": 1
+    },
+    "elfAddress": "0xf4c4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGenerateDrmKey",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGenerateDrmKey",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010f6fc_ncFdGenerateDrmKey.c",
+      "line": 1
+    },
+    "elfAddress": "0xf6fc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetDrmStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetDrmStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010ff74_ncFdGetDrmStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0xff74",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdBuildRemoteDrive",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdBuildRemoteDrive",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110084_ncFdBuildRemoteDrive.c",
+      "line": 1
+    },
+    "elfAddress": "0x10084",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdGetProtocolSeen",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdGetProtocolSeen",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001101cc_ncFdGetProtocolSeen.c",
+      "line": 1
+    },
+    "elfAddress": "0x101cc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncFdResetProtocolSeen",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncFdResetProtocolSeen",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001101f4_ncFdResetProtocolSeen.c",
+      "line": 1
+    },
+    "elfAddress": "0x101f4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncAntBuildRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncAntBuildRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110214_ncAntBuildRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0x10214",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncAntParseStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncAntParseStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110250_ncAntParseStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x10250",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncAntBuildAuthCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncAntBuildAuthCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110c88_ncAntBuildAuthCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x10c88",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncAntBuildControlCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncAntBuildControlCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110d90_ncAntBuildControlCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x10d90",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkBuildRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkBuildRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110e18_ncJkBuildRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0x10e18",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkBuildWriteCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkBuildWriteCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110ea0_ncJkBuildWriteCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x10ea0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkParseDeviceInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkParseDeviceInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00110f3c_ncJkParseDeviceInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0x10f3c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkParseCellInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkParseCellInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001115b8_ncJkParseCellInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0x115b8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkGetModelName",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkGetModelName",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011181c_ncJkGetModelName.c",
+      "line": 1
+    },
+    "elfAddress": "0x1181c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkGetHwVersion",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkGetHwVersion",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00111898_ncJkGetHwVersion.c",
+      "line": 1
+    },
+    "elfAddress": "0x11898",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkGetSwVersion",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkGetSwVersion",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00111914_ncJkGetSwVersion.c",
+      "line": 1
+    },
+    "elfAddress": "0x11914",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncJkGetProtocolVersion",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncJkGetProtocolVersion",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00111990_ncJkGetProtocolVersion.c",
+      "line": 1
+    },
+    "elfAddress": "0x11990",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescBuildRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescBuildRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001119b8_ncVescBuildRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0x119b8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescHandleData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescHandleData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001119f0_ncVescHandleData.c",
+      "line": 1
+    },
+    "elfAddress": "0x119f0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00111f98_ncVescGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x11f98",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescGetFaultString",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescGetFaultString",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112018_ncVescGetFaultString.c",
+      "line": 1
+    },
+    "elfAddress": "0x12018",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescGetHwName",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescGetHwName",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112094_ncVescGetHwName.c",
+      "line": 1
+    },
+    "elfAddress": "0x12094",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112110_ncVescGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x12110",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescBuildInt32Command",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescBuildInt32Command",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011215c_ncVescBuildInt32Command.c",
+      "line": 1
+    },
+    "elfAddress": "0x1215c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescBuildTempConfig",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescBuildTempConfig",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001121f8_ncVescBuildTempConfig.c",
+      "line": 1
+    },
+    "elfAddress": "0x121f8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescGetCanDevices",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescGetCanDevices",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011269c_ncVescGetCanDevices.c",
+      "line": 1
+    },
+    "elfAddress": "0x1269c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescBuildCanForward",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescBuildCanForward",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011282c_ncVescBuildCanForward.c",
+      "line": 1
+    },
+    "elfAddress": "0x1282c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescHandleCanData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescHandleCanData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112928_ncVescHandleCanData.c",
+      "line": 1
+    },
+    "elfAddress": "0x12928",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVescGetCanTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVescGetCanTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112b8c_ncVescGetCanTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x12b8c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncDalyBuildPollCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncDalyBuildPollCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112c64_ncDalyBuildPollCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x12c64",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncDalyBuildMosCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncDalyBuildMosCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112c7c_ncDalyBuildMosCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x12c7c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncDalyProcessData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncDalyProcessData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112d08_ncDalyProcessData.c",
+      "line": 1
+    },
+    "elfAddress": "0x12d08",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncDalyGetProtocol",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncDalyGetProtocol",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00112fe8_ncDalyGetProtocol.c",
+      "line": 1
+    },
+    "elfAddress": "0x12fe8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncDalyBuildA5PollCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncDalyBuildA5PollCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011301c_ncDalyBuildA5PollCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1301c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncDalyBuildA5MosCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncDalyBuildA5MosCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001130d0_ncDalyBuildA5MosCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x130d0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolBuildReadPage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolBuildReadPage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011314c_ncVotolBuildReadPage.c",
+      "line": 1
+    },
+    "elfAddress": "0x1314c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolBuildLdget",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolBuildLdget",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001131f4_ncVotolBuildLdget.c",
+      "line": 1
+    },
+    "elfAddress": "0x131f4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolBuildShow",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolBuildShow",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001132c0_ncVotolBuildShow.c",
+      "line": 1
+    },
+    "elfAddress": "0x132c0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolBuildHandshake",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolBuildHandshake",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011337c_ncVotolBuildHandshake.c",
+      "line": 1
+    },
+    "elfAddress": "0x1337c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolBuildWritePage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolBuildWritePage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00113474_ncVotolBuildWritePage.c",
+      "line": 1
+    },
+    "elfAddress": "0x13474",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolBuildReset",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolBuildReset",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001135ac_ncVotolBuildReset.c",
+      "line": 1
+    },
+    "elfAddress": "0x135ac",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolBuildRemoteThrottle",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolBuildRemoteThrottle",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011365c_ncVotolBuildRemoteThrottle.c",
+      "line": 1
+    },
+    "elfAddress": "0x1365c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolGetPageRaw",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolGetPageRaw",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00113798_ncVotolGetPageRaw.c",
+      "line": 1
+    },
+    "elfAddress": "0x13798",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolHandleData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolHandleData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001137f8_ncVotolHandleData.c",
+      "line": 1
+    },
+    "elfAddress": "0x137f8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00113d60_ncVotolGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x13d60",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00113e04_ncVotolGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x13e04",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncVotolGetParams",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncVotolGetParams",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00113e74_ncVotolGetParams.c",
+      "line": 1
+    },
+    "elfAddress": "0x13e74",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncEnerkeyBuildPollCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncEnerkeyBuildPollCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001140c8_ncEnerkeyBuildPollCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x140c8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncEnerkeyProcessData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncEnerkeyProcessData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011416c_ncEnerkeyProcessData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1416c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncEnerkeyGetHandshakeStep",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncEnerkeyGetHandshakeStep",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114248_ncEnerkeyGetHandshakeStep.c",
+      "line": 1
+    },
+    "elfAddress": "0x14248",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildTelemetryPoll",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildTelemetryPoll",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114270_ncSotionBuildTelemetryPoll.c",
+      "line": 1
+    },
+    "elfAddress": "0x14270",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildAuthRead",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildAuthRead",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114294_ncSotionBuildAuthRead.c",
+      "line": 1
+    },
+    "elfAddress": "0x14294",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildAuthWrite",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildAuthWrite",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001142e4_ncSotionBuildAuthWrite.c",
+      "line": 1
+    },
+    "elfAddress": "0x142e4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildParamRead",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildParamRead",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114334_ncSotionBuildParamRead.c",
+      "line": 1
+    },
+    "elfAddress": "0x14334",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildParamWrite",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildParamWrite",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114358_ncSotionBuildParamWrite.c",
+      "line": 1
+    },
+    "elfAddress": "0x14358",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildFactoryReset",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildFactoryReset",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114488_ncSotionBuildFactoryReset.c",
+      "line": 1
+    },
+    "elfAddress": "0x14488",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildSelfLearnToggle",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildSelfLearnToggle",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001144d0_ncSotionBuildSelfLearnToggle.c",
+      "line": 1
+    },
+    "elfAddress": "0x144d0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildDirectionToggle",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildDirectionToggle",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114504_ncSotionBuildDirectionToggle.c",
+      "line": 1
+    },
+    "elfAddress": "0x14504",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionBuildSaveRestart",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionBuildSaveRestart",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114538_ncSotionBuildSaveRestart.c",
+      "line": 1
+    },
+    "elfAddress": "0x14538",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionHandleData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionHandleData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011455c_ncSotionHandleData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1455c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001148ac_ncSotionGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x148ac",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114910_ncSotionGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x14910",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.ncSotionGetParamRaw",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "ncSotionGetParamRaw",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00114968_ncSotionGetParamRaw.c",
+      "line": 1
+    },
+    "elfAddress": "0x14968",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwCondition",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwCondition",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118a28_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwCondition.c",
+      "line": 1
+    },
+    "elfAddress": "0x18a28",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwSync",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwSync",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118bd0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdFwSync.c",
+      "line": 1
+    },
+    "elfAddress": "0x18bd0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_createSession",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_createSession",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118cb0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_createSession.c",
+      "line": 1
+    },
+    "elfAddress": "0x18cb0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_destroySession",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_destroySession",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118cfc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_destroySession.c",
+      "line": 1
+    },
+    "elfAddress": "0x18cfc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdHandleNotification",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdHandleNotification",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118d38_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdHandleNotification.c",
+      "line": 1
+    },
+    "elfAddress": "0x18d38",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildReadPacket",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildReadPacket",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118de4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildReadPacket.c",
+      "line": 1
+    },
+    "elfAddress": "0x18de4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildWritePacket",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildWritePacket",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118e78_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildWritePacket.c",
+      "line": 1
+    },
+    "elfAddress": "0x18e78",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildOldCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildOldCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00118f64_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildOldCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x18f64",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildPasswordData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildPasswordData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119008_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildPasswordData.c",
+      "line": 1
+    },
+    "elfAddress": "0x19008",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001190cc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x190cc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfig",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfig",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119174_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfig.c",
+      "line": 1
+    },
+    "elfAddress": "0x19174",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetErrorMessage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetErrorMessage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001197a4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetErrorMessage.c",
+      "line": 1
+    },
+    "elfAddress": "0x197a4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetModelType",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetModelType",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011980c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetModelType.c",
+      "line": 1
+    },
+    "elfAddress": "0x1980c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProductCode",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProductCode",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119874_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProductCode.c",
+      "line": 1
+    },
+    "elfAddress": "0x19874",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdSetProductInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdSetProductInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001198dc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdSetProductInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0x198dc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetStoredPassword",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetStoredPassword",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119984_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetStoredPassword.c",
+      "line": 1
+    },
+    "elfAddress": "0x19984",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRpmCurve",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRpmCurve",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001199ec_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRpmCurve.c",
+      "line": 1
+    },
+    "elfAddress": "0x199ec",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetNRatio",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetNRatio",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119a94_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetNRatio.c",
+      "line": 1
+    },
+    "elfAddress": "0x19a94",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetPollRegisters",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetPollRegisters",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119b3c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetPollRegisters.c",
+      "line": 1
+    },
+    "elfAddress": "0x19b3c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfigRegisters",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfigRegisters",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119bd4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetConfigRegisters.c",
+      "line": 1
+    },
+    "elfAddress": "0x19bd4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRawConfigWords",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRawConfigWords",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119c6c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetRawConfigWords.c",
+      "line": 1
+    },
+    "elfAddress": "0x19c6c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGenerateDrmKey",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGenerateDrmKey",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119d14_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGenerateDrmKey.c",
+      "line": 1
+    },
+    "elfAddress": "0x19d14",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetDrmStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetDrmStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119dbc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetDrmStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x19dbc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildRemoteDrive",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildRemoteDrive",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119e24_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdBuildRemoteDrive.c",
+      "line": 1
+    },
+    "elfAddress": "0x19e24",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProtocolSeen",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProtocolSeen",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119ec0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdGetProtocolSeen.c",
+      "line": 1
+    },
+    "elfAddress": "0x19ec0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdResetProtocolSeen",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdResetProtocolSeen",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119ec8_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_fdResetProtocolSeen.c",
+      "line": 1
+    },
+    "elfAddress": "0x19ec8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildReadRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildReadRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119ed0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildReadRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0x19ed0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseBasicInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseBasicInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00119f64_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseBasicInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0x19f64",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseCellVoltages",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseCellVoltages",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a0a4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdParseCellVoltages.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a0a4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildMosfetControl",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildMosfetControl",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a1e4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jbdBuildMosfetControl.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a1e4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a27c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a27c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antParseStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antParseStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a318_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antParseStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a318",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildAuthCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildAuthCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a46c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildAuthCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a46c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildControlCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildControlCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a5ac_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_antBuildControlCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a5ac",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a640_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a640",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetCellVoltages",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetCellVoltages",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a6e8_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetCellVoltages.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a6e8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetErrorMessage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetErrorMessage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a790_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetErrorMessage.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a790",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a7f8_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a7f8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTemperatures",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTemperatures",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a8a0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_bmsGetTemperatures.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a8a0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a948_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a948",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildWriteCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildWriteCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011a9e0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkBuildWriteCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1a9e0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseDeviceInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseDeviceInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011aa80_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseDeviceInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0x1aa80",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseCellInfo",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseCellInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ab4c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkParseCellInfo.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ab4c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetModelName",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetModelName",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ac18_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetModelName.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ac18",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetHwVersion",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetHwVersion",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ac80_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetHwVersion.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ac80",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetSwVersion",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetSwVersion",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ace8_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetSwVersion.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ace8",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetProtocolVersion",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetProtocolVersion",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ad50_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_jkGetProtocolVersion.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ad50",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildRequest",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildRequest",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ad58_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildRequest.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ad58",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011adf0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1adf0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011aebc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x1aebc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetFaultString",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetFaultString",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011af64_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetFaultString.c",
+      "line": 1
+    },
+    "elfAddress": "0x1af64",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetHwName",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetHwName",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011afcc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetHwName.c",
+      "line": 1
+    },
+    "elfAddress": "0x1afcc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b034_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b034",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildInt32Command",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildInt32Command",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b0dc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildInt32Command.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b0dc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildTempConfig",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildTempConfig",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b17c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildTempConfig.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b17c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanDevices",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanDevices",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b22c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanDevices.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b22c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildCanForward",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildCanForward",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b2d4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescBuildCanForward.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b2d4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleCanData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleCanData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b3c0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescHandleCanData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b3c0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b49c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_vescGetCanTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b49c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildPollCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildPollCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b54c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildPollCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b54c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildMosCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildMosCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b5e0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildMosCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b5e0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyProcessData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyProcessData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b68c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyProcessData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b68c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyGetProtocol",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyGetProtocol",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b758_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyGetProtocol.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b758",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5PollCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5PollCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b760_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5PollCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b760",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5MosCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5MosCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b804_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_dalyBuildA5MosCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b804",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReadPage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReadPage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b8b0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReadPage.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b8b0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildLdget",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildLdget",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b948_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildLdget.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b948",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildShow",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildShow",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011b9dc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildShow.c",
+      "line": 1
+    },
+    "elfAddress": "0x1b9dc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildHandshake",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildHandshake",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ba7c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildHandshake.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ba7c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildWritePage",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildWritePage",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011bb14_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildWritePage.c",
+      "line": 1
+    },
+    "elfAddress": "0x1bb14",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReset",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReset",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011bc08_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildReset.c",
+      "line": 1
+    },
+    "elfAddress": "0x1bc08",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildRemoteThrottle",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildRemoteThrottle",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011bc9c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolBuildRemoteThrottle.c",
+      "line": 1
+    },
+    "elfAddress": "0x1bc9c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetPageRaw",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetPageRaw",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011bd6c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetPageRaw.c",
+      "line": 1
+    },
+    "elfAddress": "0x1bd6c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolHandleData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolHandleData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011be18_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolHandleData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1be18",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011bee4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x1bee4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011bf8c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x1bf8c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetParams",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetParams",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c034_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_votolGetParams.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c034",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyBuildPollCommand",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyBuildPollCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c0dc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyBuildPollCommand.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c0dc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyProcessData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyProcessData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c174_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyProcessData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c174",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyGetHandshakeStep",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyGetHandshakeStep",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c240_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_enerkeyGetHandshakeStep.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c240",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildTelemetryPoll",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildTelemetryPoll",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c248_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildTelemetryPoll.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c248",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthRead",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthRead",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c2dc_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthRead.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c2dc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthWrite",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthWrite",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c374_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildAuthWrite.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c374",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamRead",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamRead",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c40c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamRead.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c40c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamWrite",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamWrite",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c4a4_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildParamWrite.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c4a4",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildFactoryReset",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildFactoryReset",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c59c_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildFactoryReset.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c59c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSelfLearnToggle",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSelfLearnToggle",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c630_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSelfLearnToggle.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c630",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildDirectionToggle",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildDirectionToggle",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c6d0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildDirectionToggle.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c6d0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSaveRestart",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSaveRestart",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c770_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionBuildSaveRestart.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c770",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionHandleData",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionHandleData",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c804_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionHandleData.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c804",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetTelemetry",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c8d0_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetTelemetry.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c8d0",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetStatus",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011c978_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetStatus.c",
+      "line": 1
+    },
+    "elfAddress": "0x1c978",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetParamRaw",
+    "app": "worthless-native",
+    "kind": "native_api",
+    "operation": "Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetParamRaw",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0011ca20_Java_com_rcplusplus_fdandroid_protocol_NativeProtocol_sotionGetParamRaw.c",
+      "line": 1
+    },
+    "elfAddress": "0x1ca20",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.rx_dispatch",
+    "app": "worthless-native",
+    "kind": "parser",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010dcfc_FUN_0010dcfc.c",
+      "line": 1
+    },
+    "elfAddress": "0xdcfc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.rx_crc_check",
+    "app": "worthless-native",
+    "kind": "parser",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/001155bc_FUN_001155bc.c",
+      "line": 1
+    },
+    "elfAddress": "0x155bc",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.decode_fields",
+    "app": "worthless-native",
+    "kind": "parser",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/00115744_FUN_00115744.c",
+      "line": 1
+    },
+    "elfAddress": "0x15744",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.telemetry_array",
+    "app": "worthless-native",
+    "kind": "parser",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010b55c_FUN_0010b55c.c",
+      "line": 1
+    },
+    "elfAddress": "0xb55c",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.native.config_array",
+    "app": "worthless-native",
+    "kind": "parser",
+    "source": {
+      "path": "reference/decompiled/worthless/native/export/0010b668_FUN_0010b668.c",
+      "line": 1
+    },
+    "elfAddress": "0xb668",
+    "confidence": "mechanical"
+  }
+]

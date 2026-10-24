@@ -28,6 +28,72 @@ NATIVE_RE = re.compile(r"\bnative\s+(?P<return>[\w\[\]]+)\s+(?P<name>fd\w+)\s*\(
 STRING_RE = re.compile(r'"([^"]{3,160})"')
 
 
+def call_arguments(text: str, start: int) -> list[str]:
+    """Split a call at its opening parenthesis, respecting arrays and casts."""
+    depth = 0
+    quote = None
+    escaped = False
+    beginning = start + 1
+    args: list[str] = []
+    for pos in range(start + 1, len(text)):
+        char = text[pos]
+        if quote:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in "\"'":
+            quote = char
+        elif char in "([{":
+            depth += 1
+        elif char in ")]}":
+            if char == ")" and depth == 0:
+                args.append(text[beginning:pos].strip())
+                return args
+            depth -= 1
+        elif char == "," and depth == 0:
+            args.append(text[beginning:pos].strip())
+            beginning = pos + 1
+    return []
+
+
+def scan_surface(path: Path, text: str, app: str) -> list[dict[str, Any]]:
+    """Index discovery surfaces without claiming executable semantics."""
+    records = []
+    method = "<module>"
+    patterns = {
+        "legacy_call": r"\b(SendRs232DataPass|SendRs232Data|WriteSysCmd)\s*\(",
+        "ui_option": r"\b(DisplayActionSheet|DisplayPromptAsync|PromptAsync|ConfirmAsync)\s*\(",
+        "file_read": r"\bFile\.(ReadAllBytes|ReadAllText|OpenRead)\s*\(",
+        "file_write": r"\bFile\.(WriteAllBytes|WriteAllText|Create)\s*\(",
+        "native_call": r"\b(fd[A-Z]\w*)\s*\(",
+        "cloud_call": r"\b(MqttPub|MqttSub|PublishAsync|SubscribeAsync)\s*\(",
+        "bluetooth": r"\b(GetServicesAsync|GetCharacteristicsAsync|StartUpdatesAsync|WriteAsync)\s*\(",
+    }
+    for number, line in enumerate(text.splitlines(), 1):
+        match = METHOD_RE.search(line)
+        if match:
+            method = match.group("name")
+        for kind, pattern in patterns.items():
+            if app == "official" and kind == "native_call":
+                continue
+            for match in re.finditer(pattern, line):
+                if re.search(r"\b(?:private|public|protected|internal)\b", line[:match.start()]):
+                    continue
+                operation = match.group(1)
+                records.append({
+                    "id": f"{app}.{path.stem}.{kind}.{number}.{operation}",
+                    "app": app, "kind": kind, "operation": operation,
+                    "symbol": method, "source": _source(path, number),
+                    "confidence": "mechanical",
+                })
+    # A bilingual conditional can invoke the same dialog twice on one source line.
+    return list({record["id"]: record for record in records}.values())
+
+
 def parse_java_byte_array(expr: str) -> list[int | str]:
     """Parse simple Jadx byte-array literals while preserving dynamic values."""
 
@@ -260,16 +326,58 @@ def scan_gdriver_file(path: Path, text: str, line_offset: int = 1) -> list[dict[
 def scan_all(root: Path = ROOT) -> dict[str, list[dict[str, Any]]]:
     official: list[dict[str, Any]] = []
     for path in sorted((root / "reference/decompiled/official/src/MotorNet6/MotorNet6").glob("*.cs")):
-        official.extend(scan_official_file(path.relative_to(root), path.read_text(errors="replace")))
+        relative, text = path.relative_to(root), path.read_text(errors="replace")
+        records = scan_official_file(relative, text)
+        existing_lines = {r["source"]["line"] for r in records if r["kind"] == "write_call"}
+        for match in re.finditer(r"\bWriteAddr\s*\(", text):
+            number = text.count("\n", 0, match.start()) + 1
+            if number in existing_lines:
+                continue
+            args = call_arguments(text, text.index("(", match.start()))
+            if len(args) != 3 or "byte[] data" in args[0]:
+                continue
+            address = int(args[1]) if args[1].isdigit() else None
+            count = int(args[2]) if args[2].isdigit() else None
+            literal = re.search(r"\{(.*)\}", args[0], re.S)
+            values = [v.strip() for v in literal.group(1).split(",")] if literal else []
+            payload = [int(v) for v in values[4:4 + count]] if count is not None and len(values) >= 4 + count and all(v.isdigit() for v in values[4:4 + count]) else []
+            methods = list(METHOD_RE.finditer(text[:match.start()]))
+            symbol = methods[-1].group("name") if methods else "<module>"
+            record = {"id": f"official.{path.stem}.{symbol}.{number}", "app": "official",
+                      "kind": "write_call", "operation": "WriteAddr", "symbol": symbol,
+                      "source": _source(relative, number), "address": address,
+                      "payload": {"count": count, "bytes": payload}, "confidence": "mechanical"}
+            if not payload:
+                record["notes"] = "Payload is dynamic or not a complete literal; inspect source before interpretation."
+            records.append(record)
+        official.extend(records)
+        official.extend(scan_surface(relative, text, "official"))
 
     worthless: list[dict[str, Any]] = []
     for path in sorted((root / "reference/decompiled/worthless/jadx/sources").glob("**/*.java")):
-        worthless.extend(scan_worthless_file(path.relative_to(root), path.read_text(errors="replace")))
+        relative, text = path.relative_to(root), path.read_text(errors="replace")
+        worthless.extend(scan_worthless_file(relative, text))
+        worthless.extend(scan_surface(relative, text, "worthless"))
 
     gdriver: list[dict[str, Any]] = []
     gdriver_path = root / "reference/decompiled/gdriver/decompiled.js"
     if gdriver_path.exists():
-        gdriver.extend(scan_gdriver_file(gdriver_path.relative_to(root), gdriver_path.read_text(errors="replace")))
+        text = gdriver_path.read_text(errors="replace")
+        relative = gdriver_path.relative_to(root)
+        gdriver.extend(scan_gdriver_file(relative, text))
+        for number, line in enumerate(text.splitlines(), 1):
+            if len(line) > 1000:
+                continue
+            match = re.search(r"Original name: ([\w$]+)", line)
+            if match and re.search(r"fardriver|heb|firmware|supportController|controllerCommand", match.group(1), re.I):
+                gdriver.append({"id": f"gdriver.function.{match.group(1)}.{number}",
+                                "app": "gdriver", "kind": "function", "symbol": match.group(1),
+                                "source": _source(relative, number), "confidence": "mechanical"})
+            match = re.search(r"'kind': '(read_flash|restore_defaults|save_parameters|read_address|write_address|client_authorization|link_ready|rs232)'", line)
+            if match:
+                gdriver.append({"id": f"gdriver.command_kind.{match.group(1)}.{number}",
+                                "app": "gdriver", "kind": "command_parser", "operation": match.group(1),
+                                "source": _source(relative, number), "confidence": "mechanical"})
 
     return {
         "official": sorted(official, key=lambda record: record["id"]),

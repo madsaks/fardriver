@@ -8,20 +8,23 @@ file are executed as tests by `tools/protocol/tests/test_frame.py`.
 Full file:line finding notes (including the search trail) live in
 `docs/decompile-notes.md` under "Official → BLE (Task 4 findings)".
 
-**Worthless Controls verifiability note**: Worthless's own frame builder *and* parser
-(`fdBuildReadPacket`, `fdBuildWritePacket`, `fdHandleNotification`, `fdGetConfig`, etc., all
-declared `native` in
-`worthless:jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java`) live entirely
-inside `libfd_protocol.so`, which is out of scope to disassemble for this task. So §1's BLE
-UUIDs and §3's checksum algorithms are **not statically verifiable against Worthless** — no
-`0xFFE0`/`0xFFEC` (or any GATT UUID) literal and no CRC/XOR/checksum arithmetic appears
-anywhere in Worthless's Java/Kotlin sources (confirmed by grep across
-`worthless:jadx/sources/`); `worthless:jadx/sources/com/rcplusplus/fdandroid/ble/ConnectionService.java`
-is only an Android foreground-notification service, not the BLE transport itself. What *is*
-statically visible are (a) the Kotlin `FardriverConfig`/`FardriverTelemetry` data-class field
-names, which corroborate register *names and semantics* below, and (b) a handful of literal
-register addresses passed from Java into the native `fdBuildWritePacket(addr, payload)` call —
-see §4.4 and §5.
+**2026-10-24 native follow-up:** `libfd_protocol.so` has now been decompiled and
+selected paths executed in an offline AArch64 emulator. Read
+[native findings](native-protocol.md) and [cross-app agreements and differences](api-agreements.md)
+for the confirmed five-byte native read format, matching write CRC/RX table,
+14-byte native write cap, HEB export incompatibilities, and field signedness conflicts.
+Managed-only limitations below describe the original investigation, not the current
+availability of the native binary analysis.
+
+**Worthless Controls evidence boundary:** frame builders, notification parsing and
+configuration decoding live in `libfd_protocol.so`, declared through
+`worthless:jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java`.
+The original Java/Kotlin-only pass could compare model fields, labels and selected
+literal addresses, but could not verify the native CRC. The 2026-10-24 native follow-up
+now confirms that CRC, the write format and all 55 mapped RX indices, and documents a
+different discrete read format. The codec library is not a GATT transport, so those
+findings do not independently establish Worthless's BLE UUID selection. See
+[native-protocol.md](native-protocol.md) and [api-agreements.md](api-agreements.md).
 
 ## 1. BLE transport
 
@@ -250,6 +253,10 @@ Three algorithms, easy to conflate:
 
 ### 4.1 Read register
 
+**Native follow-up:** Worthless's actual discrete read API emits a five-byte packet,
+documented in [native-protocol.md](native-protocol.md#register-read-confirmed-difference).
+The constructed six-byte repository helper discussed below is a different format.
+
 **No explicit per-register read request exists in the official app.** Every `WriteAddr`/
 `SendRs232Data` call site found in `MotorNet6/*.cs` is a *write* — `len` is always the
 nonzero length of a payload being written, never 0
@@ -464,19 +471,23 @@ additive sum then one's-complement, no CRC table at all: `sum = (0xAA+mcmd+~mcmd
 `encode_read`/`encode_write`/`decode` interface (which models the CRC16 `WriteAddr` protocol
 in §2-§3.1, plus RX family 2's additive-sum in §2/§3.2 for `decode()`).
 
-## 5. Cross-check against Worthless Controls
+## 5. Original managed-only cross-check against Worthless Controls
 
 Worthless Controls is a multi-brand controller/BMS app (FarDriver, Votol, VESC, Daly, JBD, JK,
 Sotion, Ant, Enerkey — see `worthless:jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java`'s
 full native method list). Its FarDriver support is `com.rcplusplus.fdandroid.data.FardriverConfig`/
 `FardriverTelemetry`/`FaultEntry` (kotlinx-serialization data classes, field names preserved
 by R8) plus the native `fd*` functions in `NativeProtocol`. As noted at the top of this file,
-the actual wire encoding/decoding is entirely native and out of scope to disassemble here; the
-cross-check in this section is therefore a **name/semantics/type** comparison (Worthless field
+the wire encoding/decoding is native and was excluded from the original managed-only pass;
+the cross-check recorded in this section is therefore a **name/semantics/type** comparison (Worthless field
 names, Kotlin `Int`/`Float`/`Boolean`/`List<Integer>` types, and English UI strings from
 `worthless:strings/values.json`) against `protocol/registers.json`, not a byte-level one.
 Per-entry citations are in each affected `registers.json` entry's `source`/`notes`; this
 section summarizes the cross-cutting findings.
+
+The current native byte-level comparison supersedes that scope limitation; see
+[api-agreements.md](api-agreements.md). Historical counts and confidence decisions
+below describe the managed-only pass, before the additional native citations.
 
 - **81 of 110 registers** gained at least one `worthless:` source citation — either a matching
   `FardriverConfig` field name (the large majority) or a matching UI string from
@@ -534,9 +545,11 @@ section summarizes the cross-cutting findings.
   cited there as corroboration of the *payload* Worthless sends (`0x88` + sub-command byte),
   not as evidence about address encoding in general.
 
-### Disagreements
+### Disagreements in the original managed-only cross-check
 
-**None found.** No `registers.json` entry has a Worthless-sourced value that contradicts the
+**None found in that managed-only comparison.** Native follow-up findings are recorded in
+[api-agreements.md](api-agreements.md), including bus-voltage signedness and HEB layout differences.
+At the time of the managed-only review, no `registers.json` entry had a Worthless-sourced value that contradicted the
 official app's documented unit, scale, type, or range. This is expected given the scope
 constraint above: the only place Worthless exposes a concrete, comparable number is the
 `fd_override_current_desc` ×4-scale note (addr 38/39), and it **agrees** with the official

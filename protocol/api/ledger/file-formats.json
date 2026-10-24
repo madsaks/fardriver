@@ -9,7 +9,9 @@
     "confidence": "high",
     "implementationStatus": "documented",
     "webAppPolicy": "read_only",
-    "evidence": ["official.ConnectPage.OnExportClicked.5873"],
+    "evidence": [
+      "official.ConnectPage.OnExportClicked.5873"
+    ],
     "notes": "Official app exports 156 main parameter words plus 192 extended/CAN words into a 696-byte file."
   },
   {
@@ -22,13 +24,34 @@
     "confidence": "high",
     "implementationStatus": "documented",
     "webAppPolicy": "read_only",
-    "evidence": ["worthless.C0205fk.heb_export.179"],
+    "evidence": [
+      "worthless.C0205fk.heb_export.179",
+      "worthless.native.ncFdGetRawConfigWords",
+      "worthless.native.rx_dispatch"
+    ],
     "conflicts": [
       {
         "with": "fardriver.file.official_heb_export",
-        "summary": "Official exports main + extended blocks; Worthless fills only the main block."
+        "summary": "Worthless copies raw logical addresses 0-155 rather than the official compact ranges 0-53/99-110/124-213; its extended block is also zero-filled. Equal 696-byte length does not imply backup compatibility."
       }
     ],
-    "notes": "Worthless writes a 696-byte HEB but only populates the first 156 words, leaving the extended/CAN block unreliable as a backup."
+    "notes": "Managed C0205fk.java:163-179 and ll0.java:1524-1525 connect native raw words to export. Native emulator confirms logical address 99 is raw index 99, not HEB compact offset 54."
+  },
+  {
+    "id": "fardriver.file.gdriver_heb",
+    "type": "file_format",
+    "protocolFamily": "fardriver",
+    "name": "GDriver HEB backup",
+    "safety": "passive_observe",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "gdriver.function.buildFarDriverHeb.894458",
+      "gdriver.function.parseFarDriverHeb.894727",
+      "gdriver.function.farDriverHebCompactWordAddresses.894304"
+    ],
+    "fileFormat": "heb",
+    "notes": "696 bytes; 156 compact main words from ranges [0,54), [99,111), [124,214), plus 192 configuration words. Restore has separate hardware-specific CRC/options; unsupported Hermes output leaves some helpers empty."
   }
 ]
