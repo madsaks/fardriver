@@ -19,6 +19,8 @@ it("shows the E125S power envelope and keeps writes locked until backup and armi
   );
 
   expect(screen.getByText("Recommended max 70 A")).toBeInTheDocument();
+  expect(screen.getByLabelText("Maximum line current")).toHaveAttribute("max", "70");
+  fireEvent.click(screen.getByRole("checkbox"));
   expect(screen.getByLabelText("Maximum line current")).toHaveAttribute("max", "80");
   expect(screen.getByRole("button", { name: "Write power limit" })).toBeDisabled();
   expect(screen.getByRole("button", { name: "Write acceleration" })).toBeDisabled();
