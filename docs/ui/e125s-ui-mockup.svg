@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#071018"/>
+      <stop offset="1" stop-color="#0e1720"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" x2="1">
+      <stop offset="0" stop-color="#51e26f"/>
+      <stop offset="1" stop-color="#8af48e"/>
+    </linearGradient>
+    <style>
+      .phone{fill:#05080b;stroke:#202b34;stroke-width:10}
+      .screen{fill:url(#bg);stroke:#24323c;stroke-width:2}
+      .card{fill:#14202a;stroke:#2b3944;stroke-width:2}
+      .card2{fill:#101a22;stroke:#26333c;stroke-width:2}
+      .good{fill:#0e3a26;stroke:#22c55e;stroke-width:2}
+      .warn{fill:#33270e;stroke:#f59e0b;stroke-width:2}
+      .txt{fill:#f7fafc;font-family:Inter,Arial,sans-serif}
+      .muted{fill:#9fb0bc;font-family:Inter,Arial,sans-serif}
+      .green{fill:#67ee7c;font-family:Inter,Arial,sans-serif}
+      .blue{fill:#58b8ff;font-family:Inter,Arial,sans-serif}
+      .amber{fill:#ffc34d;font-family:Inter,Arial,sans-serif}
+      .h1{font-size:28px;font-weight:800}
+      .h2{font-size:20px;font-weight:800}
+      .body{font-size:15px}
+      .small{font-size:12px}
+      .metric{font-size:34px;font-weight:800}
+      .btn{fill:url(#green);stroke:#9affaa;stroke-width:1}
+      .slider{stroke:#42515d;stroke-width:12;stroke-linecap:round}
+      .active{stroke:#56e977;stroke-width:12;stroke-linecap:round}
+      .cyan{stroke:#58b8ff;stroke-width:12;stroke-linecap:round}
+    </style>
+  </defs>
+
+  <rect width="1536" height="1024" fill="#05090d"/>
+
+  <!-- Screen 1 -->
+  <rect x="18" y="14" rx="62" ry="62" width="480" height="996" class="phone"/>
+  <rect x="34" y="30" rx="48" ry="48" width="448" height="964" class="screen"/>
+  <text x="66" y="80" class="txt h1">E125S Tuner</text>
+  <text x="66" y="104" class="muted body">FarDriver 72210</text>
+  <rect x="300" y="56" rx="18" width="142" height="42" class="good"/>
+  <text x="335" y="83" class="green body">● Connected</text>
+
+  <rect x="54" y="126" rx="24" width="408" height="108" class="card"/>
+  <text x="82" y="164" class="txt h2">Segway E125S (Stock)</text>
+  <text x="82" y="190" class="muted body">48 V · Dual 30 Ah · Stock QS hub</text>
+  <text x="82" y="214" class="muted body">120/70-12 · FarDriver 72210</text>
+
+  <rect x="54" y="254" rx="22" width="124" height="102" class="card2"/>
+  <rect x="187" y="254" rx="22" width="142" height="102" fill="#72ea83"/>
+  <rect x="338" y="254" rx="22" width="124" height="102" class="card2"/>
+  <text x="88" y="296" class="txt h2">Range</text>
+  <text x="231" y="296" fill="#08120b" font-family="Inter,Arial" font-size="20" font-weight="800">Daily</text>
+  <text x="374" y="296" class="txt h2">Sport</text>
+  <text x="78" y="328" class="muted small">55 A · smooth</text>
+  <text x="218" y="328" fill="#16371d" font-family="Inter,Arial" font-size="12">60 A · balanced</text>
+  <text x="362" y="328" class="muted small">70 A · max accel</text>
+
+  <rect x="54" y="378" rx="22" width="408" height="174" class="card"/>
+  <text x="78" y="412" class="amber h2">⚡ Battery / Power</text>
+  <text x="350" y="411" class="muted small">Recommended max 70 A</text>
+  <text x="231" y="458" class="txt metric">70 A</text>
+  <line x1="80" y1="486" x2="430" y2="486" class="slider"/>
+  <line x1="80" y1="486" x2="355" y2="486" class="active"/>
+  <circle cx="355" cy="486" r="17" fill="#f3f5f6"/>
+  <text x="80" y="522" class="muted small">40</text><text x="185" y="522" class="muted small">50</text>
+  <text x="287" y="522" class="muted small">60</text><text x="349" y="522" class="green small">70</text><text x="420" y="522" class="amber small">80</text>
+
+  <rect x="54" y="570" rx="22" width="408" height="154" class="card"/>
+  <text x="78" y="606" class="txt h2">Acceleration</text>
+  <text x="372" y="606" class="txt h2">70%</text>
+  <line x1="80" y1="650" x2="430" y2="650" class="slider"/>
+  <line x1="80" y1="650" x2="340" y2="650" class="active"/>
+  <circle cx="340" cy="650" r="16" fill="#f3f5f6"/>
+  <text x="80" y="690" class="muted small">Soft</text><text x="385" y="690" class="muted small">Max</text>
+
+  <rect x="54" y="742" rx="22" width="408" height="148" class="card"/>
+  <text x="78" y="778" class="txt h2">Target top speed</text>
+  <text x="367" y="778" class="blue h2">48 km/h</text>
+  <line x1="80" y1="821" x2="430" y2="821" class="slider"/>
+  <line x1="80" y1="821" x2="296" y2="821" class="cyan"/>
+  <circle cx="296" cy="821" r="16" fill="#f3f5f6"/>
+  <text x="80" y="858" class="muted small">Preview only until motor calibration is validated</text>
+
+  <rect x="54" y="908" rx="18" width="408" height="58" class="btn"/>
+  <text x="184" y="944" fill="#07130a" font-family="Inter,Arial" font-size="18" font-weight="900">Apply to Controller</text>
+
+  <!-- Screen 2 -->
+  <rect x="528" y="14" rx="62" ry="62" width="480" height="996" class="phone"/>
+  <rect x="544" y="30" rx="48" ry="48" width="448" height="964" class="screen"/>
+  <text x="580" y="78" class="txt h1">Guided Setup</text>
+  <text x="580" y="104" class="muted body">Get your E125S running safely</text>
+
+  <circle cx="584" cy="156" r="20" fill="#70ee82"/><text x="578" y="163" fill="#0b1c0f" font-family="Inter,Arial" font-size="16" font-weight="900">1</text>
+  <text x="620" y="162" class="txt h2">Connect</text><text x="720" y="162" class="muted body">FarDriver 72210</text>
+
+  <circle cx="584" cy="214" r="20" fill="#70ee82"/><text x="578" y="221" fill="#0b1c0f" font-family="Inter,Arial" font-size="16" font-weight="900">2</text>
+  <text x="620" y="220" class="txt h2">Backup</text>
+  <rect x="620" y="242" rx="18" width="332" height="104" class="good"/>
+  <text x="645" y="275" class="green h2">✓ Backup complete</text>
+  <text x="645" y="301" class="muted small">HEB dump saved and verified</text>
+  <text x="645" y="326" class="muted small">156 main + 192 extended words</text>
+
+  <circle cx="584" cy="390" r="20" fill="#6b7b88"/><text x="578" y="397" class="txt body">3</text>
+  <text x="620" y="396" class="txt h2">Select Profile</text>
+  <rect x="620" y="418" rx="18" width="332" height="164" class="card"/>
+  <text x="642" y="450" class="muted small">Vehicle</text><text x="760" y="450" class="txt body">Segway E125S (Stock)</text>
+  <text x="642" y="484" class="muted small">Motor</text><text x="760" y="484" class="txt body">Stock QS hub motor</text>
+  <text x="642" y="518" class="muted small">Battery</text><text x="760" y="518" class="txt body">Dual 48 V 30 Ah</text>
+  <text x="642" y="552" class="muted small">Controller</text><text x="760" y="552" class="txt body">FarDriver 72210</text>
+
+  <circle cx="584" cy="626" r="20" fill="#6b7b88"/><text x="578" y="633" class="txt body">4</text>
+  <text x="620" y="632" class="txt h2">Power Settings</text>
+  <rect x="620" y="654" rx="18" width="332" height="156" class="card"/>
+  <text x="644" y="688" class="txt body">Max line current</text><text x="889" y="688" class="txt h2">70 A</text>
+  <line x1="648" y1="726" x2="922" y2="726" class="slider"/><line x1="648" y1="726" x2="858" y2="726" class="active"/><circle cx="858" cy="726" r="15" fill="#f4f6f7"/>
+  <text x="644" y="768" class="green small">60 A Daily</text><text x="778" y="768" class="green small">70 A Recommended max</text>
+  <text x="644" y="796" class="muted small">Experimental 80 A requires explicit opt-in</text>
+
+  <circle cx="584" cy="850" r="20" fill="#6b7b88"/><text x="578" y="857" class="txt body">5</text><text x="620" y="857" class="txt h2">Acceleration</text>
+  <circle cx="584" cy="908" r="20" fill="#6b7b88"/><text x="578" y="915" class="txt body">6</text><text x="620" y="915" class="txt h2">Speed Display Calibration</text>
+  <circle cx="584" cy="966" r="20" fill="#6b7b88"/><text x="578" y="973" class="txt body">7</text><text x="620" y="973" class="txt h2">Apply &amp; Save</text>
+
+  <!-- Screen 3 -->
+  <rect x="1038" y="14" rx="62" ry="62" width="480" height="996" class="phone"/>
+  <rect x="1054" y="30" rx="48" ry="48" width="448" height="964" class="screen"/>
+  <text x="1090" y="80" class="txt h1">Live Dashboard</text>
+  <text x="1090" y="106" class="muted body">Real-time data from FarDriver 72210</text>
+  <rect x="1358" y="56" rx="18" width="112" height="42" class="good"/><text x="1382" y="83" class="green body">● Live</text>
+
+  <rect x="1080" y="132" rx="28" width="190" height="176" class="card"/>
+  <text x="1136" y="208" class="metric txt">42</text><text x="1153" y="235" class="txt body">km/h</text><text x="1125" y="272" class="muted small">GPS 41 km/h</text>
+  <rect x="1288" y="132" rx="28" width="190" height="176" class="card"/>
+  <text x="1320" y="208" class="metric amber">4200</text><text x="1351" y="235" class="txt body">motor RPM</text><text x="1320" y="272" class="muted small">≈ 1050 wheel RPM</text>
+
+  <rect x="1080" y="330" rx="20" width="122" height="96" class="card2"/><text x="1100" y="360" class="muted small">Voltage</text><text x="1100" y="399" class="txt h2">50.8 V</text>
+  <rect x="1218" y="330" rx="20" width="122" height="96" class="card2"/><text x="1238" y="360" class="muted small">Line Current</text><text x="1238" y="399" class="txt h2">43.2 A</text>
+  <rect x="1356" y="330" rx="20" width="122" height="96" class="card2"/><text x="1376" y="360" class="muted small">Power</text><text x="1376" y="399" class="txt h2">2.2 kW</text>
+
+  <rect x="1080" y="442" rx="20" width="122" height="96" class="card2"/><text x="1100" y="472" class="muted small">Motor Temp</text><text x="1100" y="511" class="txt h2">32°C</text>
+  <rect x="1218" y="442" rx="20" width="122" height="96" class="card2"/><text x="1238" y="472" class="muted small">MOS Temp</text><text x="1238" y="511" class="txt h2">28°C</text>
+  <rect x="1356" y="442" rx="20" width="122" height="96" class="card2"/><text x="1376" y="472" class="muted small">Phase Current</text><text x="1376" y="511" class="txt h2">118 A</text>
+
+  <rect x="1080" y="554" rx="20" width="122" height="96" class="card2"/><text x="1100" y="584" class="muted small">Mode / Gear</text><text x="1100" y="623" class="txt h2">3 Sport</text>
+  <rect x="1218" y="554" rx="20" width="122" height="96" class="card2"/><text x="1238" y="584" class="muted small">Throttle</text><text x="1238" y="623" class="txt h2">78%</text>
+  <rect x="1356" y="554" rx="20" width="122" height="96" class="good"/><text x="1376" y="584" class="muted small">Status</text><text x="1376" y="623" class="green h2">System OK</text>
+
+  <rect x="1080" y="678" rx="18" width="398" height="48" class="card2"/>
+  <rect x="1088" y="686" rx="14" width="94" height="32" fill="#75ec70"/><text x="1112" y="708" fill="#07130a" font-family="Inter,Arial" font-size="13" font-weight="800">Tuning</text>
+  <text x="1220" y="708" class="muted body">Properties</text><text x="1332" y="708" class="muted body">Faults</text><text x="1408" y="708" class="muted body">Logs</text>
+
+  <rect x="1080" y="744" rx="22" width="398" height="202" class="card"/>
+  <text x="1105" y="780" class="amber h2">⚡ Power Limits</text><text x="1340" y="780" class="muted small">Rated 60 A · Max 70 A</text>
+  <line x1="1108" y1="826" x2="1450" y2="826" class="slider"/><line x1="1108" y1="826" x2="1378" y2="826" class="active"/><circle cx="1378" cy="826" r="15" fill="#f5f7f8"/>
+  <text x="1108" y="862" class="txt h2">Acceleration</text><text x="1407" y="862" class="txt h2">70%</text>
+  <line x1="1108" y1="900" x2="1450" y2="900" class="slider"/><line x1="1108" y1="900" x2="1368" y2="900" class="active"/><circle cx="1368" cy="900" r="15" fill="#f5f7f8"/>
+  <text x="1108" y="934" class="muted small">Speed target remains preview-only pending calibration</text>
+</svg>
