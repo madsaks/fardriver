@@ -641,6 +641,204 @@ select:disabled {
   border: 0;
 }
 
+
+.quick-setup-panel {
+  overflow: visible;
+}
+
+.quick-setup-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.setup-profile-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 360px;
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.setup-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px 20px 0;
+}
+
+.setup-status {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 20px;
+  background: var(--md-surface-container);
+}
+
+.setup-status.ready {
+  background: #d7f4de;
+  color: #0b5129;
+}
+
+.setup-status.warning {
+  background: var(--md-warning-container);
+  color: var(--md-on-warning-container);
+}
+
+.setup-status strong,
+.setup-status span {
+  display: block;
+}
+
+.setup-status span {
+  margin-top: 3px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.tune-preset-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px 20px 0;
+}
+
+.tune-preset {
+  min-height: 68px;
+  padding: 10px 14px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 18px;
+  background: var(--md-surface-high);
+  color: var(--md-on-surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tune-preset strong,
+.tune-preset span {
+  display: block;
+}
+
+.tune-preset span {
+  margin-top: 5px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.quick-control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 14px 20px 20px;
+}
+
+.quick-control-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 24px;
+  background: var(--md-surface-high);
+}
+
+.quick-control-card.speed-preview-card {
+  grid-column: 1 / -1;
+}
+
+.quick-control-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.quick-control-title h3,
+.quick-control-title p {
+  margin: 0;
+}
+
+.quick-control-title h3 {
+  font-size: 1rem;
+}
+
+.quick-control-title p {
+  margin-top: 3px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.8rem;
+}
+
+.quick-control-title > strong {
+  font-size: 1.08rem;
+  white-space: nowrap;
+}
+
+.quick-control-card input[type="range"] {
+  width: 100%;
+  accent-color: var(--md-primary);
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.74rem;
+  font-weight: 760;
+}
+
+.recommended-mark {
+  color: var(--md-primary);
+  text-align: center;
+}
+
+.power-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: #d7f4de;
+  color: #0b5129;
+}
+
+.power-readout.warning {
+  background: var(--md-warning-container);
+  color: var(--md-on-warning-container);
+}
+
+.power-readout span {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.quick-help,
+.inline-warning {
+  margin: 0;
+  color: var(--md-on-surface-variant);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.inline-warning {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--md-warning-container);
+  color: var(--md-on-warning-container);
+  font-weight: 700;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -714,8 +912,31 @@ select:disabled {
 
   .metric-grid,
   .setting-row,
-  .log-row {
+  .log-row,
+  .setup-status-grid,
+  .tune-preset-row,
+  .quick-control-grid {
     grid-template-columns: 1fr;
+  }
+
+  .quick-setup-heading {
+    flex-direction: column;
+  }
+
+  .setup-profile-chip {
+    max-width: 100%;
+  }
+
+  .setup-status {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .setup-status .secondary-button {
+    grid-column: 1 / -1;
+  }
+
+  .quick-control-card.speed-preview-card {
+    grid-column: auto;
   }
 
   .metric {
