@@ -1,0 +1,38 @@
+[
+  {
+    "id": "gdriver.command_parser.auto_learn_exit",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "classify_command",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362980
+    },
+    "address": 160,
+    "payload": {
+      "bytes": [
+        136,
+        3
+      ]
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "gdriver.command_parser.auto_learn_start",
+    "app": "gdriver",
+    "kind": "command_parser",
+    "operation": "classify_command",
+    "source": {
+      "path": "reference/decompiled/gdriver/decompiled.js",
+      "line": 1362983
+    },
+    "address": 160,
+    "payload": {
+      "bytes": [
+        136,
+        2
+      ]
+    },
+    "confidence": "mechanical"
+  }
+]

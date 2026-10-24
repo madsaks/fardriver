@@ -11,7 +11,7 @@
     "access": "rw",
     "group": "misc",
     "enum": null,
-    "explain": "Low byte holds rcv_Arg2 plus (bits1-2) the anti-theft pulse type (0=off,1-3=pulse styles); high byte is a 7-bit custom on/off pattern entered as a string of 1s/0s in the UI, used to drive an output (labelled 'Morse Code' in the app). GDriver independently describes this same high-byte field as a switch sequence that lets the rider clear or flip the controller's configured speed limit, and is explicit that it is a distinct field from the Flash-Save PIN, long write-lock password, and mobile-access password — though which controller profile treats the top bit and any special zero pattern as meaningful is left unresolved (effect unverified).",
+    "explain": "Low byte holds rcv_Arg2 plus (bits1-2) the anti-theft pulse type (0=off,1-3=pulse styles); high byte is a 7-bit custom on/off pattern entered as a string of 1s/0s in the UI, used to drive an output (labelled 'Morse Code' in the app). GDriver independently describes this same high-byte field as a switch sequence that lets the rider clear or flip the controller's configured speed limit, and is explicit that this bit pattern has nothing to do with any of the app's other secrets — not the mobile-access password, not the long write-lock password, and not the separate Flash-Save PIN — though which controller profile treats the top bit and any special zero pattern as meaningful is left unresolved (effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3475",
@@ -38,7 +38,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Low byte is the proportional gain (SpeedKP) and high byte the integral gain (SpeedKI) of the closed-loop speed regulator; tunes how aggressively motor RPM tracks the commanded speed. GDriver corroborates the KP/KI split for controller profiles that use this stored speed-regulation loop, and adds that other controllers can derive, fix, or bypass the stored loop entirely, that gain too low leaves a lasting speed error, and gain too high causes hunting, surging, or instability (effect unverified — loop is only active on some control paths).",
+    "explain": "Low byte is the proportional gain (SpeedKP) and high byte the integral gain (SpeedKI) of the closed-loop speed regulator; tunes how aggressively motor RPM tracks the commanded speed. GDriver corroborates the KP/KI split for controller profiles that use this stored speed-regulation loop, though it notes some firmware variants skip the stored loop altogether — either hard-coding a fixed response or computing one from elsewhere instead. Where the loop is active, too little gain leaves speed error lingering, while too much brings on hunting, surging, or outright instability (effect unverified — loop is only active on some control paths).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L7823",
@@ -213,7 +213,7 @@
     "access": "rw",
     "group": "throttle",
     "enum": null,
-    "explain": "The official app labels this field 'FullBattCoeff' (满电量系数, \"full battery-level coefficient\") with a stored range of 1024-1536, which earlier led this entry to guess it was a throttle full-scale ADC calibration paired with addr13. GDriver's own parameter registry directly contradicts that guess: it independently maps a same-address field ('fullBatteryCoeff') to this exact register and describes it as setting when the controller's battery gauge reads full — noting regenerative braking may taper above roughly 95% charge depending on braking settings, and that the displayed voltage is only an estimate of full charge, not a guaranteed regen cutoff. As with addr13, this is a structural address match from an independent third app, so the literal 'battery' name is very likely correct and this entry's earlier throttle-ADC theory is very likely wrong — confidence is nonetheless held at 'low' per this task's rule against raising confidence from GDriver evidence alone; see docs/decompile-notes.md for the full writeup.",
+    "explain": "The official app labels this field 'FullBattCoeff' (满电量系数, \"full battery-level coefficient\") with a stored range of 1024-1536, which earlier led this entry to guess it was a throttle full-scale ADC calibration paired with addr13. GDriver's own parameter registry directly contradicts that guess: it independently maps a same-address field ('fullBatteryCoeff') to this exact register and describes it as the point at which the controller's own gauge calls the battery full. Depending on how braking is configured, regenerative current can start to taper off somewhere past ~95% charge, and the voltage number shown here is only a rough stand-in for 'pack is full' — riders should not treat it as a hard cutoff that regen respects. As with addr13, this is a structural address match from an independent third app, so the literal 'battery' name is very likely correct and this entry's earlier throttle-ADC theory is very likely wrong — confidence is nonetheless held at 'low' per this task's rule against raising confidence from GDriver evidence alone; see docs/decompile-notes.md for the full writeup.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L8556",
@@ -403,7 +403,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Nameplate rated power of the motor, used by the controller for power-limiting calculations. GDriver's own parameter registry independently confirms this exact address and role as a stored nameplate value only — it explicitly states this field does not act as the controller's output-power limit, and increasing it does not raise line current, phase current, torque, or top speed.",
+    "explain": "Nameplate rated power of the motor, used by the controller for power-limiting calculations. GDriver's own parameter registry independently confirms this exact address and role as a stored nameplate value only — it explicitly states this field is not an output-power limit for the controller: dialing it up leaves torque, top speed, and both current ceilings (line and phase) exactly where they were.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4609",
@@ -585,7 +585,7 @@
     "access": "rw",
     "group": "motor",
     "enum": null,
-    "explain": "Stator winding resistance value used by the controller's motor model / FOC estimator; units are not confirmed. GDriver's own parameter registry independently confirms this exact address and adds an important caveat: the stored word also carries current-loop response selector bits alongside the resistance calibration, so this register is not safely read as a single milliohm figure — writing the whole 16 bits at once can shift current-loop response as an unintended side effect (effect unverified).",
+    "explain": "Stator winding resistance value used by the controller's motor model / FOC estimator; units are not confirmed. GDriver's own parameter registry independently confirms this exact address and adds an important caveat: the same 16 bits double up as selector bits for current-loop response, riding alongside the resistance calibration — so this register is not safely read as a single milliohm figure — writing the whole 16 bits at once can shift current-loop response as an unintended side effect (effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4716",
@@ -817,7 +817,7 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Electrical RPM ceiling enforced when the vehicle is driving in reverse. GDriver's own parameter registry independently confirms this exact address, and reports that on at least one control path this same value also feeds the controller's derived Mid- and Low-gear speed calculations — the lower-gear reference is scaled by (this value / High-gear speed, addr21) — so changing the reverse-speed limit alone can shift forward low/mid-gear behaviour on those controllers, not just reverse (effect unverified against a live device).",
+    "explain": "Electrical RPM ceiling enforced when the vehicle is driving in reverse. GDriver's own parameter registry independently confirms this exact address, and reports that on at least one control path this same value also feeds into how the controller works out its Mid- and Low-gear speeds internally — the lower-gear figure comes from (this value / High-gear speed, addr21) — so changing the reverse-speed limit alone can shift forward low/mid-gear behaviour on those controllers, not just reverse (effect unverified against a live device).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4931",
@@ -888,7 +888,7 @@
     "access": "rw",
     "group": "throttle",
     "enum": null,
-    "explain": "Deadband applied around the throttle's released position to prevent creeping from a non-zero idle signal, per the official 'FreeThrottle'/电刹油门 (\"electric-brake throttle\") label. GDriver's own parameter registry independently confirms this exact address, but describes the field itself quite differently: an advanced value governing the transition between released-throttle coasting and release-throttle electronic braking, processed through multiple gated/scaled paths such that higher/lower values do not behave as a simple stronger-weaker deadband — a materially different framing from this entry's original deadband guess. Both readings remain unverified against a live controller; treat the deadband description with reduced confidence pending resolution.",
+    "explain": "Deadband applied around the throttle's released position to prevent creeping from a non-zero idle signal, per the official 'FreeThrottle'/电刹油门 (\"electric-brake throttle\") label. GDriver's own parameter registry independently confirms this exact address, but describes the field itself quite differently: an advanced value that governs how the controller hands off from free-coast (throttle released, no braking) into electronic braking once the throttle is let go; the number passes through several gated and scaled paths on its way there, so bigger or smaller settings do not translate into a simple stronger-or-weaker deadband effect — a materially different framing from this entry's original deadband guess. Both readings remain unverified against a live controller; treat the deadband description with reduced confidence pending resolution.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10927",
@@ -1065,7 +1065,7 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "Phase-current limit for low gear (low byte) and mid gear (high byte), each entered as a percentage and scaled by 128/100 before storage. GDriver's own parameter registry independently confirms this exact address for both the low-gear and mid-gear phase-current-ratio sub-fields, and clarifies that 100% only requests the High-gear phase-current ceiling (addr45) — it does not guarantee that current is actually reached, since the motor-current curve, battery power, motor speed, and protections still cap the result.",
+    "explain": "Phase-current limit for low gear (low byte) and mid gear (high byte), each entered as a percentage and scaled by 128/100 before storage. GDriver's own parameter registry independently confirms this exact address for both the low-gear and mid-gear phase-current-ratio sub-fields, and clarifies that 100% only requests the High-gear phase-current ceiling (addr45) — it does not guarantee that current is actually reached — the motor-current curve, available battery power, how fast the motor is turning, and any active protection can all still hold the real figure down.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2885",
@@ -1282,7 +1282,7 @@
     "access": "rw",
     "group": "limits",
     "enum": null,
-    "explain": "An additional configurable RPM ceiling exposed only on the Pro control page, separate from the per-gear speed limits. GDriver's own parameter registry independently confirms this exact address and role as a conditional speed-limiter target that replaces the active motor-speed target only while its own enable flag and an assigned switch input are both active, approached in bounded steps rather than instantly, without altering the stored High/Mid/Low/Reverse gear-speed registers themselves.",
+    "explain": "An additional configurable RPM ceiling exposed only on the Pro control page, separate from the per-gear speed limits. GDriver's own parameter registry independently confirms this exact address and role as a conditional speed-limiter target: it takes over from whichever gear-speed target is currently in effect, but only for as long as its own enable flag is set and its assigned switch input is asserted at the same time. The motor ramps toward it in bounded steps rather than jumping instantly, and the stored High/Mid/Low/Reverse gear-speed registers themselves are left untouched.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L4776",
@@ -1998,7 +1998,7 @@
     "access": "rw",
     "group": "misc",
     "enum": null,
-    "explain": "Two adjacent bytes of the SEC0-SEC7 one-wire dashboard protocol timing table. GDriver adds a specific, concrete function for this pair beyond generic sequence data: SEC6 doubles as a bundled-profile-loading mode selector on supported controllers — raw value 2 loads the bundled profile selected by SEC7 during Save and startup, raw value 0 skips profile loading — while SEC7 selects which bundled profile number is loaded; that profile can reapply feature toggles, input assignments, switch behaviour, and other one-wire settings together (effect unverified).",
+    "explain": "Two adjacent bytes of the SEC0-SEC7 one-wire dashboard protocol timing table. GDriver adds a specific, concrete function for this pair beyond generic sequence data: SEC6 doubles as a bundled-profile-loading mode selector on supported controllers — raw value 2 loads the bundled profile selected by SEC7 during Save and startup, raw value 0 skips profile loading — while SEC7 selects which bundled profile number is loaded; loading a profile this way can push out a whole bundle of settings at once — which feature toggles are on, how inputs are assigned, switch behaviour, and other one-wire configuration — rather than changing just one thing (effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12926",
@@ -2043,7 +2043,7 @@
     "access": "rw",
     "group": "misc",
     "enum": null,
-    "explain": "Low byte = pulse count/divider (Pulse), high byte = square-wave high time (SQH) for the one-wire dashboard signal, per the official 'Pulse'/'SQH' labels. GDriver instead treats this pair as two generic auxiliary data bytes (A and B) in the one-wire protocol with a documented default of 0, explicitly stating they are not the communication pulse width, pulse period, or wheel-speed pulse count — a conflicting reading from this entry's original 'pulse/square-wave' framing. Both readings remain unverified; treat the specific byte roles with reduced confidence pending resolution.",
+    "explain": "Low byte = pulse count/divider (Pulse), high byte = square-wave high time (SQH) for the one-wire dashboard signal, per the official 'Pulse'/'SQH' labels. GDriver instead treats this pair as two generic auxiliary data bytes (A and B) in the one-wire protocol with a documented default of 0, and it is explicit that neither byte is the wheel-speed pulse count, nor either of the communication timing figures (the pulse's width or its period) — a conflicting reading from this entry's original 'pulse/square-wave' framing. Both readings remain unverified; treat the specific byte roles with reduced confidence pending resolution.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L12453",
@@ -2132,7 +2132,7 @@
     "access": "rw",
     "group": "protection",
     "enum": null,
-    "explain": "Packed word: low byte (0-12) selects the low-voltage protection style (fixed voltage drop, SOC percentage, or SOP value); high-byte low nibble is a current-limit-way selector (CurrLimitWay); high-byte high nibble selects the Traction Control (TCS) road-surface mode or the ECO acceleration level (1-8), depending on which UI control last wrote it. GDriver independently describes a matching 'CurrLimitWay'-named field ('currentLimitMethod') as selecting one of 13 numbered low-battery control profiles whose per-profile behaviour is not documented across the controller lineup, and confirms it leaves the ordinary maximum-current figure untouched on its own — consistent with this entry's high-byte-low-nibble CurrLimitWay sub-field (name match only, address unconfirmed).",
+    "explain": "Packed word: low byte (0-12) selects the low-voltage protection style (fixed voltage drop, SOC percentage, or SOP value); high-byte low nibble is a current-limit-way selector (CurrLimitWay); high-byte high nibble selects the Traction Control (TCS) road-surface mode or the ECO acceleration level (1-8), depending on which UI control last wrote it. GDriver independently describes a matching 'CurrLimitWay'-named field ('currentLimitMethod') as a low-battery control-profile selector offering 13 numbered options, none of whose individual behaviour has been documented across the controller lineup, and confirms it leaves the ordinary maximum-current figure untouched on its own — consistent with this entry's high-byte-low-nibble CurrLimitWay sub-field (name match only, address unconfirmed).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L2449",
@@ -2203,7 +2203,7 @@
     "access": "rw",
     "group": "brake",
     "enum": null,
-    "explain": "Time the vehicle must be stationary before the park/anti-rollback function engages. GDriver independently describes a matching 'ParkTime'-named field ('parkTime') as the intended Park-control duration in seconds, which the firmware turns into a down-counter; once that counter runs out it is allowed to push the state machine toward Park or controlled-descent — but only once the mode, speed, brake, and switch conditions it also depends on line up, so simply raising this value does not by itself lengthen how long the bike must sit still (name match only, address unconfirmed; effect unverified — exact seconds-per-count scale).",
+    "explain": "Time the vehicle must be stationary before the park/anti-rollback function engages. GDriver independently describes a matching 'ParkTime'-named field ('parkTime') as the intended Park-control duration in seconds, which the firmware turns into a down-counter; once that counter runs out it is allowed to push the state machine toward Park or controlled-descent — but only once several other things it also depends on line up — the active mode, current speed, brake state, and switch position among them — so simply raising this value does not by itself lengthen how long the bike must sit still (name match only, address unconfirmed; effect unverified — exact seconds-per-count scale).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10797",
@@ -2289,7 +2289,7 @@
     "access": "rw",
     "group": "throttle",
     "enum": null,
-    "explain": "Raw ADC value captured during throttle auto-learn for the fully-open position, per the official 'LearnVoh' label. GDriver independently describes a matching 'learnVoltageHigh'-named field as bundled into the same packed word as several other, otherwise-unrelated control bits — covering motor-response hysteresis, a speed-limit override, the acceleration/deceleration policy, and an alternate current-vector-angle path — so a blind whole-register overwrite risks disturbing a lot more than just this learned ADC endpoint (name match only, address unconfirmed; effect unverified).",
+    "explain": "Raw ADC value captured during throttle auto-learn for the fully-open position, per the official 'LearnVoh' label. GDriver independently describes a matching 'learnVoltageHigh'-named field as bundled into the same packed word as several other, otherwise-unrelated control bits — covering motor-response hysteresis, a speed-limit override, how acceleration and deceleration are policed, plus a secondary path for the current-vector angle — so a blind whole-register overwrite risks disturbing a lot more than just this learned ADC endpoint (name match only, address unconfirmed; effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11346",
@@ -2352,7 +2352,7 @@
     "access": "rw",
     "group": "throttle",
     "enum": null,
-    "explain": "Configuration word for the throttle-follow feature; bit5 is toggled together with addr9 when the TCS mode is changed, full field layout otherwise unconfirmed. GDriver independently confirms a matching 'ThrottleInsert'-named field ('throttleInsert') is a combined threshold rather than a single throttle-response or traction-control strength dial, and adds that the comparison the controller runs against it treats the field as signed when deriving an internal status/operating state — so a very large raw entry can flip sign and be read completely differently instead of just pushing the threshold further out (name match only, address unconfirmed; effect unverified).",
+    "explain": "Configuration word for the throttle-follow feature; bit5 is toggled together with addr9 when the TCS mode is changed, full field layout otherwise unconfirmed. GDriver independently confirms a matching 'ThrottleInsert'-named field ('throttleInsert') is a combined threshold — not a dial for either throttle response or traction-control strength on its own — and adds that the comparison the controller runs against it treats the field as signed when deriving an internal status/operating state — so a very large raw entry can flip sign and be read completely differently instead of just pushing the threshold further out (name match only, address unconfirmed; effect unverified).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3978",
@@ -2376,7 +2376,7 @@
     "access": "rw",
     "group": "regen",
     "enum": null,
-    "explain": "Low byte = speed at which throttle-follow/cruise disengages (FollowSpeed), high byte = a regen current ratio applied on release (ReCurrRatio, 32-255). GDriver independently confirms both sub-fields by name — 'followSpeed' as the RPM threshold for leaving low-speed creep (not the bike's normal speed limit), and 'reverseCurrentRatio' as a multiplier the controller applies to the reverse current-command relative to a 128-count full scale — which is consistent with this entry's 32-255 range being a fraction of that same 128-based scale (name match only, address unconfirmed).",
+    "explain": "Low byte = speed at which throttle-follow/cruise disengages (FollowSpeed), high byte = a regen current ratio applied on release (ReCurrRatio, 32-255). GDriver independently confirms both sub-fields by name — 'followSpeed' as the RPM threshold for leaving low-speed creep (not the bike's normal speed limit), and 'reverseCurrentRatio' as a multiplier applied to the reverse current command, where the controller treats a raw count of 128 as its 100%/full-scale reference point — which is consistent with this entry's 32-255 range sitting below and around that same 128-based reference (name match only, address unconfirmed).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L10586",
@@ -2427,7 +2427,7 @@
     "access": "rw",
     "group": "misc",
     "enum": null,
-    "explain": "Low byte = no-CAN-signal timeout (in 10s units); high byte bits0-3 = high/low speed switch mode (SPModeConfig, 0-15), bits4-5 = a 'Temp70' threshold level, bit6 = long-press-for-reverse enable, bit7 = throttle-lost alarm enable. Worthless models spMode, temp70, longBack, throttleLostAlarm and noCanCnt as five separate fields, strongly corroborating the official description of this register as a packed word of high/low-speed mode, \"temp 70\", long-press-reverse, no-CAN-timeout and throttle-lost-alarm bits. GDriver's 'temperature70' parameter independently confirms this same five-way packing, naming the same shared group — CAN timing, speed mode, reverse debounce, and throttle-loss protection — alongside its own two-bit thermal/auxiliary-I/O role; but GDriver's separate 'canDetectCount' parameter describes the no-CAN-timeout steps as 500ms per count for selectors 0-5 and 2ms per count above that, conflicting with this entry's '10s units' framing for the low byte. Treat the '10s units' claim with reduced confidence pending resolution; the packed five-field structure itself is now well corroborated.",
+    "explain": "Low byte = no-CAN-signal timeout (in 10s units); high byte bits0-3 = high/low speed switch mode (SPModeConfig, 0-15), bits4-5 = a 'Temp70' threshold level, bit6 = long-press-for-reverse enable, bit7 = throttle-lost alarm enable. Worthless models spMode, temp70, longBack, throttleLostAlarm and noCanCnt as five separate fields, strongly corroborating the official description of this register as a packed word of high/low-speed mode, \"temp 70\", long-press-reverse, no-CAN-timeout and throttle-lost-alarm bits. GDriver's 'temperature70' parameter independently confirms this same five-way packing, naming the very same cluster of neighbours this word shares storage with — the CAN-timeout timer, the speed-mode selector, reverse-input debouncing, and throttle-loss protection — sitting alongside its own two-bit thermal/auxiliary-I/O role; but GDriver's separate 'canDetectCount' parameter describes the no-CAN-timeout steps as 500ms per count for selectors 0-5 and 2ms per count above that, conflicting with this entry's '10s units' framing for the low byte. Treat the '10s units' claim with reduced confidence pending resolution; the packed five-field structure itself is now well corroborated.",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ParaPage.cs#L3306",
@@ -2601,7 +2601,7 @@
       "18": "encoder 4096 B",
       "19": "encoder 8192 B"
     },
-    "explain": "Selects which type of rotor position sensor (Hall, incremental encoder, absolute encoder, resolver) the controller expects. GDriver independently describes a matching 'anglePosition' parameter for this same concept, additionally distinguishing 120-degree and 60-degree Hall-sensor profiles among the available options, and stresses a mismatch with the installed sensor can cause no-start, reverse rotation, rough launch, weak torque, high current, or motor faults (name match only, address unconfirmed).",
+    "explain": "Selects which type of rotor position sensor (Hall, incremental encoder, absolute encoder, resolver) the controller expects. GDriver independently describes a matching 'anglePosition' parameter for this same concept, additionally distinguishing 120-degree and 60-degree Hall-sensor profiles among the available options, and stresses that getting this wrong for the installed sensor tends to show up as one of: the motor refusing to start, spinning backwards, launching roughly, feeling weak, drawing too much current, or tripping a fault outright (name match only, address unconfirmed).",
     "confidence": "low",
     "source": [
       "official:official/src/MotorNet6/MotorNet6/ProControlPage.cs#L11420",

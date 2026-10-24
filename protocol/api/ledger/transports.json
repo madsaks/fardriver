@@ -1,0 +1,18 @@
+[
+  {
+    "id": "fardriver.transport.ble_fardriver",
+    "type": "transport",
+    "protocolFamily": "fardriver",
+    "name": "FarDriver BLE service",
+    "transport": "ble",
+    "safety": "passive_observe",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "read_only",
+    "evidence": [
+      "official.ConnectPage.ble_service_uuid.96",
+      "official.ConnectPage.ble_uuid.94"
+    ],
+    "notes": "FarDriver uses service 0000FFE0-0000-1000-8000-00805F9B34FB and characteristic 0000FFEC-0000-1000-8000-00805F9B34FB."
+  }
+]

@@ -2,6 +2,7 @@
 reference/apps/
 reference/decompiled/
 reference/firmware/
+reference/captures/
 
 # local tooling
 .remember/

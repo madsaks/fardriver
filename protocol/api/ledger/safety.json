@@ -1,0 +1,24 @@
+[
+  {
+    "id": "fardriver.safety.motion_or_autolearn",
+    "type": "safety_rule",
+    "protocolFamily": "fardriver",
+    "name": "Motion or auto-learn commands",
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "evidence": [],
+    "notes": "Commands that can move the motor or alter learned angle/throttle calibration are documentation-only unless explicitly designed later."
+  },
+  {
+    "id": "fardriver.safety.bulk_restore",
+    "type": "safety_rule",
+    "protocolFamily": "fardriver",
+    "name": "Bulk restore commands",
+    "safety": "bulk_restore",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "evidence": [],
+    "notes": "Bulk writes require stronger confirmation than ordinary parameter writes."
+  }
+]

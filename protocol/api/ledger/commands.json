@@ -1,0 +1,53 @@
+[
+  {
+    "id": "fardriver.command.auto_learn_start",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Auto-learn start",
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "address": 160,
+    "payload": [136, 2],
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "do_not_implement",
+    "webAppPolicy": "display_only",
+    "evidence": ["gdriver.command_parser.auto_learn_start"],
+    "notes": "GDriver classifies address 160 value 0x0288 as auto_learn_start."
+  },
+  {
+    "id": "fardriver.command.auto_learn_exit",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Auto-learn exit",
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "address": 160,
+    "payload": [136, 3],
+    "safety": "motion_or_autolearn",
+    "confidence": "high",
+    "implementationStatus": "do_not_implement",
+    "webAppPolicy": "display_only",
+    "evidence": ["gdriver.command_parser.auto_learn_exit"],
+    "notes": "GDriver classifies address 160 value 0x0388 as auto_learn_exit."
+  },
+  {
+    "id": "fardriver.command.restore_autolearn_defaults",
+    "type": "command",
+    "protocolFamily": "fardriver",
+    "name": "Restore auto-learn default config",
+    "transport": "ble",
+    "operation": "WriteAddr",
+    "address": 160,
+    "payload": [136, 11],
+    "safety": "destructive_config",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "display_only",
+    "evidence": [
+      "official.ProControlPage.OnButtonResetClicked.9138",
+      "official.ParaPage.OnButtonResetClicked.3526"
+    ],
+    "notes": "Preset/config restore, not the same as live auto-learn start."
+  }
+]

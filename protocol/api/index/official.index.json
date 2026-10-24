@@ -1,0 +1,1931 @@
+[
+  {
+    "id": "official.ConnectPage.ManageBind.2444",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 2444
+    },
+    "address": 34,
+    "payload": {
+      "buffer": "array4",
+      "count": 6,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.2448",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 2448
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "array5",
+      "count": 2,
+      "bytes": [
+        136,
+        4
+      ]
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3111",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3111
+    },
+    "address": 0,
+    "payload": {
+      "buffer": "cflahss",
+      "count": 384,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "\u7ed1\u5b9a\u5217\u8868\uff1a",
+      "   \u63a5\u6536\u5e27\u53f7\uff1a",
+      "Bound:",
+      "   Received Frames:"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3117",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3117
+    },
+    "address": 1,
+    "payload": {
+      "buffer": "wflahss",
+      "count": 312,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3427",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3427
+    },
+    "address": 171,
+    "payload": {
+      "buffer": "data",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3550",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3550
+    },
+    "address": 171,
+    "payload": {
+      "buffer": "data2",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3570",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3570
+    },
+    "address": 172,
+    "payload": {
+      "buffer": "data4",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3592",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3592
+    },
+    "address": 172,
+    "payload": {
+      "buffer": "data5",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3615",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3615
+    },
+    "address": 34,
+    "payload": {
+      "buffer": "array6",
+      "count": 6,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3619",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3619
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "array7",
+      "count": 2,
+      "bytes": [
+        136,
+        4
+      ]
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3649",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3649
+    },
+    "address": 174,
+    "payload": {
+      "buffer": "array4",
+      "count": 14,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3695",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3695
+    },
+    "address": 173,
+    "payload": {
+      "buffer": "array5",
+      "count": 14,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ManageBind.3745",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ManageBind",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 3745
+    },
+    "address": 171,
+    "payload": {
+      "buffer": "data3",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.OnExportClicked.5873",
+    "app": "official",
+    "kind": "file_export",
+    "operation": "heb_export",
+    "symbol": "OnExportClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 5873
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.OnExportClicked.5913",
+    "app": "official",
+    "kind": "file_export",
+    "operation": "heb_export",
+    "symbol": "OnExportClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 5913
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ble_service_uuid.96",
+    "app": "official",
+    "kind": "bluetooth",
+    "operation": "ble_service_uuid",
+    "symbol": "commHeadUUID",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 96
+    },
+    "uuidHint": "0000ffe0-0000-1000-8000-00805f9b34fb",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ConnectPage.ble_uuid.94",
+    "app": "official",
+    "kind": "bluetooth",
+    "operation": "ble_uuid",
+    "symbol": "commUUID",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ConnectPage.cs",
+      "line": 94
+    },
+    "uuidHint": "0000ffec-0000-1000-8000-00805f9b34fb",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.AutoBackP_Clicked.3204",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "AutoBackP_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3204
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.BC_Clicked.3344",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "BC_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3344
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.ButtonSaveName_Clicked.3730",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ButtonSaveName_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3730
+    },
+    "address": 34,
+    "payload": {
+      "buffer": "array2",
+      "count": 6,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.ButtonSaveName_Clicked.3734",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ButtonSaveName_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3734
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "array3",
+      "count": 2,
+      "bytes": [
+        136,
+        4
+      ]
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.GearRemember_Clicked.3400",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "GearRemember_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3400
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.LoadSimpleXAML.1244",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "LoadSimpleXAML",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 1244
+    },
+    "address": 188,
+    "payload": {
+      "buffer": "data",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3502",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3502
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        8
+      ]
+    },
+    "nearbyLabels": [
+      "Will Restore Prouct Config",
+      "Restore",
+      "Cancel",
+      "\u5373\u5c06\u6062\u590d\u51fa\u5382\u8bbe\u7f6e\uff0c\u6062\u590d\u540e\u8981\u70b9\u4fdd\u5b58\u62a5\u8b66\u624d\u4f1a\u6d88\u5931"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3510",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3510
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        9
+      ]
+    },
+    "nearbyLabels": [
+      "Will Restore Prouct Config",
+      "Restore",
+      "Cancel",
+      "\u5373\u5c06\u6062\u590d\u51fa\u5382\u8bbe\u7f6e\uff0c\u6062\u590d\u540e\u8981\u70b9\u4fdd\u5b58\u62a5\u8b66\u624d\u4f1a\u6d88\u5931",
+      "Will Use PIN10 Key Function Config",
+      "Confirm",
+      "\u5373\u5c06\u4f7f\u752810\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3518",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3518
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        10
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use PIN10 Key Function Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u752810\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e",
+      "Will Use PIN11 Key Function Config",
+      "\u5373\u5c06\u4f7f\u752811\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3526",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3526
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        11
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use PIN11 Key Function Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u752811\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e",
+      "Will Use Auto Learn Default Config",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u5b66\u4e60\u9ed8\u8ba4\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3534",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3534
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        12
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use Auto Learn Default Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u5b66\u4e60\u9ed8\u8ba4\u53c2\u6570",
+      "Will Use BackThrottle EABS Config",
+      "\u5373\u5c06\u4f7f\u7528\u56de\u6cb9\u95e8\u5239\u8f66\u6a21\u5f0f\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3542",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3542
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        13
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use BackThrottle EABS Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u7528\u56de\u6cb9\u95e8\u5239\u8f66\u6a21\u5f0f\u53c2\u6570",
+      "Will Use Non-EABS Config",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u7531\u6ed1\u884c\u9ed8\u8ba4\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3550",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3550
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        14
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use Non-EABS Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u7531\u6ed1\u884c\u9ed8\u8ba4\u53c2\u6570",
+      "Will Use XM Config",
+      "\u5373\u5c06\u4f7f\u7528XM\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.OnButtonResetClicked.3565",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3565
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        5
+      ]
+    },
+    "nearbyLabels": [
+      "Will Reset Controller Data",
+      "Reset",
+      "Cancel",
+      "\u5373\u5c06\u590d\u4f4d\u63a7\u5236\u5668"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.PGear_Clicked.3232",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "PGear_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3232
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.Park_Clicked.3420",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Park_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3420
+    },
+    "address": 11,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "cancel"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.Park_Clicked.3424",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Park_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3424
+    },
+    "address": 202,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.Park_Clicked.3429",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Park_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3429
+    },
+    "address": 11,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.REGear_Clicked.3260",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "REGear_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3260
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.SelectSPMode.3306",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "SelectSPMode",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3306
+    },
+    "address": 203,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "HighLowSpeed:",
+      "cancel",
+      " 0-HighOnly",
+      " 1-AddDec",
+      " 2-ButtonHighLow",
+      " 3-ButtonLowMid",
+      " 4-Button3SpeedLow",
+      " 5-Button3SpeedMid",
+      " 6-Button3SpeedHigh",
+      " 7-Button4SpeedLow",
+      " 8-Button4Speed2",
+      " 9-Button4Speed3",
+      "10-Button4SpeedHigh",
+      "11-Line3Speed",
+      "12-CommGear",
+      "13-CANGear",
+      "14-Invalid",
+      "\u9ad8\u4f4e\u901f:",
+      " 0-\u4ec5\u9ad8\u901f",
+      " 1-\u52a0\u51cf\u6863",
+      " 2-\u70b9\u52a8\u9ad8\u4f4e\u901f",
+      " 3-\u70b9\u52a8\u4f4e\u4e2d\u901f",
+      " 4-\u70b9\u52a8\u4e09\u901f\u4f4e",
+      " 5-\u70b9\u52a8\u4e09\u901f\u4e2d",
+      " 6-\u70b9\u52a8\u4e09\u901f\u9ad8",
+      " 7-\u70b9\u52a8\u56db\u901f\u4f4e",
+      " 8-\u70b9\u52a8\u56db\u901f2",
+      " 9-\u70b9\u52a8\u56db\u901f3",
+      "10-\u70b9\u52a8\u56db\u901f\u9ad8",
+      "11-\u62e8\u52a8\u4e09\u901f",
+      "12-\u4e32\u53e3\u6321\u4f4d",
+      "13-CAN\u6321\u4f4d",
+      "14-\u65e0\u6548"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.3974",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3974
+    },
+    "address": 190,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.3978",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3978
+    },
+    "address": 200,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.3982",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3982
+    },
+    "address": 9,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.3987",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3987
+    },
+    "address": 190,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.3991",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3991
+    },
+    "address": 200,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.3995",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3995
+    },
+    "address": 9,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4000",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4000
+    },
+    "address": 190,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4004",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4004
+    },
+    "address": 200,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4008",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4008
+    },
+    "address": 9,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4013",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4013
+    },
+    "address": 190,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4017",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4017
+    },
+    "address": 200,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4021",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4021
+    },
+    "address": 9,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4025",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4025
+    },
+    "address": 9,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4030",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4030
+    },
+    "address": 190,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4034",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4034
+    },
+    "address": 200,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.TCS_Clicked.4038",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "TCS_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 4038
+    },
+    "address": 9,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.Tuixing_Clicked.3372",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Tuixing_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3372
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.XH_Clicked.3176",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "XH_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3176
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ParaPage.Zuotong_Clicked.3288",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Zuotong_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ParaPage.cs",
+      "line": 3288
+    },
+    "address": 33,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.BCPos_TextChanged.13043",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "BCPos_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 13043
+    },
+    "address": 184,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.ButtonSaveName_Clicked.9301",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ButtonSaveName_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9301
+    },
+    "address": 34,
+    "payload": {
+      "buffer": "array2",
+      "count": 6,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.ButtonSaveName_Clicked.9305",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ButtonSaveName_Clicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9305
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "array3",
+      "count": 2,
+      "bytes": [
+        136,
+        4
+      ]
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.Byte89Sel_SelectedIndexChanged.13185",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Byte89Sel_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 13185
+    },
+    "address": 213,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "ByteOption:",
+      "cancel",
+      ")) : (await DisplayActionSheet("
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.CanSel_SelectedIndexChanged.12311",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "CanSel_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 12311
+    },
+    "address": 188,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.FDPos_TextChanged.13117",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "FDPos_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 13117
+    },
+    "address": 184,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.FastRE_SelectedIndexChanged.8977",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "FastRE_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 8977
+    },
+    "address": 124,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.HBarPos_TextChanged.13080",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "HBarPos_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 13080
+    },
+    "address": 184,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.Idle_SelectedIndexChanged.12392",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Idle_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 12392
+    },
+    "address": 213,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "Step:",
+      "cancel",
+      "0-0.5ms",
+      "1-0.9ms",
+      "2-1.5ms",
+      "3-1.9ms"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.LongBack_SelectedIndexChanged.11910",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "LongBack_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 11910
+    },
+    "address": 203,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "Push RE:",
+      "cancel",
+      "0-Invalid",
+      "1-Valid",
+      "\u957f\u6309\u540e\u9000:",
+      "0-\u65e0\u6548",
+      "1-\u6709\u6548"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9114",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9114
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        8
+      ]
+    },
+    "nearbyLabels": [
+      "Will Restore Prouct Config",
+      "Restore",
+      "Cancel",
+      "\u5373\u5c06\u6062\u590d\u51fa\u5382\u8bbe\u7f6e\uff0c\u6062\u590d\u540e\u8981\u70b9\u4fdd\u5b58\u62a5\u8b66\u624d\u4f1a\u6d88\u5931"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9122",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9122
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        9
+      ]
+    },
+    "nearbyLabels": [
+      "Will Restore Prouct Config",
+      "Restore",
+      "Cancel",
+      "\u5373\u5c06\u6062\u590d\u51fa\u5382\u8bbe\u7f6e\uff0c\u6062\u590d\u540e\u8981\u70b9\u4fdd\u5b58\u62a5\u8b66\u624d\u4f1a\u6d88\u5931",
+      "Will Use PIN10 Key Function Config",
+      "Confirm",
+      "\u5373\u5c06\u4f7f\u752810\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9130",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9130
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        10
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use PIN10 Key Function Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u752810\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e",
+      "Will Use PIN11 Key Function Config",
+      "\u5373\u5c06\u4f7f\u752811\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9138",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9138
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        11
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use PIN11 Key Function Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u752811\u811a\u7535\u95e8\u529f\u80fd\u811a\u914d\u7f6e",
+      "Will Use Auto Learn Default Config",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u5b66\u4e60\u9ed8\u8ba4\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9146",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9146
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        12
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use Auto Learn Default Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u5b66\u4e60\u9ed8\u8ba4\u53c2\u6570",
+      "Will Use BackThrottle EABS Config",
+      "\u5373\u5c06\u4f7f\u7528\u56de\u6cb9\u95e8\u5239\u8f66\u6a21\u5f0f\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9154",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9154
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        13
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use BackThrottle EABS Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u7528\u56de\u6cb9\u95e8\u5239\u8f66\u6a21\u5f0f\u53c2\u6570",
+      "Will Use Non-EABS Config",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u7531\u6ed1\u884c\u9ed8\u8ba4\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9162",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9162
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        14
+      ]
+    },
+    "nearbyLabels": [
+      "Will Use Non-EABS Config",
+      "Confirm",
+      "Cancel",
+      "\u5373\u5c06\u4f7f\u7528\u81ea\u7531\u6ed1\u884c\u9ed8\u8ba4\u53c2\u6570",
+      "Will Use XM Config",
+      "\u5373\u5c06\u4f7f\u7528XM\u53c2\u6570"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.OnButtonResetClicked.9177",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "OnButtonResetClicked",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9177
+    },
+    "address": 160,
+    "payload": {
+      "buffer": "SendRS232L",
+      "count": 2,
+      "bytes": [
+        136,
+        5
+      ]
+    },
+    "nearbyLabels": [
+      "Will Reset Controller Data",
+      "Reset",
+      "Cancel",
+      "\u5373\u5c06\u590d\u4f4d\u63a7\u5236\u5668"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.PhaseExchange_TextChanged.9610",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "PhaseExchange_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9610
+    },
+    "address": 11,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.PhaseOffset_TextChanged.5078",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "PhaseOffset_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 5078
+    },
+    "address": 12,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.Ppos_TextChanged.13006",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Ppos_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 13006
+    },
+    "address": 184,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.ReleasePTime_SelectedIndexChanged.12333",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ReleasePTime_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 12333
+    },
+    "address": 188,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "BackPTime:",
+      "cancel",
+      " 0-3s",
+      " 1-4s",
+      " 2-5s",
+      " 3-6s",
+      " 4-8s",
+      " 5-10s",
+      " 6-12s",
+      " 7-16s",
+      " 8-20s",
+      " 9-25s",
+      "10-30s",
+      "11-40s",
+      "12-50s",
+      "13-60s",
+      "14-90s",
+      "15-120s",
+      "16-150s",
+      "17-180s",
+      "18-240s",
+      "19-300s",
+      "20-xxxs",
+      "\u56deP\u6863\u5ef6\u65f6:",
+      " 0-3\u79d2",
+      " 1-4\u79d2",
+      " 2-5\u79d2",
+      " 3-6\u79d2",
+      " 4-8\u79d2",
+      " 5-10\u79d2",
+      " 6-12\u79d2",
+      " 7-16\u79d2",
+      " 8-20\u79d2",
+      " 9-25\u79d2",
+      "10-30\u79d2",
+      "11-40\u79d2",
+      "12-50\u79d2",
+      "13-60\u79d2",
+      "14-90\u79d2",
+      "15-120\u79d2",
+      "16-150\u79d2",
+      "17-180\u79d2",
+      "18-240\u79d2",
+      "19-300\u79d2",
+      "20-\u65e0\u9650"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.SPModeConfig_SelectedIndexChanged.11888",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "SPModeConfig_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 11888
+    },
+    "address": 203,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "HighLowSpeed:",
+      "cancel",
+      " 0-HighOnly",
+      " 1-AddDec",
+      " 2-ButtonHighLow",
+      " 3-ButtonLowMid",
+      " 4-Button3SpeedLow",
+      " 5-Button3SpeedMid",
+      " 6-Button3SpeedHigh",
+      " 7-Button4SpeedLow",
+      " 8-Button4Speed2",
+      " 9-Button4Speed3",
+      "10-Button4SpeedHigh",
+      "11-Line3Speed",
+      "12-CommGear",
+      "13-CANGear",
+      "14-Line3SpeedLow",
+      "15-Line3SpeedHigh",
+      "\u9ad8\u4f4e\u901f:",
+      " 0-\u4ec5\u9ad8\u901f",
+      " 1-\u52a0\u51cf\u6863",
+      " 2-\u70b9\u52a8\u9ad8\u4f4e\u901f",
+      " 3-\u70b9\u52a8\u4f4e\u4e2d\u901f",
+      " 4-\u70b9\u52a8\u4e09\u901f\u4f4e",
+      " 5-\u70b9\u52a8\u4e09\u901f\u4e2d",
+      " 6-\u70b9\u52a8\u4e09\u901f\u9ad8",
+      " 7-\u70b9\u52a8\u56db\u901f\u4f4e",
+      " 8-\u70b9\u52a8\u56db\u901f2",
+      " 9-\u70b9\u52a8\u56db\u901f3",
+      "10-\u70b9\u52a8\u56db\u901f\u9ad8",
+      "11-\u62e8\u52a8\u4e09\u901f",
+      "12-\u4e32\u53e3\u6321\u4f4d",
+      "13-CAN\u6321\u4f4d",
+      "14-\u62e8\u52a8\u4e09\u901f\u4f4e",
+      "15-\u62e8\u52a8\u4e09\u901f\u9ad8"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.SeatDelay_TextChanged.12366",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "SeatDelay_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 12366
+    },
+    "address": 188,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.SetVerify.13879",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "SetVerify",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 13879
+    },
+    "address": 3,
+    "payload": {
+      "buffer": "array2",
+      "count": 102,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "key error1"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.SpeedMeterConfig_SelectedIndexChanged.9454",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "SpeedMeterConfig_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 9454
+    },
+    "address": 124,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.Stop_SelectedIndexChanged.12414",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Stop_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 12414
+    },
+    "address": 213,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "Stop:",
+      "cancel",
+      "0-24ms",
+      "1-55ms",
+      "2-124ms",
+      "3-216ms"
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.Temp70_SelectedIndexChanged.8938",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "Temp70_SelectedIndexChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 8938
+    },
+    "address": 203,
+    "payload": {
+      "buffer": "array",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [
+      "Temp 70:",
+      "cancel",
+      ")) : (await DisplayActionSheet("
+    ],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.ThrottleHigh_TextChanged.7616",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ThrottleHigh_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 7616
+    },
+    "address": 8,
+    "payload": {
+      "buffer": "data",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  },
+  {
+    "id": "official.ProControlPage.ThrottleLow_TextChanged.7560",
+    "app": "official",
+    "kind": "write_call",
+    "operation": "WriteAddr",
+    "symbol": "ThrottleLow_TextChanged",
+    "source": {
+      "path": "reference/decompiled/official/src/MotorNet6/MotorNet6/ProControlPage.cs",
+      "line": 7560
+    },
+    "address": 8,
+    "payload": {
+      "buffer": "data",
+      "count": 2,
+      "bytes": []
+    },
+    "nearbyLabels": [],
+    "confidence": "mechanical"
+  }
+]

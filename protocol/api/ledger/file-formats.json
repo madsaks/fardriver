@@ -1,0 +1,34 @@
+[
+  {
+    "id": "fardriver.file.official_heb_export",
+    "type": "file_format",
+    "protocolFamily": "fardriver",
+    "name": "Official HEB export",
+    "fileFormat": "heb",
+    "safety": "passive_observe",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "read_only",
+    "evidence": ["official.ConnectPage.OnExportClicked.5873"],
+    "notes": "Official app exports 156 main parameter words plus 192 extended/CAN words into a 696-byte file."
+  },
+  {
+    "id": "fardriver.file.worthless_heb_export",
+    "type": "file_format",
+    "protocolFamily": "fardriver",
+    "name": "Worthless HEB export",
+    "fileFormat": "heb",
+    "safety": "passive_observe",
+    "confidence": "high",
+    "implementationStatus": "documented",
+    "webAppPolicy": "read_only",
+    "evidence": ["worthless.C0205fk.heb_export.179"],
+    "conflicts": [
+      {
+        "with": "fardriver.file.official_heb_export",
+        "summary": "Official exports main + extended blocks; Worthless fills only the main block."
+      }
+    ],
+    "notes": "Worthless writes a 696-byte HEB but only populates the first 156 words, leaving the extended/CAN block unreliable as a backup."
+  }
+]

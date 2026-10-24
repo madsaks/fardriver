@@ -1,0 +1,319 @@
+[
+  {
+    "id": "worthless.C0205fk.heb_export.179",
+    "app": "worthless",
+    "kind": "file_export",
+    "operation": "heb_export",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/C0205fk.java",
+      "line": 179
+    },
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdBuildOldCommand.56",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdBuildOldCommand",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 56
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdBuildPasswordData.58",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdBuildPasswordData",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 58
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdBuildReadPacket.60",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdBuildReadPacket",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 60
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdBuildRemoteDrive.62",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdBuildRemoteDrive",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 62
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdBuildWritePacket.64",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdBuildWritePacket",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 64
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdFwCondition.66",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdFwCondition",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 66
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdFwSync.68",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdFwSync",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 68
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGenerateDrmKey.70",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGenerateDrmKey",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 70
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetConfig.72",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetConfig",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 72
+    },
+    "returnType": "int[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetConfigRegisters.74",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetConfigRegisters",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 74
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetDrmStatus.76",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetDrmStatus",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 76
+    },
+    "returnType": "String",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetErrorMessage.78",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetErrorMessage",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 78
+    },
+    "returnType": "String",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetModelType.80",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetModelType",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 80
+    },
+    "returnType": "String",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetNRatio.82",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetNRatio",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 82
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetPollRegisters.84",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetPollRegisters",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 84
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetProductCode.86",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetProductCode",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 86
+    },
+    "returnType": "String",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetProtocolSeen.88",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetProtocolSeen",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 88
+    },
+    "returnType": "int",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetRawConfigWords.90",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetRawConfigWords",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 90
+    },
+    "returnType": "int[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetRpmCurve.92",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetRpmCurve",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 92
+    },
+    "returnType": "byte[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetStoredPassword.94",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetStoredPassword",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 94
+    },
+    "returnType": "String",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdGetTelemetry.96",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdGetTelemetry",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 96
+    },
+    "returnType": "float[]",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdHandleNotification.98",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdHandleNotification",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 98
+    },
+    "returnType": "boolean",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdResetProtocolSeen.100",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdResetProtocolSeen",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 100
+    },
+    "returnType": "void",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.NativeProtocol.fdSetProductInfo.102",
+    "app": "worthless",
+    "kind": "native_api",
+    "operation": "fdSetProductInfo",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/com/rcplusplus/fdandroid/protocol/NativeProtocol.java",
+      "line": 102
+    },
+    "returnType": "void",
+    "confidence": "mechanical"
+  },
+  {
+    "id": "worthless.w31.fdBuildWritePacket.777",
+    "app": "worthless",
+    "kind": "write_call",
+    "operation": "fdBuildWritePacket",
+    "source": {
+      "path": "reference/decompiled/worthless/jadx/sources/p000a/w31.java",
+      "line": 777
+    },
+    "address": 160,
+    "payload": {
+      "bytes": [
+        -120,
+        "(byte) i"
+      ]
+    },
+    "confidence": "mechanical"
+  }
+]

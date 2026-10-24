@@ -1,0 +1,13 @@
+[Unit]
+Description=FarDriver Web Bluetooth console
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/madsaks/fardriver/web
+ExecStart=/usr/bin/env corepack pnpm dev
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
