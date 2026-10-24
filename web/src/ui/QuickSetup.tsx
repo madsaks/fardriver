@@ -40,7 +40,7 @@ export function QuickSetup({
   const [targetSpeedKmh, setTargetSpeedKmh] = useState(45);
 
   useEffect(() => {
-    setLineCurrentA(values.max_line_current ?? profile.power.baselineLineCurrentA || 60);
+    setLineCurrentA((values.max_line_current ?? profile.power.baselineLineCurrentA) || 60);
     setAcceleration(values.max_acceleration ?? 170);
   }, [profile.id, profile.power.baselineLineCurrentA, values.max_acceleration, values.max_line_current]);
 
