@@ -78,7 +78,8 @@ The guided setup intentionally exposes:
 - **Range:** 55 A line current, softer acceleration.
 - **Daily:** 60 A line current.
 - **Sport:** 70 A line current, maximum acceleration ramp.
-- Manual power slider: 40-80 A.
+- Power slider defaults to 40-70 A.
+- An explicit experimental opt-in extends the slider to 80 A.
 - Values above 70 A show a warning.
 - 90 A is not available from quick setup.
 - Road-speed target remains preview-only until the E125S pole-pair and speed calibration are hardware-validated.
