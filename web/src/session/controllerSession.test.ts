@@ -73,13 +73,22 @@ it("starts read-only and requires backup before arming writes", () => {
   expect(session.snapshot().errors.at(-1)).toContain("backup");
 });
 
-it("runs a passive backup before arming writes without sending controller reads", async () => {
+it("keeps writes locked after a passive JSON snapshot", async () => {
   const connection = new FakeConnection();
   const session = new ControllerSession({ connection, now: () => 1000 });
   await session.backupRegisters();
-  expect(session.snapshot().backup.required).toBe(false);
+  expect(session.snapshot().backup.required).toBe(true);
   expect(connection.writes).toHaveLength(0);
-  expect(session.snapshot().log.at(-1)?.note).toContain("passive backup");
+  expect(session.snapshot().log.at(-1)?.note).toContain("HEB backup");
+  session.setWriteMode("armed");
+  expect(session.snapshot().writeMode).toBe("read-only");
+});
+
+it("allows arming writes only after a complete HEB backup", () => {
+  const connection = new FakeConnection();
+  const session = new ControllerSession({ connection, now: () => 1000 });
+  emitCompleteHebDump(connection);
+  expect(session.snapshot().backup.required).toBe(false);
   session.setWriteMode("armed");
   expect(session.snapshot().writeMode).toBe("armed");
 });
@@ -132,7 +141,7 @@ it("rejects writes in read-only mode", async () => {
 
 it("rejects out-of-range writes", async () => {
   const session = new ControllerSession({ connection: new FakeConnection(), now: () => 1000 });
-  await session.backupRegisters();
+  emitCompleteHebDump(connection);
   session.setWriteMode("armed");
   await session.writeRegister("rated_voltage", 7000);
   expect(session.snapshot().errors.at(-1)).toContain("at most");
@@ -141,10 +150,28 @@ it("rejects out-of-range writes", async () => {
 it("writes scaled raw values", async () => {
   const connection = new FakeConnection();
   const session = new ControllerSession({ connection, now: () => 1000 });
-  await session.backupRegisters();
+  emitCompleteHebDump(connection);
   session.setWriteMode("armed");
   await session.writeRegister("rated_voltage", 48);
   expect(Array.from(connection.writes.at(-1)!)).toEqual([0xaa, 0xc6, 0x17, 0x17, 0xe0, 0x01, 0xbd, 0x5d]);
+});
+
+
+it("does not fail a pending write when unrelated telemetry arrives first", async () => {
+  let now = 1000;
+  const connection = new FakeConnection();
+  const session = new ControllerSession({ connection, now: () => now });
+  emitCompleteHebDump(connection);
+  session.setWriteMode("armed");
+
+  await session.writeRegister("rated_voltage", 48);
+  connection.emit(hexToBytes(RX_FRAME_BUS_VOLTAGE));
+
+  expect(session.snapshot().errors.some((error) => error.includes("Read-back unavailable"))).toBe(false);
+
+  connection.emit(rxFrame(0x86, 475));
+  expect(session.snapshot().registerValues.rated_voltage).toBe(48);
+  now = 1200;
 });
 
 it("decodes telemetry and raw bitfields from incoming frames", () => {
