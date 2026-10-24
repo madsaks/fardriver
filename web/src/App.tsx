@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MobileBottomTabs } from "@xenapseai/ui-kit";
-import { Activity, Database, List, SlidersHorizontal } from "lucide-react";
+import { Activity, Database, Gauge, List, SlidersHorizontal } from "lucide-react";
 import { FarDriverBleConnection, type BluetoothLike } from "@/ble/connection";
 import { hebCompletionCaptureKey } from "@/capture/hebCompletion";
 import { sendCapture } from "@/capture/serverCapture";
@@ -11,12 +11,14 @@ import { Backup } from "@/ui/Backup";
 import { ConnectionBar } from "@/ui/ConnectionBar";
 import { Dashboard } from "@/ui/Dashboard";
 import { ModelSelector } from "@/ui/ModelSelector";
+import { QuickSetup } from "@/ui/QuickSetup";
 import { RawLog } from "@/ui/RawLog";
 import { Settings } from "@/ui/Settings";
 
-type TabId = "dashboard" | "settings" | "backup" | "raw";
+type TabId = "setup" | "dashboard" | "settings" | "backup" | "raw";
 
 const TABS: Array<{ id: TabId; label: string; icon: typeof Activity }> = [
+  { id: "setup", label: "Setup", icon: Gauge },
   { id: "dashboard", label: "Dashboard", icon: Activity },
   { id: "settings", label: "Settings", icon: SlidersHorizontal },
   { id: "backup", label: "Backup", icon: Database },
@@ -24,9 +26,9 @@ const TABS: Array<{ id: TabId; label: string; icon: typeof Activity }> = [
 ];
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<TabId>("dashboard");
+  const [activeTab, setActiveTab] = useState<TabId>("setup");
   const [captureStatus, setCaptureStatus] = useState<string>("");
-  const [selectedProfileId, setSelectedProfileId] = useState("segway-e125s-fardriver-72450");
+  const [selectedProfileId, setSelectedProfileId] = useState("segway-e125s-stock-fardriver-72210");
   const lastInventoryCapture = useRef<string>("");
   const lastHebCompleteCapture = useRef<string>("");
   const session = useMemo(() => {
@@ -136,6 +138,26 @@ export function App() {
           })}
         </nav>
         <div className="console-main">
+          {activeTab === "setup" ? (
+            <QuickSetup
+              profile={selectedProfile}
+              values={snapshot.registerValues}
+              connected={snapshot.connection === "connected"}
+              writeMode={snapshot.writeMode}
+              backupRequired={snapshot.backup.required}
+              onRunHebBackup={() => {
+                void session
+                  .backupHeb()
+                  .then(() => sendCapture("heb-backup-request", session.exportCapture()))
+                  .then((result) => setCaptureStatus(`Sent HEB backup request: ${result.filename}`))
+                  .catch((error: unknown) => setCaptureStatus(error instanceof Error ? error.message : "Capture failed"));
+              }}
+              onArmWrites={() => session.setWriteMode("armed")}
+              onWrite={(key, value) => {
+                void session.writeRegister(key, value);
+              }}
+            />
+          ) : null}
           {activeTab === "dashboard" ? <Dashboard telemetry={snapshot.telemetry} /> : null}
           {activeTab === "settings" ? (
             <Settings
