@@ -813,6 +813,25 @@ select:disabled {
   text-align: center;
 }
 
+.experimental-power-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 14px;
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+  font-size: 0.8rem;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.experimental-power-toggle input {
+  margin-top: 2px;
+  accent-color: var(--md-primary);
+}
+
 .power-readout {
   display: flex;
   align-items: baseline;
